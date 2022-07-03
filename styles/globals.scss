@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Righteous";
+  src: url("./fonts/righteous/Righteous-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  src: url("./fonts/source-sans-pro/SourceSansPro-Regular.ttf");
+}
+
 html,
 body {
   padding: 0;
