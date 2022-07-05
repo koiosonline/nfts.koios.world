@@ -8,6 +8,27 @@ module.exports = {
       // Default colors
       "default-text": "#111012",
 
+      // Branding colors
+      "brand-blue": {
+        picton: "#40dbf2",
+        anakiwa: "79edff",
+        mint: "c8e1f5",
+      },
+
+      "brand-purple": {
+        heart: "#892cd8",
+        portage: "#9e9ff6",
+        heliotrope: "#c574f4",
+        melrose: "#c3a9ff",
+      },
+
+      "brand-rose": {
+        mauve: "#e9a6ff",
+        lavender: "#f9a9e3",
+        "hot-pink": "#ff62a1",
+        "pale-rose": "#ffdfed",
+      },
+
       // Colors
       pink: {
         300: "#ff0bac",
