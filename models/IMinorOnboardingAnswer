@@ -1,0 +1,16 @@
+// export default interface IMinorOnboardingAnswer {
+//     #: string;
+//     *DID YOU STORE YOUR PRIVATE KEY IN A SAFE MANNER?!*: string;
+//     *Don't forget:*: string;
+//     And your *last name*?: string;
+//     Are you absolutely sure?: string;
+//     Are you here for the Blockchain or the Trading Minor: string;
+//     Let's start with your* first name.*: string;
+//     Network ID: string;
+//     Start Date (UTC): string;
+//     Submit Date (UTC): string;
+//     Welcome to the club {{field:d566770d2197a78b}} {{field:567a2e02f18fd3e2}}!! What is your *student number*?: string;
+//     What *email address* can we reach you at?: string;
+//     What is your *Discord Handle*?: string;
+//     What is your *Ethereum Public Key*?: string;
+// }
