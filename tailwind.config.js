@@ -11,8 +11,8 @@ module.exports = {
       // Branding colors
       "brand-blue": {
         picton: "#40dbf2",
-        anakiwa: "79edff",
-        mint: "c8e1f5",
+        anakiwa: "#79edff",
+        mint: "#c8e1f5",
       },
 
       "brand-purple": {
@@ -72,5 +72,4 @@ module.exports = {
       },
     },
   },
-  plugins: [],
 };
