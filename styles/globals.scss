@@ -1,3 +1,11 @@
+@import "@rainbow-me/rainbowkit/styles.css";
+$hamburger-color: #f8fbfe;
+$hamburger-thickness: 4px;
+$hamburger-bar-border-radius: 5px;
+
+@import "~delicious-hamburgers/scss/base";
+@import "~delicious-hamburgers/scss/animations/criss-cross";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
