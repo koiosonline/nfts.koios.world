@@ -1,12 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 import UploadPanel from "../../components/upload/UploadPanel";
 
-const upload = ({ isWhitelisted }: any) => {
-  useEffect(() => {
-    console.log(isWhitelisted);
-  }, []);
+const upload = ({ isWhitelisted, user }: any) => {
+  const account = useAccount();
+  const [userAddress, setUserAddress] = useState("");
 
-  if (!isWhitelisted) {
+  useEffect(() => {
+    setUserAddress(account?.address!);
+  }, [account]);
+
+  if (!isWhitelisted || userAddress !== user) {
     return (
       <div
         className={
@@ -38,6 +42,7 @@ export async function getServerSideProps(context: any) {
   return {
     props: {
       isWhitelisted: data.found,
+      user: address,
     },
   };
 }
