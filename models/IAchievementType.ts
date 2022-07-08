@@ -1,4 +1,4 @@
-export default interface IAchievementModel {
+export default interface IAchievementType {
   name: string;
   type: number;
   tokenId: number;

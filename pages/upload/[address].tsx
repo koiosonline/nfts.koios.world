@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import UploadPanel from "../../components/upload/UploadPanel";
-import IAchievementType from "../../models/IAchievementType";
 
 const upload = ({ isWhitelisted, user, achievementTypes }: any) => {
   const account = useAccount();
