@@ -1,24 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { connectMongo } from "../../db/connectMongo";
-import Whitelist from "../../db/Whitelist";
-
-type Data = {
-  found: boolean;
-};
+import { IResponseMessage } from "../../models/IResponseMessage";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<IResponseMessage>
 ) {
-  await connectMongo();
-
-  const address = await Whitelist.findOne({
-    address: req.query.address,
-  });
-
-  if (address) {
-    res.status(200).json({ found: true });
-    return;
-  }
-  res.status(200).json({ found: false });
+  const resData = await fetch(
+    `${process.env.API_URL}/api/achievement/findAddress/${req.query.address}`
+  );
+  const resJson: IResponseMessage = await resData.json();
+  res.status(200).json(resJson);
 }

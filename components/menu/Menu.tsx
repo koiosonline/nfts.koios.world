@@ -39,7 +39,7 @@ const Menu = () => {
           `/api/findAddress?address=${account.address}`
         );
         const data = await response.json();
-        setIsWhiteListed(data.found);
+        setIsWhiteListed(data.success);
       };
       fetchData();
     }

@@ -18,11 +18,7 @@ export const uploadFile = async (
     },
   });
   const uploadRes = await res.json();
-  if (uploadRes.success) {
-    return uploadRes;
-  } else {
-    return uploadRes;
-  }
+  return uploadRes;
 };
 
 export const whitelistFromFile = async (

@@ -7,12 +7,13 @@ import FileInputArea from "../util/FileInputArea";
 import SignMessageButton from "../util/SignMessageButton";
 import { uploadFile, whitelistFromFile } from "../../api/uploadFile";
 import SwitchButton from "./SwitchButton";
-import { uploadSingle } from "../../api/uploadSingle";
 import FormInputText from "../util/FormInputText";
 import ErrorMessage from "../util/ErrorMessage";
 import { IResponseMessage } from "../../models/IResponseMessage";
+import { uploadSingleCoupon } from "../../api/uploadSingleCoupon";
+import ICouponModel from "../../models/ICouponModel";
 
-const UploadPanel = ({ achievementTypes }: any) => {
+const CouponPanel = () => {
   const [saltHash, setSaltHash] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [openMenu, setOpenMenu] = useState(false);
@@ -20,8 +21,8 @@ const UploadPanel = ({ achievementTypes }: any) => {
   const [uploading, setUploading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean | null>();
   const [singleUpload, setSingleUpload] = useState<boolean>(false);
-  const [addressData, setAddressData] = useState<String>("");
-  const [errorMessage, setErrorMessage] = useState<String>("");
+  const [addressData, setAddressData] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [uploadResponse, setUploadResponse] = useState<IResponseMessage>();
 
   const { data, isError, isLoading, isSuccess, signMessage, error } =
@@ -53,11 +54,14 @@ const UploadPanel = ({ achievementTypes }: any) => {
     }
   }, [uploadResponse]);
 
-  const upload = async (selectedAchievement: any) => {
+  const upload = async () => {
     if (addressData.length === 42) {
-      const res: IResponseMessage = await uploadSingle(
-        achievementTypes[selectedAchievement],
-        addressData,
+      const coupon: ICouponModel = {
+        address: addressData,
+        amount: 1,
+      };
+      const res: IResponseMessage = await uploadSingleCoupon(
+        coupon,
         saltHash,
         data!
       );
@@ -65,16 +69,16 @@ const UploadPanel = ({ achievementTypes }: any) => {
       setUploadResponse(res);
     }
 
-    if (file) {
-      setUploading(true);
-      const achievementWhitelist = await whitelistFromFile(
-        file,
-        achievementTypes,
-        selectedAchievement
-      );
-      const res = await uploadFile(achievementWhitelist, saltHash, data!);
-      setUploadResponse(res);
-    }
+    // if (file) {
+    //   setUploading(true);
+    //   const achievementWhitelist = await whitelistFromFile(
+    //     file,
+    //     achievementTypes,
+    //     selectedAchievement
+    //   );
+    //   const res = await uploadFile(achievementWhitelist, saltHash, data!);
+    //   setUploadResponse(res);
+    // }
   };
 
   return (
@@ -97,7 +101,7 @@ const UploadPanel = ({ achievementTypes }: any) => {
                 setAddressData("");
               }}
             >
-              New Upload
+              New Coupon
             </button>
           </div>
         )}
@@ -110,8 +114,8 @@ const UploadPanel = ({ achievementTypes }: any) => {
             )}
             <ErrorMessage errorMessage={errorMessage} />
             {uploading && <h1 className="text-4xl"> UPLOADING</h1>}
-            <h1 className="text-4xl"> Achievement Uploader</h1>
-            <div className="flex justify-center">
+            <h1 className="text-4xl"> Coupon Uploader</h1>
+            {/* <div className="flex justify-center">
               <div>
                 <div className="dropdown relative ">
                   <h1 className="mb-2 text-base"> Select achievement below</h1>
@@ -128,7 +132,7 @@ const UploadPanel = ({ achievementTypes }: any) => {
                   )}
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="grid grid-cols-1 space-y-2">
               {!singleUpload && !file && <FileInputArea setFile={setFile} />}
@@ -156,7 +160,7 @@ const UploadPanel = ({ achievementTypes }: any) => {
 
             {data && (file || addressData.length === 42) ? (
               <button
-                onClick={() => upload(selectedAchievement)}
+                onClick={() => upload()}
                 className={`
                 WS my-5 flex w-full cursor-pointer justify-center rounded bg-brand-purple-heart p-4 text-lg text-default-text transition duration-300 hover:bg-brand-purple-portage`}
               >
@@ -172,4 +176,4 @@ const UploadPanel = ({ achievementTypes }: any) => {
   );
 };
 
-export default UploadPanel;
+export default CouponPanel;

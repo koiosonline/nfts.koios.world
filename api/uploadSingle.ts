@@ -1,14 +1,23 @@
 import IAchievementModel from "../models/IAchievementModel";
+import IAchievementType from "../models/IAchievementType";
 
 export const uploadSingle = async (
-  achievementWhitelist: IAchievementModel,
+  achievementWhitelist: IAchievementType,
+  addressData: String,
   saltHash: String,
   data: String
 ) => {
+  const achievementItem: IAchievementModel = {
+    address: addressData,
+    type: achievementWhitelist.type,
+    dateAchieved: Date.now(),
+    name: achievementWhitelist.name,
+    tokenId: achievementWhitelist.tokenId,
+  };
   const res = await fetch(`/api/uploadSingle`, {
     method: "POST",
     body: JSON.stringify({
-      achievementWhitelist,
+      achievementItem,
       saltHash,
       data,
     }),
@@ -17,9 +26,5 @@ export const uploadSingle = async (
     },
   });
   const uploadRes = await res.json();
-  if (uploadRes.success) {
-    return uploadRes;
-  } else {
-    return uploadRes;
-  }
+  return uploadRes;
 };

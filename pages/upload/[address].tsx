@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
+import CouponPanel from "../../components/upload/CouponPanel";
 import UploadPanel from "../../components/upload/UploadPanel";
+import { IResponseMessage } from "../../models/IResponseMessage";
 
 const upload = ({ isWhitelisted, user, achievementTypes }: any) => {
   const account = useAccount();
@@ -27,7 +29,8 @@ const upload = ({ isWhitelisted, user, achievementTypes }: any) => {
         "flex h-screen w-full items-center justify-center bg-default-text text-center font-heading text-8xl text-brand-rose-hot-pink"
       }
     >
-      <UploadPanel achievementTypes={achievementTypes} />
+      {/* <UploadPanel achievementTypes={achievementTypes} /> */}
+      <CouponPanel />
     </div>
   );
 };
@@ -38,18 +41,19 @@ export async function getServerSideProps(context: any) {
   const res = await fetch(
     `${process.env.LOCAL_URL}/api/findAddress?address=${address}`
   );
-  const data = await res.json();
+
+  const data: IResponseMessage = await res.json();
 
   const resType = await fetch(
     `${process.env.LOCAL_URL}/api/getAchievementTypes`
   );
-  const typeData = await resType.json();
+  const typeData: IResponseMessage = await resType.json();
 
   return {
     props: {
-      isWhitelisted: data.found,
+      isWhitelisted: data.success,
       user: address,
-      achievementTypes: typeData,
+      achievementTypes: typeData.data,
     },
   };
 }

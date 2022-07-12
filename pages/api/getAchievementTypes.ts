@@ -1,17 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { connectMongo } from "../../db/connectMongo";
-import AchievementTypes from "../../db/AchievementTypes";
+import { IResponseMessage } from "../../models/IResponseMessage";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<IResponseMessage>
 ) {
-  await connectMongo();
-  const types = await AchievementTypes.find();
-
-  if (types) {
-    res.status(200).json(types);
+  const resData = await fetch(
+    `${process.env.API_URL}/api/achievement/getAllAchievements`
+  );
+  const resJson: IResponseMessage = await resData.json();
+  if (resJson.success) {
+    res.status(200).json(resJson);
     return;
   }
-  res.status(500).json({ success: false });
+  res.status(500).json(resJson);
 }
