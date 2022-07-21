@@ -1,5 +1,5 @@
 import { Schema, model, models } from "mongoose";
-import IWhitelistedAddress from "../models/IWhitelistedAddress";
+import IWhitelistedAddress from "@/models/IWhitelistedAddress";
 
 const whitelistSchema = new Schema<IWhitelistedAddress>({
   address: { type: String, required: true },

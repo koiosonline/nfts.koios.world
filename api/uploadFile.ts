@@ -1,5 +1,5 @@
 import { parse } from "papaparse";
-import IAchievementModel from "../models/IAchievementModel";
+import IAchievementModel from "@/models/IAchievementModel";
 
 export const uploadFile = async (
   achievementWhitelist: IAchievementModel[],

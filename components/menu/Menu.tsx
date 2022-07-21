@@ -38,8 +38,10 @@ const Menu = () => {
         const response = await fetch(
           `/api/findAddress?address=${account.address}`
         );
-        const data = await response.json();
-        setIsWhiteListed(data.success);
+        if (response.status === 200) {
+          const data = await response.json();
+          setIsWhiteListed(data.success);
+        }
       };
       fetchData();
     }
@@ -49,7 +51,7 @@ const Menu = () => {
     <div className="top-0 h-20 w-full bg-default-text/90 text-white-300">
       <div className="mx-auto flex h-full w-full justify-between p-5 md:p-0">
         <div className="flex h-full w-1/4 items-center justify-center">
-          <a href="/">
+          <Link href="/">
             <Image
               priority
               layout="fixed"
@@ -59,7 +61,7 @@ const Menu = () => {
               src="/branding/koios-logo.svg"
               alt="Koios Logo"
             ></Image>
-          </a>
+          </Link>
         </div>
         <div className="hidden h-full w-3/4 justify-between md:flex">
           <div className=" flex h-full w-2/3 flex-col items-center justify-center ">

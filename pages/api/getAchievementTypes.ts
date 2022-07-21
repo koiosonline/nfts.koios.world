@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { IResponseMessage } from "../../models/IResponseMessage";
+import { IResponseMessage } from "@/models/IResponseMessage";
 
 export default async function handler(
   req: NextApiRequest,

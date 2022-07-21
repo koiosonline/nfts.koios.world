@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 import { useSignMessage } from "wagmi";
 import crypto from "crypto";
-import DropdownButton from "../util/DropdownButton";
-import DropdownItems from "../util/DropdownItems";
-import FileInputArea from "../util/FileInputArea";
-import SignMessageButton from "../util/SignMessageButton";
-import { uploadFile, whitelistFromFile } from "../../api/uploadFile";
+import FileInputArea from "@/components/util/FileInputArea";
+import SignMessageButton from "@/components/util/SignMessageButton";
 import SwitchButton from "./SwitchButton";
-import FormInputText from "../util/FormInputText";
-import ErrorMessage from "../util/ErrorMessage";
-import { IResponseMessage } from "../../models/IResponseMessage";
-import { uploadSingleCoupon } from "../../api/uploadSingleCoupon";
-import ICouponModel from "../../models/ICouponModel";
+import FormInputText from "@/components/util/FormInputText";
+import ErrorMessage from "@/components/util/ErrorMessage";
+import { IResponseMessage } from "@/models/IResponseMessage";
+import { uploadSingleCoupon } from "api/uploadSingleCoupon";
+import ICouponModel from "@/models/ICouponModel";
+import {
+  couponsFromFile,
+  uploadMultipleCoupons,
+} from "api/uploadMultipleCoupons";
+import IUploadModel from "@/models/IUploadModel";
 
 const CouponPanel = () => {
   const [saltHash, setSaltHash] = useState("");
   const [file, setFile] = useState<File | null>(null);
-  const [openMenu, setOpenMenu] = useState(false);
-  const [selectedAchievement, setSelectedAchievement] = useState<number>(0);
   const [uploading, setUploading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean | null>();
   const [singleUpload, setSingleUpload] = useState<boolean>(false);
@@ -35,11 +35,6 @@ const CouponPanel = () => {
       setSaltHash(crypto.randomBytes(16).toString("base64"));
     }
   }, [data]);
-
-  const handleItemChange = (index: number) => {
-    setSelectedAchievement(index);
-    setOpenMenu(false);
-  };
 
   useEffect(() => {
     if (uploadResponse) {
@@ -60,25 +55,26 @@ const CouponPanel = () => {
         address: addressData,
         amount: 1,
       };
-      const res: IResponseMessage = await uploadSingleCoupon(
-        coupon,
+      const uploadModel: IUploadModel = {
         saltHash,
-        data!
-      );
+        signature: data!,
+        data: coupon,
+      };
+      const res: IResponseMessage = await uploadSingleCoupon(uploadModel);
 
       setUploadResponse(res);
     }
 
-    // if (file) {
-    //   setUploading(true);
-    //   const achievementWhitelist = await whitelistFromFile(
-    //     file,
-    //     achievementTypes,
-    //     selectedAchievement
-    //   );
-    //   const res = await uploadFile(achievementWhitelist, saltHash, data!);
-    //   setUploadResponse(res);
-    // }
+    if (file) {
+      setUploading(true);
+      const couponEligibility: ICouponModel[] = await couponsFromFile(file);
+      const res = await uploadMultipleCoupons(
+        couponEligibility,
+        saltHash,
+        data!
+      );
+      setUploadResponse(res);
+    }
   };
 
   return (
@@ -115,24 +111,6 @@ const CouponPanel = () => {
             <ErrorMessage errorMessage={errorMessage} />
             {uploading && <h1 className="text-4xl"> UPLOADING</h1>}
             <h1 className="text-4xl"> Coupon Uploader</h1>
-            {/* <div className="flex justify-center">
-              <div>
-                <div className="dropdown relative ">
-                  <h1 className="mb-2 text-base"> Select achievement below</h1>
-                  <DropdownButton
-                    setOpenMenu={setOpenMenu}
-                    openMenu={openMenu}
-                    text={achievementTypes[selectedAchievement].name}
-                  />
-                  {openMenu && (
-                    <DropdownItems
-                      items={achievementTypes}
-                      handleItemChange={handleItemChange}
-                    />
-                  )}
-                </div>
-              </div>
-            </div> */}
 
             <div className="grid grid-cols-1 space-y-2">
               {!singleUpload && !file && <FileInputArea setFile={setFile} />}

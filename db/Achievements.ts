@@ -1,5 +1,5 @@
 import { Schema, model, models } from "mongoose";
-import IAchievementModel from "../models/IAchievementModel";
+import IAchievementModel from "@/models/IAchievementModel";
 
 const achievementSchema = new Schema<IAchievementModel>({
   address: { type: String, required: true },

@@ -7,16 +7,16 @@ export default async function handler(
   res: NextApiResponse<IResponseMessage>
 ) {
   if (req.method === "POST") {
-    const couponData = req.body.couponModel as ICouponModel;
+    const couponData = req.body.couponModels as ICouponModel[];
     const signature = req.body.data;
     const message = req.body.saltHash;
     try {
       const resUpload = await fetch(
-        `${process.env.API_URL}/api/coupon/uploadSingle`,
+        `${process.env.API_URL}/api/coupon/uploadMultiple`,
         {
           method: "POST",
           body: JSON.stringify({
-            coupon: couponData,
+            coupons: couponData,
             saltHash: message,
             signature: signature,
           }),

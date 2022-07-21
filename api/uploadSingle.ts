@@ -1,5 +1,5 @@
-import IAchievementModel from "../models/IAchievementModel";
-import IAchievementType from "../models/IAchievementType";
+import IAchievementModel from "@/models/IAchievementModel";
+import IAchievementType from "@/models/IAchievementType";
 
 export const uploadSingle = async (
   achievementWhitelist: IAchievementType,

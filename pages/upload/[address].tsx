@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import CouponPanel from "../../components/upload/CouponPanel";
-import UploadPanel from "../../components/upload/UploadPanel";
-import { IResponseMessage } from "../../models/IResponseMessage";
+import CouponPanel from "@/components/upload/CouponPanel";
+import UploadPanel from "@/components/upload/UploadPanel";
+import { IResponseMessage } from "@/models/IResponseMessage";
 
-const upload = ({ isWhitelisted, user, achievementTypes }: any) => {
+const Upload = ({ isWhitelisted, user, achievementTypes }: any) => {
   const account = useAccount();
   const [userAddress, setUserAddress] = useState("");
 
@@ -58,4 +58,4 @@ export async function getServerSideProps(context: any) {
   };
 }
 
-export default upload;
+export default Upload;

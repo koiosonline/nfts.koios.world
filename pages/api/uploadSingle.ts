@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import type { NextApiRequest, NextApiResponse } from "next";
-import IAchievementModel from "../../models/IAchievementModel";
-import { IResponseMessage } from "../../models/IResponseMessage";
+import IAchievementModel from "@/models/IAchievementModel";
+import { IResponseMessage } from "@/models/IResponseMessage";
 
 export default async function handler(
   req: NextApiRequest,
@@ -42,13 +42,11 @@ export default async function handler(
         return;
       }
     } else {
-      res
-        .status(401)
-        .json({
-          success: false,
-          error: true,
-          message: "Unauthorized for upload!",
-        });
+      res.status(401).json({
+        success: false,
+        error: true,
+        message: "Unauthorized for upload!",
+      });
       return;
     }
   }

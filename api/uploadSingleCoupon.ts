@@ -1,23 +1,13 @@
-import ICouponModel from "../models/ICouponModel";
+import IUploadModel from "@/models/IUploadModel";
 
-export const uploadSingleCoupon = async (
-  couponModel: ICouponModel,
-  saltHash: string,
-  data: string
-) => {
+export const uploadSingleCoupon = async (uploadModel: IUploadModel) => {
   const res = await fetch(`/api/uploadSingleCoupon`, {
     method: "POST",
-    body: JSON.stringify({
-      couponModel,
-      saltHash,
-      data,
-    }),
+    body: JSON.stringify(uploadModel),
     headers: {
       "content-type": "application/json",
     },
   });
-  console.log("ädadad");
   const uploadRes = await res.json();
-  console.log(uploadRes);
   return uploadRes;
 };

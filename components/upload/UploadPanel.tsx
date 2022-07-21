@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useSignMessage } from "wagmi";
 import crypto from "crypto";
-import DropdownButton from "../util/DropdownButton";
-import DropdownItems from "../util/DropdownItems";
-import FileInputArea from "../util/FileInputArea";
-import SignMessageButton from "../util/SignMessageButton";
-import { uploadFile, whitelistFromFile } from "../../api/uploadFile";
+import DropdownButton from "@/components/util/DropdownButton";
+import DropdownItems from "@/components/util/DropdownItems";
+import FileInputArea from "@/components/util/FileInputArea";
+import SignMessageButton from "@/components/util/SignMessageButton";
+import { uploadFile, whitelistFromFile } from "api/uploadFile";
 import SwitchButton from "./SwitchButton";
-import { uploadSingle } from "../../api/uploadSingle";
-import FormInputText from "../util/FormInputText";
-import ErrorMessage from "../util/ErrorMessage";
-import { IResponseMessage } from "../../models/IResponseMessage";
+import { uploadSingle } from "api/uploadSingle";
+import FormInputText from "@/components/util/FormInputText";
+import ErrorMessage from "@/components/util/ErrorMessage";
+import { IResponseMessage } from "@/models/IResponseMessage";
 
 const UploadPanel = ({ achievementTypes }: any) => {
   const [saltHash, setSaltHash] = useState("");
