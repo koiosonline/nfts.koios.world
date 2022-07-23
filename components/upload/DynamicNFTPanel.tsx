@@ -7,15 +7,15 @@ import SwitchButton from "./SwitchButton";
 import FormInputText from "@/components/util/FormInputText";
 import ErrorMessage from "@/components/util/ErrorMessage";
 import { IResponseMessage } from "@/models/IResponseMessage";
-import { uploadSingleCoupon } from "api/uploadSingleCoupon";
-import ICouponModel from "@/models/ICouponModel";
-import {
-  couponsFromFile,
-  uploadMultipleCoupons,
-} from "api/uploadMultipleCoupons";
 import IUploadModel from "@/models/IUploadModel";
+import IWhitelistModel from "@/models/IWhitelistModel";
+import { uploadSingleAddress } from "@/api/uploadSingleAddress";
+import {
+  addressesFromFile,
+  uploadMultipleAddresses,
+} from "@/api/uploadMultipleAddresses";
 
-const CouponPanel = () => {
+const DynamicNFTPanel = () => {
   const [saltHash, setSaltHash] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
@@ -51,28 +51,24 @@ const CouponPanel = () => {
 
   const upload = async () => {
     if (addressData.length === 42) {
-      const coupon: ICouponModel = {
+      const model: IWhitelistModel = {
         address: addressData,
-        amount: 1,
       };
       const uploadModel: IUploadModel = {
         saltHash,
         signature: data!,
-        data: coupon,
+        data: model,
       };
-      const res: IResponseMessage = await uploadSingleCoupon(uploadModel);
+      setUploading(true);
+      const res: IResponseMessage = await uploadSingleAddress(uploadModel);
 
       setUploadResponse(res);
     }
 
     if (file) {
       setUploading(true);
-      const couponEligibility: ICouponModel[] = await couponsFromFile(file);
-      const res = await uploadMultipleCoupons(
-        couponEligibility,
-        saltHash,
-        data!
-      );
+      const whitelistData: IWhitelistModel[] = await addressesFromFile(file);
+      const res = await uploadMultipleAddresses(whitelistData, saltHash, data!);
       setUploadResponse(res);
     }
   };
@@ -93,7 +89,7 @@ const CouponPanel = () => {
                 setFile(null);
               }}
             >
-              New Coupon
+              New Address
             </button>
           </div>
         )}
@@ -111,7 +107,7 @@ const CouponPanel = () => {
             <ErrorMessage errorMessage={errorMessage} />
             {uploading && <h1 className="text-4xl"> UPLOADING</h1>}
             <h1 className="text-4xl">
-              {singleUpload ? "Single Coupon" : "Multiple Coupons"}
+              {singleUpload ? "Single Address" : "Multiple Addresses"}
             </h1>
 
             <div className="grid grid-cols-1 space-y-2">
@@ -156,4 +152,4 @@ const CouponPanel = () => {
   );
 };
 
-export default CouponPanel;
+export default DynamicNFTPanel;

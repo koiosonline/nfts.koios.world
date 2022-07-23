@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useAccount } from "wagmi";
 import CouponPanel from "@/components/upload/CouponPanel";
 import UploadPanel from "@/components/upload/UploadPanel";
 import { IResponseMessage } from "@/models/IResponseMessage";
+import DynamicNFTPanel from "@/components/upload/DynamicNFTPanel";
 
 const Upload = ({ isWhitelisted, user, achievementTypes }: any) => {
   const account = useAccount();
   const [userAddress, setUserAddress] = useState("");
+  const [mode, setMode] = useState(0);
 
   useEffect(() => {
     setUserAddress(account?.address!);
@@ -26,11 +28,25 @@ const Upload = ({ isWhitelisted, user, achievementTypes }: any) => {
   return (
     <div
       className={
-        "flex h-screen w-full items-center justify-center bg-default-text text-center font-heading text-8xl text-brand-rose-hot-pink"
+        "flex h-screen w-full flex-col items-center justify-center bg-default-text text-center font-heading text-2xl "
       }
     >
+      <div className="flex w-1/3 items-center justify-around rounded ">
+        <div
+          onClick={() => setMode(0)}
+          className="flex h-14 w-48 items-center justify-center rounded bg-brand-purple-heart uppercase leading-tight text-default-text shadow-md transition duration-300 hover:cursor-pointer hover:bg-brand-purple-heliotrope"
+        >
+          Dynamic NFT
+        </div>
+        <div
+          onClick={() => setMode(1)}
+          className="flex h-14 w-48 items-center justify-center rounded bg-brand-purple-heart uppercase leading-tight text-default-text shadow-md transition duration-300 hover:cursor-pointer hover:bg-brand-purple-heliotrope"
+        >
+          Coupons
+        </div>
+      </div>
       {/* <UploadPanel achievementTypes={achievementTypes} /> */}
-      <CouponPanel />
+      {mode === 0 ? <DynamicNFTPanel /> : <CouponPanel />}
     </div>
   );
 };

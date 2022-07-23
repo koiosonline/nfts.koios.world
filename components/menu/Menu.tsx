@@ -76,7 +76,7 @@ const Menu = () => {
               {isWhitelisted && (
                 <Link href={`/upload/${account.address}`}>
                   <li className="cursor-pointer transition duration-300 hover:text-gray-200 active:text-gray-100">
-                    upload
+                    whitelisting
                   </li>
                 </Link>
               )}
