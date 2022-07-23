@@ -23,7 +23,8 @@ export const uploadMultipleAddresses = async (
 };
 
 export const addressesFromFile = async (
-  file: File
+  file: File,
+  type: number
 ): Promise<IWhitelistModel[]> => {
   const text = await file.text();
   const fileData = parse(text, {
@@ -35,6 +36,7 @@ export const addressesFromFile = async (
     if (preModel["What is your *Ethereum Public Key*?"]) {
       const whitelistModel: IWhitelistModel = {
         address: preModel["What is your *Ethereum Public Key*?"],
+        type: type,
       };
       addressesWhitelist.push(whitelistModel);
     }

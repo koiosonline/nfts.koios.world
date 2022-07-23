@@ -14,10 +14,14 @@ import {
   addressesFromFile,
   uploadMultipleAddresses,
 } from "@/api/uploadMultipleAddresses";
+import DropdownButton from "../util/DropdownButton";
+import DropdownItems from "../util/DropdownItems";
 
 const DynamicNFTPanel = () => {
   const [saltHash, setSaltHash] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [openMenu, setOpenMenu] = useState(false);
+  const [selectedType, setSelectedType] = useState<number>(0);
   const [uploading, setUploading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean | null>();
   const [singleUpload, setSingleUpload] = useState<boolean>(false);
@@ -29,6 +33,22 @@ const DynamicNFTPanel = () => {
     useSignMessage({
       message: saltHash,
     });
+
+  const types = [
+    {
+      type: 0,
+      name: "Blockchain",
+    },
+    {
+      type: 1,
+      name: "TDFA",
+    },
+  ];
+
+  const handleItemChange = (index: number) => {
+    setSelectedType(index);
+    setOpenMenu(false);
+  };
 
   useEffect(() => {
     if (!data) {
@@ -53,12 +73,14 @@ const DynamicNFTPanel = () => {
     if (addressData.length === 42) {
       const model: IWhitelistModel = {
         address: addressData,
+        type: selectedType,
       };
       const uploadModel: IUploadModel = {
         saltHash,
         signature: data!,
         data: model,
       };
+      console.log({ model });
       setUploading(true);
       const res: IResponseMessage = await uploadSingleAddress(uploadModel);
 
@@ -67,7 +89,10 @@ const DynamicNFTPanel = () => {
 
     if (file) {
       setUploading(true);
-      const whitelistData: IWhitelistModel[] = await addressesFromFile(file);
+      const whitelistData: IWhitelistModel[] = await addressesFromFile(
+        file,
+        selectedType
+      );
       const res = await uploadMultipleAddresses(whitelistData, saltHash, data!);
       setUploadResponse(res);
     }
@@ -106,6 +131,24 @@ const DynamicNFTPanel = () => {
             )}
             <ErrorMessage errorMessage={errorMessage} />
             {uploading && <h1 className="text-4xl"> UPLOADING</h1>}
+            <div className="flex justify-center">
+              <div>
+                <div className="dropdown relative ">
+                  <h1 className="mb-2 text-base"> Select minor below</h1>
+                  <DropdownButton
+                    setOpenMenu={setOpenMenu}
+                    openMenu={openMenu}
+                    text={types[selectedType].name}
+                  />
+                  {openMenu && (
+                    <DropdownItems
+                      items={types}
+                      handleItemChange={handleItemChange}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
             <h1 className="text-4xl">
               {singleUpload ? "Single Address" : "Multiple Addresses"}
             </h1>
