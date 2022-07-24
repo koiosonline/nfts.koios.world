@@ -11,6 +11,7 @@ import {
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import Menu from "@/components/menu/Menu";
+import CouponNotif from "@/components/coupon/CouponNotif";
 
 const { chains, provider } = configureChains(
   [chain.polygon, chain.polygonMumbai],
@@ -48,14 +49,14 @@ const App = ({ Component, pageProps }: AppProps) => {
         appInfo={AppInfo}
         chains={chains}
       >
-        <Menu />
-
         <main
           className={
-            "flex  flex-col items-center justify-center bg-default-text "
+            "relative flex  h-screen w-full flex-col items-center justify-center bg-default-text "
           }
         >
+          <Menu />
           <Component {...pageProps} />
+          <CouponNotif />
         </main>
       </RainbowKitProvider>
     </WagmiConfig>

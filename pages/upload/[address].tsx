@@ -1,11 +1,10 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import CouponPanel from "@/components/upload/CouponPanel";
-import UploadPanel from "@/components/upload/UploadPanel";
 import { IResponseMessage } from "@/models/IResponseMessage";
 import DynamicNFTPanel from "@/components/upload/DynamicNFTPanel";
 
-const Upload = ({ isWhitelisted, user, achievementTypes }: any) => {
+const Upload = ({ isWhitelisted, user }: any) => {
   const account = useAccount();
   const [userAddress, setUserAddress] = useState("");
   const [mode, setMode] = useState(0);
@@ -60,16 +59,16 @@ export async function getServerSideProps(context: any) {
 
   const data: IResponseMessage = await res.json();
 
-  const resType = await fetch(
-    `${process.env.LOCAL_URL}/api/getAchievementTypes`
-  );
-  const typeData: IResponseMessage = await resType.json();
+  // const resType = await fetch(
+  //   `${process.env.LOCAL_URL}/api/getAchievementTypes`
+  // );
+  // const typeData: IResponseMessage = await resType.json();
 
   return {
     props: {
       isWhitelisted: data.success,
       user: address,
-      achievementTypes: typeData.data,
+      //achievementTypes: typeData.data,
     },
   };
 }
