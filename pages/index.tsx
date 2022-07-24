@@ -1,3 +1,4 @@
+import DynamicNFTPanel from "@/components/profile/DynamicNFTPanel";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState, useEffect } from "react";
@@ -32,10 +33,10 @@ const Home: NextPage = () => {
         <>
           <div
             className={
-              "relative flex h-[95vh] w-full items-center justify-center bg-default-text text-center font-heading text-8xl text-brand-rose-hot-pink"
+              "relative flex h-full w-full flex-col items-center justify-center gap-5 bg-default-text text-center font-heading text-8xl text-brand-rose-hot-pink"
             }
           >
-            Welcome!
+            <DynamicNFTPanel />
           </div>
         </>
       )}

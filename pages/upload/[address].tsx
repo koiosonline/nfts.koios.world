@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import CouponPanel from "@/components/upload/CouponPanel";
 import { IResponseMessage } from "@/models/IResponseMessage";
-import DynamicNFTPanel from "@/components/upload/DynamicNFTPanel";
+import DynamicUploadPanel from "@/components/upload/DynamicUploadPanel";
 
 const Upload = ({ isWhitelisted, user }: any) => {
   const account = useAccount();
@@ -45,7 +45,7 @@ const Upload = ({ isWhitelisted, user }: any) => {
         </div>
       </div>
       {/* <UploadPanel achievementTypes={achievementTypes} /> */}
-      {mode === 0 ? <DynamicNFTPanel /> : <CouponPanel />}
+      {mode === 0 ? <DynamicUploadPanel /> : <CouponPanel />}
     </div>
   );
 };

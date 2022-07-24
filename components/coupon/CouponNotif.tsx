@@ -32,7 +32,7 @@ const CouponNotif = () => {
 
   if (coupons) {
     return (
-      <div className="absolute bottom-5 left-5">
+      <div className="fixed bottom-5 left-5 ">
         <div
           className="relative
      flex h-20 w-52 flex-col gap-2 rounded bg-brand-purple-heart p-2"
