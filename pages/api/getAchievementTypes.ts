@@ -6,8 +6,12 @@ export default async function handler(
   res: NextApiResponse<IResponseMessage>
 ) {
   const resData = await fetch(
-    `${process.env.API_URL}/api/whitelist/findAddress/${req.query.address}`
+    `${process.env.API_URL}/api/achievement/getAllAchievements`
   );
   const resJson: IResponseMessage = await resData.json();
-  res.status(200).json(resJson);
+  if (resJson.success) {
+    res.status(200).json(resJson);
+    return;
+  }
+  res.status(500).json(resJson);
 }

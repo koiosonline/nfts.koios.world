@@ -21,7 +21,7 @@ const Home: NextPage = () => {
       {!userAddress && (
         <div
           className={
-            "flex h-screen w-full items-center justify-center bg-default-text text-center font-heading text-8xl text-brand-rose-hot-pink"
+            "flex h-full w-full items-center justify-center bg-default-text text-center font-heading text-8xl text-brand-rose-hot-pink"
           }
         >
           Please Login
@@ -29,13 +29,15 @@ const Home: NextPage = () => {
       )}
 
       {userAddress && (
-        <div
-          className={
-            "flex h-screen w-full items-center justify-center bg-default-text text-center font-heading text-8xl text-brand-rose-hot-pink"
-          }
-        >
-          Welcome!
-        </div>
+        <>
+          <div
+            className={
+              "relative flex h-[95vh] w-full items-center justify-center bg-default-text text-center font-heading text-8xl text-brand-rose-hot-pink"
+            }
+          >
+            Welcome!
+          </div>
+        </>
       )}
     </>
   );

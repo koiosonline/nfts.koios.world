@@ -38,31 +38,30 @@ const Menu = () => {
         const response = await fetch(
           `/api/findAddress?address=${account.address}`
         );
-        const data = await response.json();
-        console.log(data);
-        setIsWhiteListed(data.found);
+        if (response.status === 200) {
+          const data = await response.json();
+          setIsWhiteListed(data.success);
+        }
       };
       fetchData();
     }
   }, [account]);
 
   return (
-    <div className="top-0 h-20 w-full bg-default-text/90 text-white-300">
+    <div className="absolute top-0 z-50 h-20 w-full bg-default-text/90 text-white-300">
       <div className="mx-auto flex h-full w-full justify-between p-5 md:p-0">
         <div className="flex h-full w-1/4 items-center justify-center">
-          <a href="/">
-            <Image
-              priority
-              layout="fixed"
-              width={100}
-              height={100}
-              className="h-auto w-full"
-              src="/branding/koios-logo.svg"
-              alt="Koios Logo"
-            ></Image>
-          </a>
+          <Image
+            priority
+            layout="fixed"
+            width={100}
+            height={100}
+            className="h-auto w-full"
+            src="/branding/koios-logo.svg"
+            alt="Koios Logo"
+          />
         </div>
-        <div className="hidden h-full w-3/4 justify-between md:flex">
+        <div className="hidden h-full w-3/4 justify-between lg:flex">
           <div className=" flex h-full w-2/3 flex-col items-center justify-center ">
             <ul className="flex items-center gap-12 font-heading uppercase">
               {links.map((link, index) => (
@@ -75,7 +74,7 @@ const Menu = () => {
               {isWhitelisted && (
                 <Link href={`/upload/${account.address}`}>
                   <li className="cursor-pointer transition duration-300 hover:text-gray-200 active:text-gray-100">
-                    upload
+                    whitelisting
                   </li>
                 </Link>
               )}
