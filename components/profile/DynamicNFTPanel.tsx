@@ -1,15 +1,27 @@
-import { useEffect, useMemo, useState } from "react";
-import { useAccount, useContractRead, chain, useNetwork } from "wagmi";
+import { useEffect, useState } from "react";
+import {
+  useAccount,
+  useContractRead,
+  useNetwork,
+  useContractWrite,
+} from "wagmi";
 import Image from "next/future/image";
-import { fetchDynamicNFTData } from "@/api/profile/dynamicNFT";
+import { getSignature } from "@/api/profile/dynamicNFT";
 import eContract from "@/data/EvolvingTitan.json";
+import ISignatureModel from "@/models/ISignatureModel";
+import Spinner from "../util/Spinner";
 
 const DynamicNFTPanel = () => {
   const user = useAccount();
   const { chain } = useNetwork();
-  const [nft, setNft] = useState([]);
+  const [signatureProof, setSignatureProof] = useState<ISignatureModel | null>(
+    null
+  );
+  const [loadingMint, setLoadingMint] = useState(false);
   const [minted, setMinted] = useState<boolean | null>(null);
-  const { data } = useContractRead({
+  const [canMint, setCanMint] = useState<boolean>(false);
+
+  const contractRead = useContractRead({
     addressOrName: `${
       chain?.id === 137 ? "" : "0x76355707EE63A1923246490A0E1ecc540EA33654"
     }`,
@@ -18,23 +30,58 @@ const DynamicNFTPanel = () => {
     args: `${user.address}`,
   });
 
+  const contractMint = useContractWrite({
+    addressOrName: "0x76355707EE63A1923246490A0E1ecc540EA33654",
+    contractInterface: eContract.abi,
+    functionName: "claim",
+    args: [signatureProof?.salt!, signatureProof?.signature!],
+  });
+
   useEffect(() => {
-    const fetchWhitelisted = async () => {
+    const fetchMinted = async () => {
       if (user) {
-        console.log(data);
-        if (data && data?.toString() === "0") setMinted(false);
+        if (contractRead.data && contractRead.data?.toString() === "0")
+          setMinted(false);
 
-        if (data?.toString() !== "0") setMinted(true);
-
-        //const response = await fetchDynamicNFTData(user.address!);
-        // if (response.status === 200) {
-        //   const data = await response.json();
-
-        // }
+        if (contractRead.data?.toString() !== "0") setMinted(true);
       }
     };
-    fetchWhitelisted();
+    fetchMinted();
   }, [user]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user) {
+        const response = await getSignature(user.address!);
+        const signatureData = await response.json();
+        if (signatureData.data) {
+          const signatureModel: ISignatureModel = {
+            signature: signatureData.data.token,
+            salt: signatureData.data.salt,
+          };
+          setSignatureProof(signatureModel);
+          setCanMint(true);
+          return;
+        }
+      }
+    };
+    fetchData();
+  }, [minted]);
+
+  useEffect(() => {
+    if (contractMint.isLoading) setLoadingMint(true);
+
+    if (contractMint.isError) {
+      console.log("User declined");
+      setLoadingMint(false);
+    }
+  }, [contractMint.status]);
+
+  const mintNFT = async () => {
+    if (user && signatureProof) {
+      contractMint.write();
+    }
+  };
 
   return (
     <div className="flex h-[70vh] w-full justify-between gap-5 p-10">
@@ -42,18 +89,32 @@ const DynamicNFTPanel = () => {
         <h1 className="h-1/6 font-heading text-xl uppercase text-gray-200">
           {minted ? "You have minted a NFT" : "You have not minted a NFT"}
         </h1>
-        <div className="relative flex h-5/6 w-full rounded">
+        <div className="relative flex h-5/6 w-full items-center justify-center rounded">
           <Image
             priority
-            width={750}
-            height={750}
+            width={850}
+            height={850}
             className="w-full rounded object-contain"
             src="/nfts/unmintedNFT.png"
             alt="Unminted NFT"
           />
-          {!minted && (
-            <div className="absolute bottom-0 flex h-20 w-full cursor-pointer items-center justify-center rounded bg-brand-rose-hot-pink text-center font-heading text-2xl uppercase text-gray-900 transition duration-300 hover:bg-brand-rose-lavender">
+          {!minted && !loadingMint && canMint && (
+            <div
+              onClick={() => mintNFT()}
+              className="absolute bottom-0 flex h-20 w-full cursor-pointer items-center justify-center rounded bg-brand-rose-hot-pink text-center font-heading text-2xl uppercase text-gray-900 transition duration-300 hover:bg-brand-rose-lavender"
+            >
               Mint NFT
+            </div>
+          )}
+          {loadingMint && (
+            <div className="absolute bottom-0 flex h-20 w-full cursor-pointer items-center justify-center rounded bg-brand-rose-hot-pink text-center font-heading text-2xl uppercase text-gray-900 transition duration-300 hover:bg-brand-rose-lavender">
+              <Spinner />
+              Minting...
+            </div>
+          )}
+          {!canMint && (
+            <div className="absolute bottom-0 flex h-20 w-full cursor-not-allowed items-center justify-center rounded bg-brand-rose-hot-pink text-center font-heading text-2xl uppercase text-gray-900 transition duration-300 ">
+              Not Eligible
             </div>
           )}
         </div>

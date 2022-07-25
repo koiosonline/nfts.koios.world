@@ -5,6 +5,8 @@ module.exports = {
   ],
   theme: {
     colors: {
+      transparent: "transparent",
+
       // Default colors
       "default-text": "#111012",
 

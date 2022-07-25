@@ -14,3 +14,8 @@ export const fetchDynamicNFTData = async (address: string) => {
   //   const resJson = await res.json();
   //return resJson;
 };
+
+export const getSignature = async (address: string) => {
+  const res = await fetch(`/api/profile/dynamicNFT?address=${address}`);
+  return res;
+};
