@@ -2,84 +2,95 @@ import { useEffect, useState } from "react";
 import {
   useAccount,
   useContractRead,
-  useNetwork,
   useContractWrite,
+  useWaitForTransaction,
 } from "wagmi";
 import Image from "next/future/image";
 import { getSignature } from "@/api/profile/dynamicNFT";
-import eContract from "@/data/EvolvingTitan.json";
-import ISignatureModel from "@/models/ISignatureModel";
 import Spinner from "../util/Spinner";
+import { MumbaiERC721Config } from "@/data/MumbaiERC721Config";
+import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+import IERC721MetadataModel from "@/models/IERC721MetadataModel";
 
 const DynamicNFTPanel = () => {
   const user = useAccount();
-  const { chain } = useNetwork();
-  const [signatureProof, setSignatureProof] = useState<ISignatureModel | null>(
-    null
-  );
-  const [loadingMint, setLoadingMint] = useState(false);
   const [minted, setMinted] = useState<boolean | null>(null);
   const [canMint, setCanMint] = useState<boolean>(false);
+  const [metadata, setMetadata] = useState<IERC721MetadataModel | null>(null);
+
+  const addRecentTransaction = useAddRecentTransaction();
 
   const contractRead = useContractRead({
-    addressOrName: `${
-      chain?.id === 137 ? "" : "0x76355707EE63A1923246490A0E1ecc540EA33654"
-    }`,
-    contractInterface: eContract.abi,
+    ...MumbaiERC721Config,
     functionName: "balanceOf",
     args: `${user.address}`,
   });
 
-  const contractMint = useContractWrite({
-    addressOrName: "0x76355707EE63A1923246490A0E1ecc540EA33654",
-    contractInterface: eContract.abi,
+  const {
+    data: mintData,
+    write: mint,
+    isLoading: isMintLoading,
+    isSuccess: isMintStarted,
+    isError: isMintError,
+    error: mintError,
+  } = useContractWrite({
+    ...MumbaiERC721Config,
     functionName: "claim",
-    args: [signatureProof?.salt!, signatureProof?.signature!],
   });
+
+  const {
+    isSuccess: txSuccess,
+    error: txError,
+    status: txStatus,
+    isLoading: txLoading,
+  } = useWaitForTransaction({
+    hash: mintData?.hash,
+  });
+
+  const isMinted = txSuccess;
 
   useEffect(() => {
     const fetchMinted = async () => {
-      if (user) {
-        if (contractRead.data && contractRead.data?.toString() === "0")
+      if (user.isConnected) {
+        if (contractRead.data && contractRead.data.toString() === "0")
           setMinted(false);
 
-        if (contractRead.data?.toString() !== "0") setMinted(true);
-      }
-    };
-    fetchMinted();
-  }, [user]);
+        if (contractRead.data?.toString() !== "0") {
+          setMinted(true);
+          const fetchMetadata = await fetch(
+            "http://localhost:8000/api/metadata/5.json"
+          );
+          const data: IERC721MetadataModel = await fetchMetadata.json();
+          setMetadata(data);
+        }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (user) {
         const response = await getSignature(user.address!);
         const signatureData = await response.json();
+
         if (signatureData.data) {
-          const signatureModel: ISignatureModel = {
-            signature: signatureData.data.token,
-            salt: signatureData.data.salt,
-          };
-          setSignatureProof(signatureModel);
           setCanMint(true);
-          return;
+        } else {
+          setCanMint(false);
         }
       }
     };
-    fetchData();
-  }, [minted]);
+    fetchMinted();
+  }, [user, txSuccess]);
 
   useEffect(() => {
-    if (contractMint.isLoading) setLoadingMint(true);
-
-    if (contractMint.isError) {
-      console.log("User declined");
-      setLoadingMint(false);
+    if (txLoading) {
+      addRecentTransaction({
+        hash: mintData?.hash!,
+        description: "Minting Dynamic NFT",
+      });
     }
-  }, [contractMint.status]);
+  }, [txStatus]);
 
   const mintNFT = async () => {
-    if (user && signatureProof) {
-      contractMint.write();
+    if (user.isConnected && canMint) {
+      const response = await getSignature(user.address!);
+      const signatureData = await response.json();
+      mint({ args: [signatureData.data.salt, signatureData.data.token] });
     }
   };
 
@@ -90,27 +101,43 @@ const DynamicNFTPanel = () => {
           {minted ? "You have minted a NFT" : "You have not minted a NFT"}
         </h1>
         <div className="relative flex h-5/6 w-full items-center justify-center rounded">
-          <Image
-            priority
-            width={850}
-            height={850}
-            className="w-full rounded object-contain"
-            src="/nfts/unmintedNFT.png"
-            alt="Unminted NFT"
-          />
-          {!minted && !loadingMint && canMint && (
-            <div
-              onClick={() => mintNFT()}
-              className="absolute bottom-0 flex h-20 w-full cursor-pointer items-center justify-center rounded bg-brand-rose-hot-pink text-center font-heading text-2xl uppercase text-gray-900 transition duration-300 hover:bg-brand-rose-lavender"
-            >
-              Mint NFT
-            </div>
+          {!minted && !metadata ? (
+            <Image
+              priority
+              width={850}
+              height={850}
+              className="w-full rounded object-contain"
+              src="/nfts/unmintedNFT.png"
+              alt="Unminted NFT"
+            />
+          ) : (
+            <img
+              width={850}
+              height={850}
+              className="w-full rounded object-contain"
+              src={metadata?.image!}
+              alt="Unminted NFT"
+            />
           )}
-          {loadingMint && (
-            <div className="absolute bottom-0 flex h-20 w-full cursor-pointer items-center justify-center rounded bg-brand-rose-hot-pink text-center font-heading text-2xl uppercase text-gray-900 transition duration-300 hover:bg-brand-rose-lavender">
-              <Spinner />
-              Minting...
-            </div>
+
+          {!minted && canMint && !isMinted && (
+            <button
+              onClick={() => mintNFT()}
+              className="absolute bottom-0 flex h-20 w-full items-center justify-center rounded bg-brand-rose-hot-pink text-center font-heading text-xl uppercase text-gray-900 transition duration-300 hover:bg-brand-rose-lavender"
+            >
+              {isMintLoading && !isMintStarted && (
+                <>
+                  <Spinner /> Awaiting approval...
+                </>
+              )}
+              {isMintStarted && (
+                <>
+                  <Spinner /> Minting...
+                </>
+              )}
+              {!isMintLoading && !isMintStarted && "Mint NFT"}
+              {!isMintLoading && isMintStarted && !canMint && "Not Eligible"}
+            </button>
           )}
           {!canMint && (
             <div className="absolute bottom-0 flex h-20 w-full cursor-not-allowed items-center justify-center rounded bg-brand-rose-hot-pink text-center font-heading text-2xl uppercase text-gray-900 transition duration-300 ">
