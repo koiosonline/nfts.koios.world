@@ -7,8 +7,8 @@ export default async function handler(
   res: NextApiResponse<IResponseMessage>
 ) {
   if (req.method === "POST") {
-    const couponData = req.body.couponModel as ICouponModel;
-    const signature = req.body.data;
+    const couponData = req.body.data as ICouponModel;
+    const signature = req.body.signature;
     const message = req.body.saltHash;
     try {
       const resUpload = await fetch(
@@ -16,7 +16,7 @@ export default async function handler(
         {
           method: "POST",
           body: JSON.stringify({
-            coupon: couponData,
+            data: couponData,
             saltHash: message,
             signature: signature,
           }),
@@ -25,6 +25,7 @@ export default async function handler(
           },
         }
       );
+      console.log(resUpload);
       if (resUpload.status === 200) {
         const resJson: IResponseMessage = await resUpload.json();
         res.status(200).json(resJson);

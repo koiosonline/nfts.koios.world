@@ -62,6 +62,8 @@ const DynamicNFTPanel = () => {
           );
           const data: IERC721MetadataModel = await fetchMetadata.json();
           setMetadata(data);
+        } else {
+          setMetadata(null);
         }
 
         const response = await getSignature(user.address!);
@@ -146,7 +148,7 @@ const DynamicNFTPanel = () => {
           )}
         </div>
       </div>
-      <div className="h-full w-2/3 bg-brand-purple-heart"></div>
+      <div className="h-full w-2/3 rounded bg-gray-900"></div>
     </div>
   );
 };
