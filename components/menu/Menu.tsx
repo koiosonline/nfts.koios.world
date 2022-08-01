@@ -48,9 +48,9 @@ const Menu = () => {
   }, [account]);
 
   return (
-    <div className="absolute top-0 z-50 h-20 w-full bg-default-text/90 text-white-300">
+    <div className="text-white-300 container absolute top-0 z-50 mx-auto h-20 w-full bg-default-text/90">
       <div className="mx-auto flex h-full w-full justify-between p-5 md:p-0">
-        <div className="flex h-full w-1/4 items-center justify-center">
+        <div className="flex h-full items-center justify-center pt-10">
           <Image
             priority
             layout="fixed"
@@ -61,34 +61,35 @@ const Menu = () => {
             alt="Koios Logo"
           />
         </div>
-        <div className="hidden h-full w-3/4 justify-between lg:flex">
-          <div className=" flex h-full w-2/3 flex-col items-center justify-center ">
-            <ul className="flex items-center gap-12 font-heading uppercase">
+        <div className="hidden h-full w-3/4 justify-between xl:flex">
+          <div className=" flex h-full w-2/4 flex-col items-baseline justify-end">
+            <ul className="flex items-center gap-12 font-heading uppercase text-white">
               {links.map((link, index) => (
                 <Link href={link.path} key={index}>
-                  <li className="cursor-pointer transition duration-300 hover:text-gray-200 active:text-gray-100">
+                  <li className="cursor-pointer transition duration-300 ease-in-out hover:-translate-y-1  hover:text-gray-400 active:text-gray-100">
                     {link.title}
                   </li>
                 </Link>
               ))}
               {isWhitelisted && (
                 <Link href={`/upload/${account.address}`}>
-                  <li className="cursor-pointer transition duration-300 hover:text-gray-200 active:text-gray-100">
+                  <li className="cursor-pointer transition duration-300 ease-in-out hover:-translate-y-1 hover:text-gray-400 active:text-gray-100">
                     whitelisting
                   </li>
                 </Link>
               )}
             </ul>
           </div>
-          <div className="flex h-full w-1/3 items-center justify-center">
+          <div className="flex h-full w-2/4 items-end justify-end">
             <ConnectButton
               chainStatus={{
                 smallScreen: "icon",
-                largeScreen: "full",
+                largeScreen: "icon",
               }}
               accountStatus={{
                 smallScreen: "address",
-                largeScreen: "address",
+
+                largeScreen: "full",
               }}
               showBalance
             />

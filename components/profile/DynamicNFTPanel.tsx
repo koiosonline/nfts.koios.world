@@ -58,7 +58,7 @@ const DynamicNFTPanel = () => {
         if (contractRead.data?.toString() !== "0") {
           setMinted(true);
           const fetchMetadata = await fetch(
-            "http://localhost:8000/api/metadata/5.json"
+            "http://localhost:8000/api/metadata/erc721/5.json"
           );
           const data: IERC721MetadataModel = await fetchMetadata.json();
           setMetadata(data);

@@ -35,13 +35,13 @@ const CouponNotif = () => {
       <div className="fixed bottom-5 left-5 ">
         <div
           className="relative
-     flex h-24 w-60 flex-col justify-between gap-2 rounded bg-gray-900 p-2 text-center "
+     flex h-24 w-60 flex-col justify-between gap-2 rounded bg-zinc-800 p-2 text-center "
         >
           <div className="absolute -top-1 -right-1 flex h-4 w-4 items-end justify-end align-bottom ">
-            <span className="absolute h-4 w-4 animate-ping rounded-full bg-brand-blue-picton opacity-75"></span>
-            <span className="relative h-4 w-4 rounded-full bg-brand-blue-mint"></span>
+            <span className="absolute h-4 w-4 animate-ping rounded-full bg-pink-500 opacity-75"></span>
+            <span className="relative h-4 w-4 rounded-full bg-brand-rose-hot-pink"></span>
           </div>
-          <h1 className="animate-pulse bg-gradient-to-r from-brand-rose-hot-pink to-brand-purple-heart bg-clip-text font-heading text-xl text-transparent">
+          <h1 className="animate-pulse font-heading text-xl text-zinc-400">
             You&apos;ve got coupons!
           </h1>
           <Link href="/exchange">
