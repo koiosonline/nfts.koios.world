@@ -2,7 +2,9 @@ import IERC721MetadataModel from "@/models/IERC721MetadataModel";
 import create from "zustand";
 
 interface FilterState {
+  owned: boolean;
   filters: string[];
+  toggleOwned: () => void;
   addFilter: (filter: string) => void;
   removeFilter: (filter: string) => void;
 }
@@ -20,7 +22,9 @@ interface NFTState {
 }
 
 export const useFilterStore = create<FilterState>()((set) => ({
+  owned: false,
   filters: [],
+  toggleOwned: () => set((state) => ({ owned: !state.owned })),
   addFilter: (filter: string) =>
     set((state) => ({ filters: [...state.filters, filter] })),
   removeFilter: (filter: string) =>

@@ -8,6 +8,7 @@ import { generateProof } from "@/api/exchange/generateProof";
 import { IResponseMessage } from "@/models/IResponseMessage";
 import Spinner from "../util/Spinner";
 import MintERC1155 from "./MintERC1155";
+import SignatureCard from "./SignatureCard";
 
 const PurchaseModel = (item: IERC721MetadataModel) => {
   const closeModal = useModalStore((state) => state.closeModal);
@@ -93,7 +94,7 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
                 {!data && (
                   <button
                     onClick={() => signMessage()}
-                    className="flex h-10 w-1/2 items-center justify-center rounded bg-brand-rose-hot-pink font-heading uppercase"
+                    className="flex h-10 w-1/2 items-center justify-center rounded bg-brand-rose-hot-pink font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"
                   >
                     {isLoading ? (
                       <>
@@ -108,14 +109,14 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
                   <>
                     <button
                       onClick={() => retrieveProof()}
-                      className="h-10 w-1/2 rounded bg-brand-rose-hot-pink font-heading uppercase "
+                      className="h-10 w-1/2 rounded bg-brand-rose-hot-pink font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"
                     >
                       Generate Proof
                     </button>
-                    <p className=" text-center text-xs uppercase italic text-action-error">
-                      GENERATING A SIGNATURE WILL DEDUCT A COUPON! <br />
-                      When generated signature data will show. Save it if you
-                      want to be sure
+                    <p className=" text-center text-xs font-bold uppercase  text-action-error">
+                      **GENERATING A PROOF WILL DEDUCT A COUPON! <br />
+                      After generation you may save the data if anything goes
+                      wrong 😬
                     </p>
                   </>
                 )}
@@ -126,32 +127,11 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
                     {noCouponError}
                   </p>
                 )}
-                {proofHash && proofSignature && (
-                  <>
-                    <h1 className="text-center font-heading text-2xl uppercase text-white">
-                      Signature Data
-                    </h1>
-                    <h2 className="font-heading text-xl uppercase text-zinc-400">
-                      Token: {item.tokenId}
-                    </h2>
-                    <h2 className="font-heading text-xl uppercase text-zinc-400">
-                      Salt
-                    </h2>
-                    <textarea
-                      readOnly
-                      value={proofHash}
-                      className="h-10 w-full resize-none rounded p-2 text-center font-heading "
-                    ></textarea>
-                    <h2 className="font-heading text-xl uppercase text-zinc-400">
-                      Signature
-                    </h2>
-                    <textarea
-                      readOnly
-                      value={proofSignature}
-                      className="h-28 w-full resize-none rounded p-2 text-center font-heading"
-                    ></textarea>
-                  </>
-                )}
+                <SignatureCard
+                  proofHash={proofHash}
+                  proofSignature={proofSignature}
+                  tokenId={item.tokenId}
+                />
               </div>
               <div className="flex h-1/4 w-full flex-col items-center justify-center gap-2">
                 <MintERC1155

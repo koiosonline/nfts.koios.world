@@ -10,8 +10,7 @@ import { useAccount } from "wagmi";
 const Menu = () => {
   const links = [
     { title: "profile", path: "/" },
-    { title: "achievements", path: "/achievements" },
-    { title: "claim", path: "/claim" },
+    { title: "exchange", path: "/exchange" },
     { title: "evolve", path: "/evolve" },
   ];
 
@@ -62,7 +61,7 @@ const Menu = () => {
           />
         </div>
         <div className="hidden h-full w-3/4 justify-between xl:flex">
-          <div className=" flex h-full w-2/4 flex-col items-baseline justify-end">
+          <div className=" flex h-full w-2/4 flex-col items-end justify-end">
             <ul className="flex items-center gap-12 font-heading uppercase text-white">
               {links.map((link, index) => (
                 <Link href={link.path} key={index}>

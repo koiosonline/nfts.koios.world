@@ -5,7 +5,7 @@ import IERC721MetadataModel from "@/models/IERC721MetadataModel";
 import { useFilterStore, useModalStore, useNFTState } from "@/state/store";
 import { useAccount } from "wagmi";
 import { Network, initializeAlchemy, getNftsForOwner } from "@alch/alchemy-sdk";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const Exchange = ({ items }: any) => {
   const account = useAccount();
@@ -14,10 +14,9 @@ const Exchange = ({ items }: any) => {
   const modalItem = useModalStore((state) => state.item);
   const addAndRemove = useNFTState((state) => state.addAndRemove);
 
-  // Optional Config object, but defaults to demo api-key and eth-mainnet.
   const settings = {
-    apiKey: process.env.RPC_API_KEY, // Replace with your Alchemy API Key.
-    network: Network.MATIC_MUMBAI, // Replace with your network.
+    apiKey: process.env.RPC_API_KEY,
+    network: Network.MATIC_MUMBAI,
   };
 
   const alchemy = initializeAlchemy(settings);
@@ -33,31 +32,30 @@ const Exchange = ({ items }: any) => {
       );
       addAndRemove(tokenIds);
     };
-    fetchNfts();
+    if (account.address) {
+      fetchNfts();
+    }
   }, [account.address]);
 
-  if (!account.isConnected) {
-    <div
-      className={
-        "flex h-screen w-full items-center justify-center bg-default-text text-center font-heading text-8xl text-brand-rose-hot-pink"
-      }
-    >
-      Not Allowed
-    </div>;
+  if (!account.address) {
+    return (
+      <div
+        className={
+          "flex h-full w-full items-center justify-center bg-default-text text-center font-heading text-8xl text-brand-rose-hot-pink"
+        }
+      >
+        Please Login
+      </div>
+    );
   }
 
   return (
     <div className="container relative mx-auto flex flex-col items-center justify-center gap-5">
       {open && modalItem ? <PurchaseModel {...modalItem} /> : null}
-      {/* <div className="container -m-20 mx-auto mb-10 flex h-20 items-center justify-center rounded bg-gray-900 px-10">
-        <h1 className="bg-gradient-to-r from-brand-rose-hot-pink to-brand-purple-heart bg-clip-text text-center font-heading text-4xl text-transparent">
-          Welcome to da shop
-        </h1>
-      </div> */}
       <div className="container mx-auto flex h-[80vh]">
         <div className="container flex h-full w-[25%] flex-col rounded bg-zinc-900">
           <div className="container flex h-[10vh] items-center justify-center  border-r-2 border-b-2 border-zinc-800 border-opacity-40 bg-zinc-900">
-            <h1 className="bg-gradient-to-r from-brand-rose-hot-pink to-brand-purple-heart bg-clip-text text-center font-heading text-4xl text-transparent">
+            <h1 className="bg-gradient-to-r from-brand-rose-hot-pink to-brand-purple-heart bg-clip-text text-left font-heading text-4xl text-transparent">
               Exchange
             </h1>
           </div>
