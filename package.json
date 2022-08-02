@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@alch/alchemy-sdk": "^1.2.0",
     "@rainbow-me/rainbowkit": "^0.4.4",
     "body-scroll-lock": "^4.0.0-beta.0",
     "delicious-hamburgers": "^1.2.2",
