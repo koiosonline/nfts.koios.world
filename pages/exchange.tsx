@@ -5,7 +5,7 @@ import IERC721MetadataModel from "@/models/IERC721MetadataModel";
 import { useFilterStore, useModalStore, useNFTState } from "@/state/store";
 import { useAccount } from "wagmi";
 import { Network, initializeAlchemy, getNftsForOwner } from "@alch/alchemy-sdk";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Exchange = ({ items }: any) => {
   const account = useAccount();
@@ -13,6 +13,7 @@ const Exchange = ({ items }: any) => {
   const open = useModalStore((state) => state.open);
   const modalItem = useModalStore((state) => state.item);
   const addAndRemove = useNFTState((state) => state.addAndRemove);
+  const [userAddress, setUserAddress] = useState("");
 
   const settings = {
     apiKey: process.env.RPC_API_KEY,
@@ -22,8 +23,12 @@ const Exchange = ({ items }: any) => {
   const alchemy = initializeAlchemy(settings);
 
   useEffect(() => {
+    setUserAddress(account?.address!);
+  }, [account]);
+
+  useEffect(() => {
     const fetchNfts = async () => {
-      const nfts = await getNftsForOwner(alchemy, account?.address!, {
+      const nfts = await getNftsForOwner(alchemy, userAddress, {
         contractAddresses: ["0x5F94055977e06f4D424FA3b349144cAd924A7399"],
       });
 
@@ -32,12 +37,12 @@ const Exchange = ({ items }: any) => {
       );
       addAndRemove(tokenIds);
     };
-    if (account.address) {
+    if (userAddress) {
       fetchNfts();
     }
-  }, [account.address]);
+  }, [userAddress]);
 
-  if (!account.address) {
+  if (!userAddress) {
     return (
       <div
         className={

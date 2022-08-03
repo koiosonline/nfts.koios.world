@@ -5,14 +5,14 @@ import PurchaseCard from "./PuchaseCard";
 const ShopPanel = (items: IERC721MetadataModel[]) => {
   const filters = useFilterStore((state) => state.filters);
   const owned = useFilterStore((state) => state.owned);
-  const nfts = useNFTState((state) => state.nfts);
   const data = Object.values(items);
+  const nfts = useNFTState((state) => state.nfts);
 
-  if (owned && filters.length == 0) {
+  if (owned && filters.length == 0 && nfts) {
     return (
       <div className="container grid h-full grid-flow-row grid-cols-4 gap-5 overflow-y-scroll rounded bg-zinc-800 p-10">
         {data
-          .filter((x) => nfts?.includes(x.tokenId))
+          .filter((x) => nfts.includes(x.tokenId))
           .map((item: IERC721MetadataModel, index: number) => (
             <PurchaseCard {...item} key={index} />
           ))}
@@ -20,11 +20,11 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
     );
   }
 
-  if (owned && filters.length > 0) {
+  if (owned && filters.length > 0 && nfts) {
     return (
       <div className="container grid h-full grid-flow-row grid-cols-4 gap-5 overflow-y-scroll rounded bg-zinc-800 p-10">
         {data
-          .filter((x) => nfts?.includes(x.tokenId))
+          .filter((x) => nfts.includes(x.tokenId))
           .filter((x) => filters.includes(x.attributes[0].trait_type))
           .map((item: IERC721MetadataModel, index: number) => (
             <PurchaseCard {...item} key={index} />
