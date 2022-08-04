@@ -6,6 +6,7 @@ import { useFilterStore, useModalStore, useNFTState } from "@/state/store";
 import { useAccount } from "wagmi";
 import { Network, initializeAlchemy, getNftsForOwner } from "@alch/alchemy-sdk";
 import { useEffect, useState } from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const Exchange = ({ items }: any) => {
   const account = useAccount();
@@ -14,6 +15,7 @@ const Exchange = ({ items }: any) => {
   const modalItem = useModalStore((state) => state.item);
   const addAndRemove = useNFTState((state) => state.addAndRemove);
   const [userAddress, setUserAddress] = useState("");
+  const [parent] = useAutoAnimate<HTMLDivElement>();
 
   const settings = {
     apiKey: process.env.RPC_API_KEY,
@@ -67,7 +69,10 @@ const Exchange = ({ items }: any) => {
           <FilterPanel {...items} />
         </div>
         <div className="container flex w-[75%] flex-col">
-          <div className="container flex h-[10vh] items-center gap-5 bg-zinc-900 p-10">
+          <div
+            ref={parent}
+            className="container flex h-[10vh] items-center gap-5 bg-zinc-900 p-10"
+          >
             {filters.map((item: any, index: number) => (
               <div
                 key={index}

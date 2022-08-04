@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@alch/alchemy-sdk": "^1.2.0",
+    "@formkit/auto-animate": "^1.0.0-beta.1",
     "@rainbow-me/rainbowkit": "^0.4.4",
     "body-scroll-lock": "^4.0.0-beta.0",
     "delicious-hamburgers": "^1.2.2",
@@ -38,5 +39,10 @@
     "prettier-plugin-tailwindcss": "^0.1.11",
     "tailwindcss": "^3.1.4",
     "typescript": "4.7.4"
+  },
+  "overrides": {
+    "@formkit/auto-animate": {
+      "react": "18.2.0"
+    }
   }
 }

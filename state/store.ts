@@ -3,8 +3,10 @@ import create from "zustand";
 
 interface FilterState {
   owned: boolean;
+  unowned: boolean;
   filters: string[];
   toggleOwned: () => void;
+  toggleUnOwned: () => void;
   addFilter: (filter: string) => void;
   removeFilter: (filter: string) => void;
 }
@@ -23,8 +25,10 @@ interface NFTState {
 
 export const useFilterStore = create<FilterState>()((set) => ({
   owned: false,
+  unowned: false,
   filters: [],
   toggleOwned: () => set((state) => ({ owned: !state.owned })),
+  toggleUnOwned: () => set((state) => ({ unowned: !state.unowned })),
   addFilter: (filter: string) =>
     set((state) => ({ filters: [...state.filters, filter] })),
   removeFilter: (filter: string) =>
