@@ -54,7 +54,7 @@ export async function getServerSideProps(context: any) {
   const { address } = context.query;
 
   const res = await fetch(
-    `${process.env.LOCAL_URL}/api/findAddress?address=${address}`
+    `${process.env.API_URL}/api/whitelist/findAddress/${address}`
   );
 
   const data: IResponseMessage = await res.json();
