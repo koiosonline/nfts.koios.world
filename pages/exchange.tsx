@@ -4,7 +4,8 @@ import ShopPanel from "@/components/exchange/ShopPanel";
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
 import { useFilterStore, useModalStore, useNFTState } from "@/state/store";
 import { useAccount } from "wagmi";
-import { Network, initializeAlchemy, getNftsForOwner } from "@alch/alchemy-sdk";
+import { getNftsForOwner } from "@alch/alchemy-sdk";
+import { alchemyAPI } from "@/api/alchemy/alchemyAPI";
 import { useEffect, useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
@@ -17,21 +18,14 @@ const Exchange = ({ items }: any) => {
   const [userAddress, setUserAddress] = useState("");
   const [parent] = useAutoAnimate<HTMLDivElement>();
 
-  const settings = {
-    apiKey: process.env.RPC_API_KEY,
-    network: Network.MATIC_MUMBAI,
-  };
-
-  const alchemy = initializeAlchemy(settings);
-
   useEffect(() => {
     setUserAddress(account?.address!);
   }, [account]);
 
   useEffect(() => {
     const fetchNfts = async () => {
-      const nfts = await getNftsForOwner(alchemy, userAddress, {
-        contractAddresses: ["0x5F94055977e06f4D424FA3b349144cAd924A7399"],
+      const nfts = await getNftsForOwner(alchemyAPI(), userAddress, {
+        contractAddresses: [process.env.ERC1155_CONTRACT_ADDRESS!],
       });
 
       const tokenIds: number[] = nfts.ownedNfts.map((nft: any) =>

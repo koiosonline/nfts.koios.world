@@ -11,6 +11,7 @@ import Spinner from "../util/Spinner";
 import { MumbaiERC721Config } from "@/data/MumbaiERC721Config";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
+import { getUserDynamicNFT } from "@/api/alchemy/getUserDynamicNFT";
 
 const DynamicNFTPanel = () => {
   const user = useAccount();
@@ -57,10 +58,9 @@ const DynamicNFTPanel = () => {
 
         if (contractRead.data?.toString() !== "0") {
           setMinted(true);
-          const fetchMetadata = await fetch(
-            "http://localhost:8000/api/metadata/erc721/5.json"
-          );
-          const data: IERC721MetadataModel = await fetchMetadata.json();
+          const nfts = await getUserDynamicNFT(user.address!);
+          const data: IERC721MetadataModel = nfts[0].rawMetadata;
+
           setMetadata(data);
         } else {
           setMetadata(null);
@@ -77,7 +77,7 @@ const DynamicNFTPanel = () => {
       }
     };
     fetchMinted();
-  }, [user, txSuccess]);
+  }, [user.address, txSuccess]);
 
   useEffect(() => {
     if (txLoading) {
