@@ -12,6 +12,7 @@ import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import Menu from "@/components/menu/Menu";
 import CouponNotif from "@/components/coupon/CouponNotif";
+import Head from "next/head";
 
 const { chains, provider } = configureChains(
   [chain.polygon, chain.polygonMumbai],
@@ -49,9 +50,14 @@ const App = ({ Component, pageProps }: AppProps) => {
         appInfo={AppInfo}
         chains={chains}
       >
+        <Head>
+          <title>KOIOS NFT App</title>
+          <meta name="description" content="Created by PauwCrypto" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
         <main
           className={
-            "relative flex  h-screen w-full flex-col items-center justify-center bg-default-text "
+            "relative flex min-h-screen w-full flex-col items-center justify-center bg-default-text "
           }
         >
           <Menu />

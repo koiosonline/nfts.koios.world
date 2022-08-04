@@ -5,9 +5,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<IResponseMessage>
 ) {
-  const resData = await fetch(
-    `${process.env.API_URL}/api/coupon/getCoupons/${req.query.address}`
-  );
-  const resJson: IResponseMessage = await resData.json();
-  res.status(200).json(resJson);
+  try {
+    const resData = await fetch(
+      `${process.env.API_URL}/api/coupon/getCoupons/${req.query.address}`
+    );
+
+    const resJson: IResponseMessage = await resData.json();
+    return res.status(200).json(resJson);
+  } catch (e) {
+    return res.status(200).json({
+      success: true,
+      message: "No coupons found",
+      data: [],
+    });
+  }
 }

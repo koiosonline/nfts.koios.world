@@ -99,13 +99,13 @@ const DynamicNFTPanel = () => {
   };
 
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-5 py-12 px-4 text-brand-purple-portage sm:px-6 lg:px-8">
-      <div className="z-10 flex min-h-[450px] w-full flex-col gap-5 rounded-xl bg-gray-900 p-10 sm:max-w-lg lg:min-w-[550px]">
+    <div className="flex w-full flex-col items-center justify-center gap-5 py-12 px-4 text-zinc-400 sm:px-6 lg:px-8">
+      <div className="z-10 flex min-h-[450px] w-full flex-col gap-5 rounded-xl bg-zinc-800 p-10 sm:max-w-lg lg:min-w-[550px]">
         {success && (
           <div className="flex flex-col items-center justify-center gap-4 text-xl text-action-valid">
             Successfully Uploaded 🎉
             <button
-              className="flex w-48 items-center justify-center rounded bg-brand-purple-heart px-6 py-2.5 text-center text-lg uppercase leading-tight text-default-text shadow-md transition duration-300 hover:bg-brand-purple-heliotrope"
+              className="flex w-48 items-center justify-center rounded bg-brand-rose-hot-pink px-6 py-2.5 text-center text-lg uppercase leading-tight text-default-text shadow-md transition duration-300 hover:bg-brand-purple-heliotrope"
               type="button"
               onClick={() => {
                 setSuccess(!success);
@@ -181,7 +181,7 @@ const DynamicNFTPanel = () => {
               <button
                 onClick={() => upload()}
                 className={`
-                WS my-5 flex w-full cursor-pointer justify-center rounded bg-brand-purple-heart p-4 text-lg text-default-text transition duration-300 hover:bg-brand-purple-portage`}
+                WS my-5 flex w-full cursor-pointer justify-center rounded bg-brand-rose-hot-pink p-4 text-lg text-default-text transition duration-300 hover:bg-brand-purple-portage`}
               >
                 Upload
               </button>

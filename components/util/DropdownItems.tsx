@@ -1,9 +1,9 @@
 const DropdownItems = ({ items, handleItemChange }: any) => {
   return (
-    <ul className="absolute z-50 mt-1 w-full cursor-pointer list-none rounded-lg border-none bg-white-300 bg-clip-padding py-2 text-left text-base shadow-lg">
+    <ul className="absolute z-50 mt-1 w-full cursor-pointer list-none rounded-lg border-none bg-zinc-300 bg-clip-padding py-2 text-left text-base shadow-lg">
       {items.map((item: any, index: number) => (
         <li
-          className="bg-transparent block w-full whitespace-nowrap py-2 px-4 text-sm font-normal text-gray-700 hover:bg-gray-100"
+          className="block w-full whitespace-nowrap bg-transparent py-2 px-4 text-sm font-normal text-gray-700 hover:bg-gray-100"
           key={index}
           onClick={() => handleItemChange(index)}
         >
