@@ -57,7 +57,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         </Head>
         <main
           className={
-            "relative flex min-h-screen w-full flex-col items-center justify-center bg-default-text p-10 pt-20 xl:p-44"
+            "relative flex min-h-screen w-full flex-col items-center justify-center bg-default-text "
           }
         >
           <Menu />

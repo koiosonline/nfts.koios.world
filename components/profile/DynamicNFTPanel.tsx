@@ -98,7 +98,7 @@ const DynamicNFTPanel = () => {
 
   return (
     <div className="flex h-[70vh] w-full justify-between gap-5 p-10">
-      <div className="flex h-full min-h-full w-1/3 flex-col gap-5 rounded bg-gray-900 p-5">
+      <div className="flex h-full min-h-full w-1/3 flex-col gap-5 rounded bg-zinc-800 p-5">
         <h1 className="h-1/6 font-heading text-xl uppercase text-gray-200">
           {minted ? "You have minted a NFT" : "You have not minted a NFT"}
         </h1>
@@ -148,7 +148,7 @@ const DynamicNFTPanel = () => {
           )}
         </div>
       </div>
-      <div className="h-full w-2/3 rounded bg-gray-900"></div>
+      <div className="h-full w-2/3 rounded bg-zinc-800"></div>
     </div>
   );
 };

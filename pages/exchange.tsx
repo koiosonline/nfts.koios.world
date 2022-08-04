@@ -57,7 +57,7 @@ const Exchange = ({ items }: any) => {
   }
 
   return (
-    <div className="container relative mx-auto flex flex-col items-center justify-center gap-5">
+    <div className="container relative mx-auto flex flex-col items-center justify-center gap-5 pt-20">
       {open && modalItem ? <PurchaseModel {...modalItem} /> : null}
       <div className="container mx-auto flex h-[80vh]">
         <div className="container flex h-full w-[25%] flex-col rounded bg-zinc-900">
