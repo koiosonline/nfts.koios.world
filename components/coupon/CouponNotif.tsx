@@ -28,7 +28,7 @@ const CouponNotif = () => {
       }
     };
     fetchCoupons();
-  }, [account]);
+  }, [account, userAddress]);
 
   if (coupons) {
     return (

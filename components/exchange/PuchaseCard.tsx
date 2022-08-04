@@ -26,13 +26,13 @@ const PurchaseCard = (item: IERC721MetadataModel) => {
         </h2>{" "}
       </div>
       <div className="bottom-2 h-[70%] w-full ">
-        <div className="flex h-full">
+        <div className="flex h-full text-center font-heading text-zinc-400">
           <img
             width={100}
             height={100}
             className="w-full rounded object-cover"
             src={item.image}
-            alt="Unminted NFT"
+            alt={`${item.attributes[0].value} Image`}
           />
         </div>
       </div>

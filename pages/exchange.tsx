@@ -4,10 +4,9 @@ import ShopPanel from "@/components/exchange/ShopPanel";
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
 import { useFilterStore, useModalStore, useNFTState } from "@/state/store";
 import { useAccount } from "wagmi";
-import { getNftsForOwner } from "@alch/alchemy-sdk";
-import { alchemyAPI } from "@/api/alchemy/alchemyAPI";
 import { useEffect, useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { getUserLayerNFTs } from "@/api/alchemy/getUserLayerNFTs";
 
 const Exchange = ({ items }: any) => {
   const account = useAccount();
@@ -24,19 +23,14 @@ const Exchange = ({ items }: any) => {
 
   useEffect(() => {
     const fetchNfts = async () => {
-      const nfts = await getNftsForOwner(alchemyAPI(), userAddress, {
-        contractAddresses: [process.env.ERC1155_CONTRACT_ADDRESS!],
-      });
-
-      const tokenIds: number[] = nfts.ownedNfts.map((nft: any) =>
-        parseInt(nft.tokenId)
-      );
+      const nfts = await getUserLayerNFTs(userAddress);
+      const tokenIds: number[] = nfts.map((nft: any) => parseInt(nft.tokenId));
       addAndRemove(tokenIds);
     };
     if (userAddress) {
       fetchNfts();
     }
-  }, [userAddress]);
+  }, [userAddress, addAndRemove]);
 
   if (!userAddress) {
     return (

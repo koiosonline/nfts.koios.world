@@ -77,7 +77,7 @@ const DynamicNFTPanel = () => {
       }
     };
     fetchMinted();
-  }, [user.address, txSuccess]);
+  }, [user.address, txSuccess, contractRead.data, user.isConnected]);
 
   useEffect(() => {
     if (txLoading) {
@@ -86,7 +86,7 @@ const DynamicNFTPanel = () => {
         description: "Minting Dynamic NFT",
       });
     }
-  }, [txStatus]);
+  }, [txStatus, addRecentTransaction, mintData?.hash, txLoading]);
 
   const mintNFT = async () => {
     if (user.isConnected && canMint) {

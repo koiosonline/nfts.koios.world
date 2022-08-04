@@ -84,7 +84,7 @@ const FilterPanel = (items: IERC721MetadataModel[]) => {
                   ? `/nfts/${item.attributes[0].trait_type}_checked.png`
                   : `/nfts/${item.attributes[0].trait_type}_unchecked.png`
               }
-              alt="Unminted NFT"
+              alt={`${item.attributes[0].trait_type} Image`}
             />
           </div>
           <div className="flex w-3/4 flex-col">
