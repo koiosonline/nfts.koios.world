@@ -18,6 +18,7 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
   const [proofSignature, setProofSignature] = useState<string>("");
   const [proofHash, setProofHash] = useState<string>("");
   const [noCouponError, setNoCouponError] = useState<string>("");
+  const [acceptance, setAcceptance] = useState<boolean>(false);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -105,19 +106,38 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
                     )}
                   </button>
                 )}
-                {data && (
+
+                {data && acceptance && (
+                  <button
+                    onClick={() => retrieveProof()}
+                    className="h-10 w-1/2 rounded bg-brand-rose-hot-pink font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"
+                  >
+                    Generate Proof
+                  </button>
+                )}
+                {data && !acceptance && (
                   <>
-                    <button
-                      onClick={() => retrieveProof()}
-                      className="h-10 w-1/2 rounded bg-brand-rose-hot-pink font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"
-                    >
-                      Generate Proof
-                    </button>
-                    <p className=" text-center text-xs font-bold uppercase  text-action-error">
-                      **GENERATING A PROOF WILL DEDUCT A COUPON! <br />
-                      After generation you may save the data if anything goes
-                      wrong 😬
-                    </p>
+                    <div className="flex flex-col items-center justify-center gap-2 rounded bg-orange-600/20 p-3 text-center">
+                      <h1 className="font-heading text-xl uppercase text-action-warning ">
+                        Warning
+                      </h1>
+                      <p className=" text-center text-xs font-bold uppercase text-action-warning">
+                        GENERATING A PROOF WILL DEDUCT A COUPON! <br />
+                        After generation you may save the data if anything goes
+                        wrong 😬
+                      </p>
+                      <button
+                        onClick={() => setAcceptance(!acceptance)}
+                        className="h-10 w-1/2 rounded bg-orange-400 font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"
+                      >
+                        I Understand
+                      </button>
+                      <p className=" text-center text-[10px] italic text-action-warning">
+                        Proof is the signature, hash and tokenID that gets sent
+                        to the smart contract in order to verify your ability to
+                        mint
+                      </p>
+                    </div>
                   </>
                 )}
               </div>
