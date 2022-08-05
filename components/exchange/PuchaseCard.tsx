@@ -15,6 +15,23 @@ const PurchaseCard = (item: IERC721MetadataModel) => {
     }
   };
 
+  if (nfts && nfts.length === 0) {
+    return (
+      <div className="group container flex max-h-[300px] min-h-[300px] animate-pulse flex-col rounded bg-zinc-900 p-1 shadow transition duration-300 ease-in-out hover:-translate-y-1">
+        <div className="mt-2 flex h-[15%]  w-full flex-col items-center justify-center gap-2 rounded p-2">
+          <div className="h-1/2 w-full rounded bg-zinc-800"></div>
+          <div className="h-1/2 w-full rounded bg-zinc-800"></div>
+        </div>
+        <div className="bottom-2 h-[70%] w-full rounded p-2">
+          <div className="flex h-full rounded bg-zinc-700 text-center font-heading"></div>
+        </div>
+        <div className=" flex  h-[15%] w-full animate-pulse items-center justify-center rounded bg-zinc-700 p-2  transition duration-300">
+          <div className=" h-full w-full rounded bg-zinc-800"></div>{" "}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="group container flex max-h-[300px] min-h-[300px] flex-col rounded bg-zinc-900 p-1 shadow transition duration-300 ease-in-out hover:-translate-y-1">
       <div className="mt-2 flex h-[15%]  w-full flex-col items-center justify-center rounded">
