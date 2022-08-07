@@ -12,6 +12,7 @@ import { MumbaiERC721Config } from "@/data/MumbaiERC721Config";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
 import { getUserDynamicNFT } from "@/api/alchemy/getUserDynamicNFT";
+import { getDynamicNFTMetadata } from "@/api/profile/getDynamicNFTMetadata";
 
 const DynamicNFTPanel = () => {
   const user = useAccount();
@@ -59,9 +60,10 @@ const DynamicNFTPanel = () => {
         if (contractRead.data?.toString() !== "0") {
           setMinted(true);
           const nfts = await getUserDynamicNFT(user.address!);
-          const data: IERC721MetadataModel = nfts[0].rawMetadata;
+          const nftMetadata = await getDynamicNFTMetadata(nfts[0].tokenId);
+          const json: IERC721MetadataModel = await nftMetadata.json();
 
-          setMetadata(data);
+          setMetadata(json);
         } else {
           setMetadata(null);
         }
@@ -97,10 +99,10 @@ const DynamicNFTPanel = () => {
   };
 
   return (
-    <div className="flex h-[70vh] w-full justify-between gap-5 p-10">
-      <div className="flex h-full min-h-full w-1/3 flex-col gap-5 rounded bg-zinc-800 p-5">
-        <h1 className="h-1/6 font-heading text-xl uppercase text-gray-200">
-          {minted ? "You have minted a NFT" : "You have not minted a NFT"}
+    <div className="flex h-full w-full flex-col justify-between gap-5 pt-20 md:h-[70vh] md:flex-row md:items-center md:p-10">
+      <div className="flex h-5/6 w-full flex-col gap-5 rounded bg-zinc-800 p-5 md:h-full md:min-h-full md:w-1/3">
+        <h1 className="h-1/6 font-heading text-2xl uppercase text-gray-200">
+          {minted ? metadata?.name : "You have not minted a NFT"}
         </h1>
         <div className="relative flex h-5/6 w-full items-center justify-center rounded">
           {!minted && !metadata ? (
@@ -148,7 +150,39 @@ const DynamicNFTPanel = () => {
           )}
         </div>
       </div>
-      <div className="h-full w-2/3 rounded bg-zinc-800"></div>
+      <div className="flex h-5/6 w-full flex-col gap-5 rounded bg-zinc-800 p-8 md:h-full md:w-2/3">
+        <div className="flex h-[10%] w-full text-left">
+          <h1 className="font-heading text-2xl uppercase text-zinc-400 md:text-4xl">
+            {metadata?.name}
+          </h1>
+        </div>
+        <div className="flex max-h-[200px] w-full flex-col justify-between overflow-y-scroll text-left text-sm md:h-[30%] md:text-base lg:text-lg">
+          <p className="font-base italic text-zinc-400">
+            {metadata?.description}
+          </p>
+        </div>
+        <div className="flex h-[60%] w-full flex-col gap-2">
+          <div className="h-1/6 w-full text-left">
+            <h1 className="font-heading text-xl uppercase text-zinc-400">
+              Attributes
+            </h1>
+          </div>
+          <div className="grid h-5/6 w-full grid-flow-row grid-cols-2 gap-2 md:grid-flow-row md:grid-rows-3 lg:grid-cols-3 xl:grid-cols-4">
+            {metadata?.attributes.map((attribute, index) => (
+              <div
+                className="flex h-full w-full flex-col items-center justify-between rounded border-[1px] border-brand-rose-hot-pink bg-brand-rose-hot-pink/10 p-3 "
+                key={index}
+              >
+                <h1 className="font-heading text-lg uppercase">
+                  {attribute.trait_type}
+                </h1>
+                <h1 className="font-base text-base">{attribute.value}</h1>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="h-[10vh]"></div>
     </div>
   );
 };
