@@ -54,18 +54,26 @@ const DynamicNFTPanel = () => {
   useEffect(() => {
     const fetchMinted = async () => {
       if (user.isConnected) {
-        if (contractRead.data && contractRead.data.toString() === "0")
+        if (contractRead.data && parseInt(contractRead.data.toString()) === 0) {
           setMinted(false);
+          setMetadata({
+            tokenId: 0,
+            name: "none",
+            image: "none",
+            description: "none",
+            external_url: "none",
+            attributes: [],
+          });
+        }
 
-        if (contractRead.data?.toString() !== "0") {
+        if (contractRead.data && parseInt(contractRead.data.toString()) !== 0) {
           setMinted(true);
           const nfts = await getUserDynamicNFT(user.address!);
+
           const nftMetadata = await getDynamicNFTMetadata(nfts[0].tokenId);
           const json: IERC721MetadataModel = await nftMetadata.json();
 
           setMetadata(json);
-        } else {
-          setMetadata(null);
         }
 
         const response = await getSignature(user.address!);

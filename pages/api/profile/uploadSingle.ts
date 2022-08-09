@@ -7,12 +7,12 @@ export default async function handler(
   res: NextApiResponse<IResponseMessage>
 ) {
   if (req.method === "POST") {
-    const whitelistData = req.body.whitelistModels as IWhitelistModel[];
-    const signature = req.body.data;
+    const whitelistData = req.body.data as IWhitelistModel;
+    const signature = req.body.signature;
     const message = req.body.saltHash;
     try {
       const resUpload = await fetch(
-        `${process.env.API_URL}/api/whitelist/uploadMultiple`,
+        `${process.env.API_URL}/api/dynamicNFT/uploadSingle`,
         {
           method: "POST",
           body: JSON.stringify({

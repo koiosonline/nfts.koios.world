@@ -7,12 +7,12 @@ import SwitchButton from "./SwitchButton";
 import FormInputText from "@/components/util/FormInputText";
 import ErrorMessage from "@/components/util/ErrorMessage";
 import { IResponseMessage } from "@/models/IResponseMessage";
-import { uploadSingleCoupon } from "api/uploadSingleCoupon";
+import { uploadSingleCoupon } from "api/upload/uploadSingleCoupon";
 import ICouponModel from "@/models/ICouponModel";
 import {
   couponsFromFile,
   uploadMultipleCoupons,
-} from "api/uploadMultipleCoupons";
+} from "api/upload/uploadMultipleCoupons";
 import IUploadModel from "@/models/IUploadModel";
 
 const CouponPanel = () => {

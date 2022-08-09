@@ -35,7 +35,7 @@ const Menu = () => {
     if (account) {
       const fetchData = async () => {
         const response = await fetch(
-          `/api/findAddress?address=${account.address}`
+          `/api/whitelist/findAddress?address=${account.address}`
         );
         if (response.status === 200) {
           const data = await response.json();

@@ -9,11 +9,11 @@ import ErrorMessage from "@/components/util/ErrorMessage";
 import { IResponseMessage } from "@/models/IResponseMessage";
 import IUploadModel from "@/models/IUploadModel";
 import IWhitelistModel from "@/models/IWhitelistModel";
-import { uploadSingleAddress } from "@/api/uploadSingleAddress";
+import { uploadSingleAddress } from "@/api/upload/uploadSingleAddress";
 import {
   addressesFromFile,
   uploadMultipleAddresses,
-} from "@/api/uploadMultipleAddresses";
+} from "@/api/upload/uploadMultipleAddresses";
 import DropdownButton from "../util/DropdownButton";
 import DropdownItems from "../util/DropdownItems";
 

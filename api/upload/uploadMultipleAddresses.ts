@@ -6,7 +6,7 @@ export const uploadMultipleAddresses = async (
   saltHash: string,
   data: string
 ) => {
-  const res = await fetch(`/api/whitelist/uploadMultiple`, {
+  const res = await fetch(`/api/profile/uploadMultiple`, {
     method: "POST",
     body: JSON.stringify({
       whitelistModels,
