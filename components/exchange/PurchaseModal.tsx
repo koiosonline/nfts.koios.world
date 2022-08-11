@@ -9,6 +9,7 @@ import { IResponseMessage } from "@/models/IResponseMessage";
 import Spinner from "../util/Spinner";
 import MintERC1155 from "./MintERC1155";
 import SignatureCard from "./SignatureCard";
+import { motion } from "framer-motion";
 
 const PurchaseModel = (item: IERC721MetadataModel) => {
   const closeModal = useModalStore((state) => state.closeModal);
@@ -53,13 +54,17 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
         setNoCouponError(proofData.message);
       } else {
         setProofResponse(proofData);
-        console.log(proofData);
       }
     }
   };
 
   return (
-    <div className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-default-text/30 p-20 backdrop-blur">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-default-text/30 p-20 backdrop-blur"
+    >
       <div className="flex h-full w-3/4 flex-col rounded">
         <div className="flex h-1/6 w-full justify-between rounded-t bg-zinc-700 p-10">
           <div className=" flex flex-col font-heading uppercase text-white">
@@ -164,7 +169,7 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 export default PurchaseModel;

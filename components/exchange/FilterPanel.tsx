@@ -78,7 +78,7 @@ const FilterPanel = (items: IERC721MetadataModel[]) => {
               priority
               width={1050}
               height={1050}
-              className="h-full w-full rounded object-cover"
+              className="h-full w-full rounded object-cover transition duration-300 ease-in-out"
               src={
                 filters.includes(item.attributes[0].trait_type)
                   ? `/nfts/${item.attributes[0].trait_type}_checked.png`

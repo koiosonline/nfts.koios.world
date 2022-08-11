@@ -1,53 +1,58 @@
+import { ethers } from "ethers";
 import type { NextApiRequest, NextApiResponse } from "next";
+import IAchievementModel from "@/models/IAchievementModel";
 import { IResponseMessage } from "@/models/IResponseMessage";
-import IWhitelistModel from "@/models/IWhitelistModel";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<IResponseMessage>
 ) {
   if (req.method === "POST") {
-    const whitelistData = req.body.data as IWhitelistModel;
-    const signature = req.body.signature;
+    const achievementData = req.body.achievementItem as IAchievementModel;
+    const signature = req.body.data;
     const message = req.body.saltHash;
-    try {
-      const resUpload = await fetch(
-        `${process.env.API_URL}/api/whitelist/uploadSingle`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            data: whitelistData,
-            saltHash: message,
-            signature: signature,
-          }),
-          headers: {
-            "content-type": "application/json",
-          },
-        }
-      );
-      if (resUpload.status === 200) {
-        const resJson: IResponseMessage = await resUpload.json();
-        res.status(200).json(resJson);
+    const address = ethers.utils.verifyMessage(message, signature);
+
+    const resData = await fetch(
+      `${process.env.API_URL}/api/achievement/findAddress/${address}`
+    );
+    const resJson = await resData.json();
+    if (resJson.success) {
+      try {
+        const resUpload = await fetch(
+          `${process.env.API_URL}/api/achievement/uploadSingle`,
+          {
+            method: "POST",
+            body: JSON.stringify(achievementData),
+            headers: {
+              "content-type": "application/json",
+            },
+          }
+        );
+        const uploadRes: IResponseMessage = await resUpload.json();
+        res.status(200).json(uploadRes);
+        return;
+      } catch (e) {
+        console.log(e);
+        res.status(500).json({
+          success: false,
+          error: true,
+          message: "500: Internal Server Error",
+        });
         return;
       }
-      if (resUpload.status === 401) {
-        const resJson: IResponseMessage = await resUpload.json();
-        res.status(401).json(resJson);
-        return;
-      }
-    } catch (e) {
-      console.log(e);
-      res.status(500).json({
+    } else {
+      res.status(401).json({
         success: false,
         error: true,
-        message: "500: Internal Server Error",
+        message: "Unauthorized for upload!",
       });
       return;
     }
-  } else {
-    res
-      .status(405)
-      .json({ success: false, error: true, message: "Method not allowed!" });
-    return;
   }
+
+  res
+    .status(405)
+    .json({ success: false, error: true, message: "Method not allowed!" });
+  return;
 }

@@ -1,7 +1,7 @@
 import IUploadModel from "@/models/IUploadModel";
 
 export const uploadSingleAddress = async (uploadModel: IUploadModel) => {
-  const res = await fetch(`/api/whitelist/uploadSingle`, {
+  const res = await fetch(`/api/profile/uploadSingle`, {
     method: "POST",
     body: JSON.stringify(uploadModel),
     headers: {
