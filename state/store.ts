@@ -1,6 +1,15 @@
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
+import ILayerOrderModel from "@/models/ILayerOrderModel";
 import create from "zustand";
 
+interface EvolveState {
+  titan: ILayerOrderModel;
+  addSkin: (skin: number) => void;
+  addClothing: (clothing: number) => void;
+  addHair: (hair: number) => void;
+  addHead: (head: number) => void;
+  addItem: (item: number) => void;
+}
 interface FilterState {
   owned: boolean;
   unowned: boolean;
@@ -22,6 +31,20 @@ interface NFTState {
   nfts: any[] | null;
   addAndRemove: (nfts: any) => void;
 }
+
+export const useEvolveStore = create<EvolveState>((set, get) => ({
+  titan: {} as ILayerOrderModel,
+  addSkin: (skin: number) =>
+    set((state) => ({ titan: { ...state.titan, skin } })),
+  addClothing: (clothing: number) =>
+    set((state) => ({ titan: { ...state.titan, clothing } })),
+  addHair: (hair: number) =>
+    set((state) => ({ titan: { ...state.titan, hair } })),
+  addHead: (head: number) =>
+    set((state) => ({ titan: { ...state.titan, head } })),
+  addItem: (item: number) =>
+    set((state) => ({ titan: { ...state.titan, item } })),
+}));
 
 export const useFilterStore = create<FilterState>()((set) => ({
   owned: false,
