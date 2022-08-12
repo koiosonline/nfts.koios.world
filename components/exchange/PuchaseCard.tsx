@@ -16,14 +16,6 @@ const PurchaseCard = (item: IERC721MetadataModel) => {
     }
   };
 
-  const handleAddition = (layer: IERC721MetadataModel) => {
-    switch (layer.attributes[0].trait_type) {
-      case "Clothing":
-        addClothing(layer.tokenId);
-        break;
-    }
-  };
-
   if (nfts && nfts.length === 0) {
     return (
       <div className="group container flex max-h-[300px] min-h-[300px] animate-pulse flex-col rounded bg-zinc-900 p-1 shadow transition duration-300 ease-in-out hover:-translate-y-1">
@@ -44,10 +36,7 @@ const PurchaseCard = (item: IERC721MetadataModel) => {
   return (
     <div className="group container flex max-h-[300px] min-h-[300px] flex-col rounded bg-zinc-900 p-1 shadow transition duration-300 ease-in-out hover:-translate-y-1">
       <div className="mt-2 flex h-[15%]  w-full flex-col items-center justify-center rounded">
-        <h1
-          onClick={() => handleAddition(item)}
-          className="text-center font-heading text-xl uppercase text-white transition duration-300 group-hover:text-brand-rose-hot-pink"
-        >
+        <h1 className="text-center font-heading text-xl uppercase text-white transition duration-300 group-hover:text-brand-rose-hot-pink">
           {item.attributes[0].value}
         </h1>{" "}
         <h2 className="text-center font-heading text-sm uppercase text-zinc-400 transition duration-300 group-hover:text-brand-rose-lavender">

@@ -4,11 +4,13 @@ import create from "zustand";
 
 interface EvolveState {
   titan: ILayerOrderModel;
+  ownedLayers: IERC721MetadataModel[];
   addSkin: (skin: number) => void;
   addClothing: (clothing: number) => void;
   addHair: (hair: number) => void;
   addHead: (head: number) => void;
   addItem: (item: number) => void;
+  setOwnedLayers: (layers: IERC721MetadataModel[]) => void;
 }
 interface FilterState {
   owned: boolean;
@@ -34,6 +36,7 @@ interface NFTState {
 
 export const useEvolveStore = create<EvolveState>((set, get) => ({
   titan: {} as ILayerOrderModel,
+  ownedLayers: [],
   addSkin: (skin: number) =>
     set((state) => ({ titan: { ...state.titan, skin } })),
   addClothing: (clothing: number) =>
@@ -44,6 +47,8 @@ export const useEvolveStore = create<EvolveState>((set, get) => ({
     set((state) => ({ titan: { ...state.titan, head } })),
   addItem: (item: number) =>
     set((state) => ({ titan: { ...state.titan, item } })),
+  setOwnedLayers: (layers: IERC721MetadataModel[]) =>
+    set((state) => ({ ownedLayers: layers })),
 }));
 
 export const useFilterStore = create<FilterState>()((set) => ({
