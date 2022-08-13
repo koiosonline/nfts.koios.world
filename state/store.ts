@@ -5,6 +5,12 @@ interface EvolveState {
   titan: Map<string, number>;
   ownedLayers: IERC721MetadataModel[];
   actions: number;
+  nftName: string;
+  nftDescription: string;
+  nftExternalURL: string;
+  setName: (name: string) => void;
+  setDescription: (description: string) => void;
+  setExternalURL: (externalURL: string) => void;
   deleteLayer: () => void;
   setOwnedLayers: (layers: IERC721MetadataModel[]) => void;
 }
@@ -43,12 +49,20 @@ export const useEvolveStore = create<EvolveState>((set, get) => ({
   ]),
   ownedLayers: [],
   actions: 0,
+  nftName: "",
+  nftDescription: "",
+  nftExternalURL: "",
   deleteLayer: () =>
     set((state) => ({
       actions: state.actions + 1,
     })),
   setOwnedLayers: (layers: IERC721MetadataModel[]) =>
     set((state) => ({ ownedLayers: layers })),
+  setName: (name: string) => set((state) => ({ nftName: name })),
+  setDescription: (description: string) =>
+    set((state) => ({ nftDescription: description })),
+  setExternalURL: (externalURL: string) =>
+    set((state) => ({ nftExternalURL: externalURL })),
 }));
 
 export const useFilterStore = create<FilterState>()((set) => ({
