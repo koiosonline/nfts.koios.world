@@ -13,6 +13,7 @@ import { motion } from "framer-motion";
 
 const PurchaseModel = (item: IERC721MetadataModel) => {
   const closeModal = useModalStore((state) => state.closeModal);
+  const open = useModalStore((state) => state.open);
 
   const [userSalt, setUserSalt] = useState("");
   const [proofResponse, setProofResponse] = useState<IResponseMessage>();
@@ -22,8 +23,10 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
   const [acceptance, setAcceptance] = useState<boolean>(false);
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
-  });
+    if (open) document.body.style.overflow = "hidden";
+
+    if (!open) document.body.style.overflow = "auto";
+  }, [open]);
 
   const { data, isError, isLoading, isSuccess, signMessage, error } =
     useSignMessage({

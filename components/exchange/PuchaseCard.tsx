@@ -1,12 +1,11 @@
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
-import { useEvolveStore, useModalStore, useNFTState } from "@/state/store";
+import { useModalStore, useNFTState } from "@/state/store";
 
 const PurchaseCard = (item: IERC721MetadataModel) => {
   const isOpen = useModalStore((state) => state.open);
   const openModal = useModalStore((state) => state.openModal);
   const closeModal = useModalStore((state) => state.closeModal);
   const nfts = useNFTState((state) => state.nfts);
-  const addClothing = useEvolveStore((state) => state.addClothing);
 
   const handleModal = (layer: IERC721MetadataModel) => {
     if (isOpen) {

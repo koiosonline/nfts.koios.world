@@ -1,15 +1,11 @@
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
-import ILayerOrderModel from "@/models/ILayerOrderModel";
 import create from "zustand";
 
 interface EvolveState {
-  titan: ILayerOrderModel;
+  titan: Map<string, number>;
   ownedLayers: IERC721MetadataModel[];
-  addSkin: (skin: number) => void;
-  addClothing: (clothing: number) => void;
-  addHair: (hair: number) => void;
-  addHead: (head: number) => void;
-  addItem: (item: number) => void;
+  actions: number;
+  deleteLayer: () => void;
   setOwnedLayers: (layers: IERC721MetadataModel[]) => void;
 }
 interface FilterState {
@@ -25,6 +21,9 @@ interface FilterState {
 interface ModalState {
   item: IERC721MetadataModel | null;
   open: boolean;
+  openEvolve: boolean;
+  closeEvolveModal: () => void;
+  openEvolveModal: () => void;
   closeModal: () => void;
   openModal: (item: IERC721MetadataModel) => void;
 }
@@ -35,18 +34,19 @@ interface NFTState {
 }
 
 export const useEvolveStore = create<EvolveState>((set, get) => ({
-  titan: {} as ILayerOrderModel,
+  titan: new Map([
+    ["Skin", 0],
+    ["Clothing", 0],
+    ["Hair", 0],
+    ["Head", 0],
+    ["Item", 0],
+  ]),
   ownedLayers: [],
-  addSkin: (skin: number) =>
-    set((state) => ({ titan: { ...state.titan, skin } })),
-  addClothing: (clothing: number) =>
-    set((state) => ({ titan: { ...state.titan, clothing } })),
-  addHair: (hair: number) =>
-    set((state) => ({ titan: { ...state.titan, hair } })),
-  addHead: (head: number) =>
-    set((state) => ({ titan: { ...state.titan, head } })),
-  addItem: (item: number) =>
-    set((state) => ({ titan: { ...state.titan, item } })),
+  actions: 0,
+  deleteLayer: () =>
+    set((state) => ({
+      actions: state.actions + 1,
+    })),
   setOwnedLayers: (layers: IERC721MetadataModel[]) =>
     set((state) => ({ ownedLayers: layers })),
 }));
@@ -71,6 +71,9 @@ export const useNFTState = create<NFTState>((set) => ({
 export const useModalStore = create<ModalState>((set) => ({
   item: null,
   open: false,
+  openEvolve: false,
+  closeEvolveModal: () => set((state) => ({ openEvolve: false })),
+  openEvolveModal: () => set((state) => ({ openEvolve: true })),
   closeModal: () => set((state) => ({ item: null, open: false })),
   openModal: (layer: IERC721MetadataModel) =>
     set((state) => ({ item: layer, open: true })),

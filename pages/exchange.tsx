@@ -19,6 +19,12 @@ const Exchange = ({ items }: any) => {
   const [parent] = useAutoAnimate<HTMLDivElement>();
 
   useEffect(() => {
+    if (open) document.body.style.overflow = "hidden";
+
+    if (!open) document.body.style.overflow = "auto";
+  }, [open]);
+
+  useEffect(() => {
     setUserAddress(account?.address!);
   }, [account]);
 
