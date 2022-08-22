@@ -124,12 +124,11 @@ const DynamicNFTPanel = () => {
                 width={850}
                 height={850}
                 className="w-full rounded object-contain"
-                src={metadata?.image!}
+                src={metadata.image}
                 alt="Metadata Image"
               />
             ) : (
-              <Image
-                priority
+              <img
                 width={850}
                 height={850}
                 className="w-full rounded object-contain"
