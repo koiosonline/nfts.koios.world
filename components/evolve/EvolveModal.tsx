@@ -114,19 +114,31 @@ const EvolveModal = ({ item }: any) => {
                   )}
 
                   {data && (
-                    <button
-                      onClick={() => evolveNFT()}
-                      className="flex h-10 w-1/2 items-center justify-center rounded bg-brand-rose-hot-pink font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"
-                    >
-                      {evolving && !evolveError ? (
-                        <>
-                          <Spinner /> Evolving...
-                        </>
-                      ) : (
-                        "Evolve"
+                    <>
+                      {!evolving && !evolveError && (
+                        <button
+                          onClick={() => evolveNFT()}
+                          className="flex h-10 w-1/2 items-center justify-center rounded bg-brand-rose-hot-pink font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"
+                        >
+                          Evolve
+                        </button>
                       )}
-                      {evolveError && "Try Again"}
-                    </button>
+
+                      {evolving && !evolveError && (
+                        <button className="flex h-10 w-1/2 cursor-progress items-center justify-center rounded bg-brand-rose-hot-pink font-heading uppercase ">
+                          <Spinner /> Evolving...
+                        </button>
+                      )}
+
+                      {evolveError && (
+                        <button
+                          onClick={() => evolveNFT()}
+                          className="flex h-10 w-1/2 items-center justify-center rounded bg-brand-rose-hot-pink font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"
+                        >
+                          Try Again
+                        </button>
+                      )}
+                    </>
                   )}
                 </>
               )}
@@ -145,13 +157,16 @@ const EvolveModal = ({ item }: any) => {
                   {nftName}
                 </h2>
               </div>
-              <div className="flex h-3/6 flex-col gap-4 ">
+              <div className="flex h-3/6 w-full flex-col gap-4">
                 <h1 className="text-center font-heading text-2xl uppercase text-zinc-400">
                   Description
                 </h1>
-                <p className=" overflow-y-scroll text-left font-heading text-xs uppercase italic text-white">
+                <textarea
+                  readOnly
+                  className=" h-full resize-none overflow-y-scroll rounded bg-zinc-700 p-5 text-left font-heading text-xs uppercase italic text-white"
+                >
                   {nftDescription}
-                </p>
+                </textarea>
               </div>
               <div className="flex h-1/6 flex-col gap-4">
                 <h1 className="text-center font-heading text-2xl uppercase text-zinc-400">

@@ -19,7 +19,6 @@ export default async function handler(
           },
         }
       );
-      console.log(resUpload);
       if (resUpload.status === 200) {
         const resJson: IResponseMessage = await resUpload.json();
         res.status(200).json(resJson);
@@ -49,6 +48,5 @@ export default async function handler(
     res
       .status(405)
       .json({ success: false, error: true, message: "Method not allowed!" });
-    return;
   }
 }

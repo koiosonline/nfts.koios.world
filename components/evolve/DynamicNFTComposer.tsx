@@ -68,7 +68,7 @@ const DynamicNFTComposer = (items: IERC721MetadataModel[][]) => {
     <>
       <div className="relative h-[20%] w-full items-center justify-center">
         <h1 className="mb-2 font-heading text-3xl text-zinc-400">
-          Select Layer Below
+          Select Layers Below
         </h1>
         <DropdownButton
           setOpenMenu={setOpenMenu}
@@ -81,7 +81,7 @@ const DynamicNFTComposer = (items: IERC721MetadataModel[][]) => {
       </div>
       <div
         ref={parent}
-        className="mt-10 grid h-[80%] w-full grid-flow-row grid-cols-2 gap-5 overflow-y-scroll border-2 border-gray-500/20 p-5 md:grid-cols-3 lg:grid-cols-4"
+        className="mt-10 grid h-[80%] w-full grid-flow-row grid-cols-2 gap-5 overflow-y-scroll rounded border-2 border-gray-500/20 p-5 md:grid-cols-3 lg:grid-cols-4"
       >
         <>
           {ownedLayers
@@ -91,7 +91,7 @@ const DynamicNFTComposer = (items: IERC721MetadataModel[][]) => {
             .map((item: IERC721MetadataModel, index: number) => (
               <div
                 onClick={() => handleAddition(item)}
-                className="relative h-full w-full border-2 border-gray-400 "
+                className="relative h-full w-full cursor-pointer rounded border-2 border-gray-400 transition duration-300 ease-in-out hover:scale-105"
                 key={index}
               >
                 <img

@@ -1,8 +1,7 @@
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
-import { useEvolveStore, useFilterStore, useNFTState } from "@/state/store";
+import { useFilterStore, useNFTState } from "@/state/store";
 import PurchaseCard from "./PuchaseCard";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { useEffect } from "react";
 
 const ShopPanel = (items: IERC721MetadataModel[]) => {
   const filters = useFilterStore((state) => state.filters);
@@ -13,12 +12,6 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
   const [parent] = useAutoAnimate<HTMLDivElement>({
     easing: "ease-in-out",
   });
-
-  const titan = useEvolveStore((state) => state.titan);
-
-  useEffect(() => {
-    console.log(titan);
-  }, [titan]);
 
   if (owned && filters.length === 0 && nfts) {
     return (

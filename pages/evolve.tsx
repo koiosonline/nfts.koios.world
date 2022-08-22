@@ -15,7 +15,6 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
   const user = useAccount();
   const [metadata, setMetadata] = useState<IERC721MetadataModel | null>(null);
   const nftLayers = useNFTState((state) => state.nfts);
-  const titan = useEvolveStore((state) => state.titan);
   const addAndRemove = useNFTState((state) => state.addAndRemove);
   const openEvolve = useModalStore((state) => state.openEvolve);
   const openEvolveModal = useModalStore((state) => state.openEvolveModal);
@@ -67,7 +66,7 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
         <div className="flex h-full w-1/3 gap-5 rounded bg-zinc-800 p-5">
           {metadata && <CanvasComposer {...metadata} />}
         </div>
-        <div className="flex h-full w-full gap-5 rounded bg-zinc-800 p-8 text-gray-200 md:h-full md:w-1/3 ">
+        <div className="flex h-full w-full gap-5 rounded bg-zinc-800 text-gray-200 md:h-full md:w-1/3 ">
           <div className="flex h-full w-full flex-col ">
             <div className="flex h-1/6  flex-col gap-2 p-5">
               <h1 className="font-heading text-xl uppercase text-zinc-400">
