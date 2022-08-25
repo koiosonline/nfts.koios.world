@@ -6,7 +6,7 @@ export const uploadMultipleCoupons = async (
   saltHash: string,
   data: string
 ) => {
-  const res = await fetch(`/api/uploadMultipleCoupons`, {
+  const res = await fetch(`/api/coupon/uploadMultipleCoupons`, {
     method: "POST",
     body: JSON.stringify({
       couponModels,

@@ -1,7 +1,7 @@
 import IUploadModel from "@/models/IUploadModel";
 
 export const uploadSingleCoupon = async (uploadModel: IUploadModel) => {
-  const res = await fetch(`/api/uploadSingleCoupon`, {
+  const res = await fetch(`/api/coupon/uploadSingleCoupon`, {
     method: "POST",
     body: JSON.stringify(uploadModel),
     headers: {
