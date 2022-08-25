@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { getUserLayerNFTs } from "@/api/alchemy/getUserLayerNFTs";
 import { AnimatePresence } from "framer-motion";
+import { IoFilter } from "react-icons/io5";
+import MobileFilterModal from "@/components/exchange/MobileFilterModal";
 
 const Exchange = ({ items }: any) => {
   const account = useAccount();
@@ -17,6 +19,8 @@ const Exchange = ({ items }: any) => {
   const addAndRemove = useNFTState((state) => state.addAndRemove);
   const [userAddress, setUserAddress] = useState("");
   const [parent] = useAutoAnimate<HTMLDivElement>();
+  const openFilter = useModalStore((state) => state.openFilter);
+  const toggleFilterModal = useModalStore((state) => state.toggleFilterModal);
 
   useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
@@ -56,19 +60,31 @@ const Exchange = ({ items }: any) => {
       <AnimatePresence>
         {open && modalItem ? <PurchaseModel {...modalItem} /> : null}
       </AnimatePresence>
-      <div className="container mx-auto flex h-[80vh]">
-        <div className="container flex h-full w-[25%] flex-col rounded bg-zinc-900">
-          <div className="container flex h-[10vh] items-center justify-center  border-r-2 border-b-2 border-zinc-800 border-opacity-40 bg-zinc-900">
+      <AnimatePresence>
+        {openFilter ? <MobileFilterModal {...items} /> : null}
+      </AnimatePresence>
+      <div className="container mx-auto flex h-[80vh] flex-col md:flex-row">
+        <div className="container flex  w-full flex-row rounded bg-zinc-900 md:h-full md:w-[25%] md:flex-col">
+          <div className="container flex h-[10vh] items-center justify-between border-r-2 border-b-2 border-zinc-800 border-opacity-40 bg-zinc-900 p-5 md:justify-center md:p-0">
             <h1 className="bg-gradient-to-r from-brand-rose-hot-pink to-brand-purple-heart bg-clip-text text-left font-heading text-4xl text-transparent">
               Exchange
             </h1>
+            <div
+              onClick={() => toggleFilterModal()}
+              className="block text-zinc-400 transition duration-300 hover:text-white md:hidden"
+            >
+              <IoFilter size={25} />
+            </div>
           </div>
-          <FilterPanel {...items} />
+
+          <div className="hidden md:block">
+            <FilterPanel {...items} />
+          </div>
         </div>
-        <div className="container flex w-[75%] flex-col">
+        <div className="container flex h-full w-full flex-col md:w-[75%]">
           <div
             ref={parent}
-            className="container flex h-[10vh] items-center gap-5 bg-zinc-900 p-10"
+            className="container hidden h-[10vh] items-center gap-5 bg-zinc-900 p-10 md:flex "
           >
             {filters.map((item: any, index: number) => (
               <div

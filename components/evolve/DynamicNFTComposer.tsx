@@ -66,8 +66,8 @@ const DynamicNFTComposer = (items: IERC721MetadataModel[][]) => {
 
   return (
     <>
-      <div className="relative h-[20%] w-full items-center justify-center">
-        <h1 className="mb-2 font-heading text-3xl text-zinc-400">
+      <div className="relative h-[20%] items-center justify-center md:w-full">
+        <h1 className="mb-2 font-heading text-xl text-zinc-400 md:text-3xl">
           Select Layers Below
         </h1>
         <DropdownButton
