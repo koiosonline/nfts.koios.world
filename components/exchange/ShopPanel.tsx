@@ -17,7 +17,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
     return (
       <div
         ref={parent}
-        className="container grid h-full grid-flow-row grid-cols-4 gap-5 overflow-y-scroll rounded bg-zinc-800 p-10"
+        className="container grid h-full grid-flow-row grid-cols-2 gap-5 overflow-y-scroll rounded bg-zinc-800 p-2 md:grid-cols-4 md:p-10"
       >
         {data
           .filter((x) => nfts.includes(x.tokenId))
@@ -32,7 +32,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
     return (
       <div
         ref={parent}
-        className="container grid h-full grid-flow-row grid-cols-4 gap-5 overflow-y-scroll rounded bg-zinc-800 p-10"
+        className="container grid h-full grid-flow-row grid-cols-2 gap-5 overflow-y-scroll rounded bg-zinc-800 p-2 md:grid-cols-4 md:p-10"
       >
         {data
           .filter((x) => nfts.includes(x.tokenId))
@@ -48,7 +48,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
     return (
       <div
         ref={parent}
-        className="container grid h-full grid-flow-row grid-cols-4 gap-5 overflow-y-scroll rounded bg-zinc-800 p-10"
+        className="container grid h-full grid-flow-row grid-cols-2 gap-5 overflow-y-scroll rounded bg-zinc-800 p-2 md:grid-cols-4 md:p-10"
       >
         {data
           .filter((x) => !nfts.includes(x.tokenId))
@@ -63,7 +63,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
     return (
       <div
         ref={parent}
-        className="container grid h-full grid-flow-row grid-cols-4 gap-5 overflow-y-scroll rounded bg-zinc-800 p-10"
+        className="container grid h-full grid-flow-row grid-cols-2 gap-5 overflow-y-scroll rounded bg-zinc-800 p-2 md:grid-cols-4 md:p-10"
       >
         {data
           .filter((x) => !nfts.includes(x.tokenId))
@@ -79,7 +79,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
     return (
       <div
         ref={parent}
-        className="container grid h-full grid-flow-row grid-cols-4 gap-5 overflow-y-scroll rounded bg-zinc-800 p-10"
+        className="container grid h-full grid-flow-row grid-cols-2 gap-5 overflow-y-scroll rounded bg-zinc-800 p-2 md:grid-cols-4 md:p-10"
       >
         {data.map((item: IERC721MetadataModel, index: number) => (
           <PurchaseCard {...item} key={index} />
@@ -91,7 +91,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
   return (
     <div
       ref={parent}
-      className="container grid h-full grid-flow-row grid-cols-4 gap-5 overflow-y-scroll rounded bg-zinc-800 p-10"
+      className="container grid h-full grid-flow-row grid-cols-2 gap-5 overflow-y-scroll rounded bg-zinc-800 p-2 md:grid-cols-4 md:p-10"
     >
       {data
         .filter((x: any) => filters.includes(x.attributes[0].trait_type))

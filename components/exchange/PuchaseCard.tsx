@@ -35,7 +35,7 @@ const PurchaseCard = (item: IERC721MetadataModel) => {
   return (
     <div className="group container flex max-h-[300px] min-h-[300px] flex-col rounded bg-zinc-900 p-1 shadow transition duration-300 ease-in-out hover:-translate-y-1">
       <div className="mt-2 flex h-[15%]  w-full flex-col items-center justify-center rounded">
-        <h1 className="text-center font-heading text-xl uppercase text-white transition duration-300 group-hover:text-brand-rose-hot-pink">
+        <h1 className="text-center font-heading text-lg uppercase text-white transition duration-300 group-hover:text-brand-rose-hot-pink md:text-xl">
           {item.attributes[0].value}
         </h1>{" "}
         <h2 className="text-center font-heading text-sm uppercase text-zinc-400 transition duration-300 group-hover:text-brand-rose-lavender">
@@ -55,14 +55,18 @@ const PurchaseCard = (item: IERC721MetadataModel) => {
       </div>
       {nfts?.includes(item.tokenId) ? (
         <div className="flex h-[15%] w-full items-center justify-center rounded bg-brand-blue-picton transition duration-300">
-          <h1 className="text-center font-heading text-2xl uppercase">Owned</h1>{" "}
+          <h1 className="text-center font-heading text-lg uppercase md:text-2xl">
+            Owned
+          </h1>{" "}
         </div>
       ) : (
         <button
           onClick={() => handleModal(item)}
           className="flex h-[15%] w-full items-center justify-center rounded bg-brand-rose-hot-pink transition duration-300 hover:bg-brand-rose-pale-rose"
         >
-          <h1 className="text-center font-heading text-2xl uppercase">Buy</h1>{" "}
+          <h1 className="text-center font-heading text-lg uppercase md:text-2xl">
+            Buy
+          </h1>{" "}
         </button>
       )}
     </div>

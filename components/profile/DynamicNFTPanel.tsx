@@ -189,10 +189,12 @@ const DynamicNFTPanel = () => {
                 className="flex h-full w-full flex-col items-center justify-evenly rounded border-[1px] border-brand-rose-hot-pink bg-brand-rose-hot-pink/10 p-3 "
                 key={index}
               >
-                <h1 className="font-heading text-lg uppercase text-brand-rose-hot-pink">
+                <h1 className="font-heading text-sm uppercase text-brand-rose-hot-pink md:text-lg">
                   {attribute.trait_type}
                 </h1>
-                <h1 className="font-base text-base">{attribute.value}</h1>
+                <h1 className="font-base text-sm md:text-base">
+                  {attribute.value}
+                </h1>
               </div>
             ))}
           </div>

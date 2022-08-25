@@ -19,12 +19,12 @@ const MobileMenu = ({ handleToggle, props, links }: any) => {
               showBalance
             />
           </div>
-          <ul className="h-5/6 w-full text-xl uppercase text-white-300">
+          <ul className="text-white-300 h-5/6 w-full text-xl uppercase">
             {links.map((link: any, index: number) => (
               <Link href={link.path} key={index}>
                 <li
                   onClick={handleToggle}
-                  className="text-heading relative block w-full cursor-pointer items-center border-b-2 border-white-300/40 py-3 font-heading transition duration-300 hover:text-gray-200"
+                  className="text-heading border-white-300/40 relative block w-full cursor-pointer items-center border-b-2 py-3 font-heading text-zinc-400 transition duration-300 hover:text-gray-200"
                 >
                   {link.title}
                 </li>
