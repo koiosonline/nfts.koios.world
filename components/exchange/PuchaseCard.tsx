@@ -15,7 +15,7 @@ const PurchaseCard = (item: IERC721MetadataModel) => {
     }
   };
 
-  if (nfts && nfts.length === 0) {
+  if (!item.tokenId) {
     return (
       <div className="group container flex max-h-[300px] min-h-[300px] animate-pulse flex-col rounded bg-zinc-900 p-1 shadow transition duration-300 ease-in-out hover:-translate-y-1">
         <div className="mt-2 flex h-[15%]  w-full flex-col items-center justify-center gap-2 rounded p-2">
