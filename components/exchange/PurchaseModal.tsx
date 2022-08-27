@@ -111,13 +111,19 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
                   </button>
                 )}
 
-                {data && acceptance && !noCouponError && (
+                {data && acceptance && !noCouponError && !proofResponse && (
                   <button
                     onClick={() => retrieveProof()}
                     className="h-10 w-1/2 rounded bg-brand-rose-hot-pink font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"
                   >
                     Generate Proof
                   </button>
+                )}
+
+                {proofResponse && (
+                  <h1 className="font-heading text-lg text-action-valid">
+                    Successfully Generated Proof! 🎉
+                  </h1>
                 )}
                 {data && !acceptance && (
                   <>
