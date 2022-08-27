@@ -9,8 +9,6 @@ export default async function handler(
   if (req.method === "POST") {
     const uploadData: ILayerClaimModel = req.body;
     try {
-      console.log(uploadData);
-      console.log(JSON.stringify(uploadData));
       const resUpload = await fetch(
         `${process.env.API_URL}/api/layer/signature`,
         {
@@ -21,7 +19,6 @@ export default async function handler(
           },
         }
       );
-      console.log(resUpload);
       const uploadRes: IResponseMessage = await resUpload.json();
       res.status(200).json(uploadRes);
       return;

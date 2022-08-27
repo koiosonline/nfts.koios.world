@@ -90,9 +90,11 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
           <div className="flex h-full w-1/2 flex-col bg-zinc-800">
             <div className="flex h-full w-full flex-col gap-10 p-10">
               <div className="flex h-1/4 w-full flex-col items-center justify-center gap-5">
-                <h1 className="text-center font-heading text-2xl uppercase text-white">
-                  Sign For Verification
-                </h1>
+                {!noCouponError && (
+                  <h1 className="text-center font-heading text-2xl uppercase text-white">
+                    Sign For Verification
+                  </h1>
+                )}
 
                 {!data && (
                   <button
@@ -109,7 +111,7 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
                   </button>
                 )}
 
-                {data && acceptance && (
+                {data && acceptance && !noCouponError && (
                   <button
                     onClick={() => retrieveProof()}
                     className="h-10 w-1/2 rounded bg-brand-rose-hot-pink font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"

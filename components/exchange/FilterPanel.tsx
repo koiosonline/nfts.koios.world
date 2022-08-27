@@ -83,13 +83,13 @@ const FilterPanel = (items: IERC721MetadataModel[]) => {
           >
             <Image
               priority
-              width={1050}
-              height={1050}
-              className="h-full w-full rounded object-cover transition duration-300 ease-in-out"
+              width={500}
+              height={500}
+              className="flex h-full w-full items-center justify-center rounded object-cover text-center font-heading text-xs transition duration-300 ease-in-out"
               src={
                 filters.includes(item.attributes[0].trait_type)
-                  ? `/nfts/${item.attributes[0].trait_type}_checked.png`
-                  : `/nfts/${item.attributes[0].trait_type}_unchecked.png`
+                  ? `/nfts/${item.attributes[0].trait_type}_checked.webp`
+                  : `/nfts/${item.attributes[0].trait_type}_unchecked.webp`
               }
               alt={`${item.attributes[0].trait_type} Image`}
             />

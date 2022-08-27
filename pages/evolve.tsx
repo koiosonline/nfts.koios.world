@@ -12,10 +12,12 @@ import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { ImEnlarge2 } from "react-icons/im";
 import DescModal from "@/components/evolve/DescModal";
+import Spinner from "@/components/util/Spinner";
 
 const Evolve = (items: IERC721MetadataModel[][]) => {
   const user = useAccount();
   const [metadata, setMetadata] = useState<IERC721MetadataModel | null>(null);
+  const [noNFT, setNoNFT] = useState<boolean | null>(null);
   const nftLayers = useNFTState((state) => state.nfts);
   const addAndRemove = useNFTState((state) => state.addAndRemove);
   const openEvolve = useModalStore((state) => state.openEvolve);
@@ -26,6 +28,12 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
   const setDescription = useEvolveStore((state) => state.setDescription);
   const setExternalURL = useEvolveStore((state) => state.setExternalURL);
   const nftDescription = useEvolveStore((state) => state.nftDescription);
+
+  const [userAddress, setUserAddress] = useState("");
+
+  useEffect(() => {
+    setUserAddress(user?.address!);
+  }, [user]);
 
   useEffect(() => {
     if (metadata) {
@@ -45,22 +53,66 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
     const fetchDynamic = async () => {
       if (user.isConnected) {
         const nft = await getUserDynamicNFT(user.address!);
-        const dynamicNFTMetadata = await getDynamicNFTMetadata(nft[0].tokenId);
-        const json: IERC721MetadataModel = await dynamicNFTMetadata.json();
-
-        if (!nftLayers || nftLayers.length === 0) {
-          const nfts = await getUserLayerNFTs(user.address!);
-          const tokenIds: number[] = nfts.map((item: any) =>
-            parseInt(item.tokenId)
+        if (nft[0]) {
+          const dynamicNFTMetadata = await getDynamicNFTMetadata(
+            nft[0].tokenId
           );
-          addAndRemove(tokenIds);
-        }
+          const json: IERC721MetadataModel = await dynamicNFTMetadata.json();
 
-        setMetadata(json);
+          if (!nftLayers || nftLayers.length === 0) {
+            const nfts = await getUserLayerNFTs(user.address!);
+            const tokenIds: number[] = nfts.map((item: any) =>
+              parseInt(item.tokenId)
+            );
+            addAndRemove(tokenIds);
+          }
+
+          setMetadata(json);
+          setNoNFT(false);
+        } else {
+          setNoNFT(true);
+        }
       }
     };
     fetchDynamic();
   }, [user.address, user.isConnected]);
+
+  if (!userAddress) {
+    return (
+      <div
+        className={
+          "flex h-full w-full items-center justify-center bg-default-text text-center font-heading text-8xl text-brand-rose-hot-pink"
+        }
+      >
+        Please Login
+      </div>
+    );
+  }
+
+  if (noNFT) {
+    return (
+      <div
+        className={
+          "flex h-full w-full items-center justify-center bg-default-text text-center font-heading text-5xl text-brand-rose-hot-pink"
+        }
+      >
+        You do not own a dynamic NFT yet.
+      </div>
+    );
+  }
+
+  if (!metadata) {
+    return (
+      <div
+        className={
+          "flex h-full w-full items-center justify-center bg-default-text text-center font-heading text-5xl text-brand-rose-hot-pink"
+        }
+      >
+        <Spinner />
+        Loading data...
+      </div>
+    );
+  }
 
   return (
     <div className="container flex flex-col justify-between gap-5 p-10 pt-40 md:items-center md:justify-center md:p-0 md:pt-40 ">
