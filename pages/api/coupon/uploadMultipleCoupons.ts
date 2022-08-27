@@ -16,7 +16,7 @@ export default async function handler(
         {
           method: "POST",
           body: JSON.stringify({
-            coupons: couponData,
+            data: couponData,
             saltHash: message,
             signature: signature,
           }),
