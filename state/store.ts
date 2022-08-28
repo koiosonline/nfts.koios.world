@@ -40,6 +40,8 @@ interface ModalState {
 
 interface NFTState {
   nfts: any[] | null;
+  coupons: boolean | null;
+  setCoupons: (coupons: boolean) => void;
   addAndRemove: (nfts: any) => void;
 }
 
@@ -83,6 +85,8 @@ export const useFilterStore = create<FilterState>()((set) => ({
 
 export const useNFTState = create<NFTState>((set) => ({
   nfts: [],
+  coupons: null,
+  setCoupons: (coupons: boolean) => set((state) => ({ coupons })),
   addAndRemove: (items: any) => set((state) => ({ nfts: [...items] })),
 }));
 

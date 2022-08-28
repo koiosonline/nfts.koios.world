@@ -10,6 +10,7 @@ import { getUserLayerNFTs } from "@/api/alchemy/getUserLayerNFTs";
 import { AnimatePresence } from "framer-motion";
 import { IoFilter } from "react-icons/io5";
 import MobileFilterModal from "@/components/exchange/MobileFilterModal";
+import { fetchCoupons } from "@/api/exchange/fetchCouponts";
 
 const Exchange = ({ items }: any) => {
   const account = useAccount();
@@ -21,6 +22,7 @@ const Exchange = ({ items }: any) => {
   const [parent] = useAutoAnimate<HTMLDivElement>();
   const openFilter = useModalStore((state) => state.openFilter);
   const toggleFilterModal = useModalStore((state) => state.toggleFilterModal);
+  const setCoupons = useNFTState((state) => state.setCoupons);
 
   useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
@@ -38,8 +40,19 @@ const Exchange = ({ items }: any) => {
       const tokenIds: number[] = nfts.map((nft: any) => parseInt(nft.tokenId));
       addAndRemove(tokenIds);
     };
+
+    const getCoupons = async () => {
+      const coupons = await fetchCoupons(userAddress);
+
+      if (coupons.data && coupons.data.amount > 0) {
+        setCoupons(true);
+      } else {
+        setCoupons(false);
+      }
+    };
     if (userAddress) {
       fetchNfts();
+      getCoupons();
     }
   }, [userAddress, addAndRemove]);
 
