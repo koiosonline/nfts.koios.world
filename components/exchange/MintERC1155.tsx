@@ -9,6 +9,7 @@ import { getUserLayerNFTs } from "@/api/alchemy/getUserLayerNFTs";
 const MintERC1155 = ({ proofHash, proofSignature, tokenId }: any) => {
   const account = useAccount();
   const addAndRemove = useNFTState((state) => state.addAndRemove);
+  const addNFT = useNFTState((state) => state.addNFT);
 
   const {
     data: mintData,
@@ -47,13 +48,8 @@ const MintERC1155 = ({ proofHash, proofSignature, tokenId }: any) => {
   }, [txStatus]);
 
   useEffect(() => {
-    const fetchNfts = async () => {
-      const nfts = await getUserLayerNFTs(account?.address!);
-      const tokenIds: number[] = nfts.map((nft: any) => parseInt(nft.tokenId));
-      addAndRemove(tokenIds);
-    };
     if (txSuccess) {
-      fetchNfts();
+      addNFT(tokenId);
     }
   }, [txSuccess]);
 

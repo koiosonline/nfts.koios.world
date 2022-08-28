@@ -2,15 +2,19 @@ import FilterPanel from "@/components/exchange/FilterPanel";
 import PurchaseModel from "@/components/exchange/PurchaseModal";
 import ShopPanel from "@/components/exchange/ShopPanel";
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
-import { useFilterStore, useModalStore, useNFTState } from "@/state/store";
+import {
+  useFilterStore,
+  useModalStore,
+  useNFTState,
+  useUserStore,
+} from "@/state/store";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { getUserLayerNFTs } from "@/api/alchemy/getUserLayerNFTs";
 import { AnimatePresence } from "framer-motion";
 import { IoFilter } from "react-icons/io5";
 import MobileFilterModal from "@/components/exchange/MobileFilterModal";
-import { fetchCoupons } from "@/api/exchange/fetchCouponts";
+import { useUserLayerNFTs } from "@/api/hooks/useUserLayerNFTs";
 
 const Exchange = ({ items }: any) => {
   const account = useAccount();
@@ -22,7 +26,7 @@ const Exchange = ({ items }: any) => {
   const [parent] = useAutoAnimate<HTMLDivElement>();
   const openFilter = useModalStore((state) => state.openFilter);
   const toggleFilterModal = useModalStore((state) => state.toggleFilterModal);
-  const setCoupons = useNFTState((state) => state.setCoupons);
+  const { tokenIds, data } = useUserLayerNFTs(userAddress);
 
   useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
@@ -35,26 +39,10 @@ const Exchange = ({ items }: any) => {
   }, [account]);
 
   useEffect(() => {
-    const fetchNfts = async () => {
-      const nfts = await getUserLayerNFTs(userAddress);
-      const tokenIds: number[] = nfts.map((nft: any) => parseInt(nft.tokenId));
+    if (tokenIds) {
       addAndRemove(tokenIds);
-    };
-
-    const getCoupons = async () => {
-      const coupons = await fetchCoupons(userAddress);
-
-      if (coupons.data && coupons.data.amount > 0) {
-        setCoupons(true);
-      } else {
-        setCoupons(false);
-      }
-    };
-    if (userAddress) {
-      fetchNfts();
-      getCoupons();
     }
-  }, [userAddress, addAndRemove]);
+  }, [data]);
 
   if (!userAddress) {
     return (

@@ -3,16 +3,18 @@ import { useModalStore } from "@/state/store";
 import { useEffect, useState } from "react";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import crypto from "crypto";
-import { useSignMessage } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 import { generateProof } from "@/api/exchange/generateProof";
 import { IResponseMessage } from "@/models/IResponseMessage";
 import Spinner from "../util/Spinner";
 import MintERC1155 from "./MintERC1155";
 import SignatureCard from "./SignatureCard";
 import { motion } from "framer-motion";
+import { fetchCoupons } from "@/api/exchange/fetchCoupons";
 
 const PurchaseModel = (item: IERC721MetadataModel) => {
   const closeModal = useModalStore((state) => state.closeModal);
+  const account = useAccount();
 
   const [userSalt, setUserSalt] = useState("");
   const [proofResponse, setProofResponse] = useState<IResponseMessage>();
@@ -20,11 +22,23 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
   const [proofHash, setProofHash] = useState<string>("");
   const [noCouponError, setNoCouponError] = useState<string>("");
   const [acceptance, setAcceptance] = useState<boolean>(false);
+  const [coupondAmount, setCoupondAmount] = useState<number>();
 
   const { data, isError, isLoading, isSuccess, signMessage, error } =
     useSignMessage({
       message: userSalt,
     });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (account.address) {
+        const coupons = await fetchCoupons(account.address);
+        setCoupondAmount(coupons.data.amount);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (!data) {
@@ -88,68 +102,75 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
           </div>
           <div className="flex h-full w-1/2 flex-col bg-zinc-800">
             <div className="flex h-full w-full flex-col gap-10 p-10">
-              <div className="flex h-1/4 w-full flex-col items-center justify-center gap-5">
-                {!noCouponError && (
-                  <h1 className="text-center font-heading text-2xl uppercase text-white">
-                    Sign For Verification
-                  </h1>
-                )}
+              {coupondAmount && coupondAmount > 0 ? (
+                <div className="flex h-1/4 w-full flex-col items-center justify-center gap-5">
+                  {!noCouponError && (
+                    <h1 className="text-center font-heading text-2xl uppercase text-white">
+                      Sign For Verification
+                    </h1>
+                  )}
 
-                {!data && (
-                  <button
-                    onClick={() => signMessage()}
-                    className="flex h-10 w-1/2 items-center justify-center rounded bg-brand-rose-hot-pink font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"
-                  >
-                    {isLoading ? (
-                      <>
-                        <Spinner /> Awaiting Signature...
-                      </>
-                    ) : (
-                      "Sign"
-                    )}
-                  </button>
-                )}
+                  {!data && (
+                    <button
+                      onClick={() => signMessage()}
+                      className="flex h-10 w-1/2 items-center justify-center rounded bg-brand-rose-hot-pink font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"
+                    >
+                      {isLoading ? (
+                        <>
+                          <Spinner /> Awaiting Signature...
+                        </>
+                      ) : (
+                        "Sign"
+                      )}
+                    </button>
+                  )}
 
-                {data && acceptance && !noCouponError && !proofResponse && (
-                  <button
-                    onClick={() => retrieveProof()}
-                    className="h-10 w-1/2 rounded bg-brand-rose-hot-pink font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"
-                  >
-                    Generate Proof
-                  </button>
-                )}
+                  {data && acceptance && !noCouponError && !proofResponse && (
+                    <button
+                      onClick={() => retrieveProof()}
+                      className="h-10 w-1/2 rounded bg-brand-rose-hot-pink font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"
+                    >
+                      Generate Proof
+                    </button>
+                  )}
 
-                {proofResponse && (
-                  <h1 className="font-heading text-lg text-action-valid">
-                    Successfully Generated Proof! 🎉
-                  </h1>
-                )}
-                {data && !acceptance && (
-                  <>
-                    <div className="flex flex-col items-center justify-center gap-2 rounded bg-orange-600/20 p-3 text-center">
-                      <h1 className="font-heading text-xl uppercase text-action-warning ">
-                        Warning
-                      </h1>
-                      <p className=" text-center text-xs font-bold uppercase text-action-warning">
-                        GENERATING A PROOF WILL DEDUCT A COUPON! <br />
-                        After generation you may save the data if anything goes
-                        wrong 😬
-                      </p>
-                      <button
-                        onClick={() => setAcceptance(!acceptance)}
-                        className="h-10 w-1/2 rounded bg-orange-400 font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"
-                      >
-                        I Understand
-                      </button>
-                      <p className=" text-center text-[10px] italic text-action-warning">
-                        Proof is the signature, hash and tokenID that gets sent
-                        to the smart contract in order to verify your ability to
-                        mint
-                      </p>
-                    </div>
-                  </>
-                )}
-              </div>
+                  {proofResponse && (
+                    <h1 className="font-heading text-lg text-action-valid">
+                      Successfully Generated Proof! 🎉
+                    </h1>
+                  )}
+                  {data && !acceptance && (
+                    <>
+                      <div className="flex flex-col items-center justify-center gap-2 rounded bg-orange-600/20 p-3 text-center">
+                        <h1 className="font-heading text-xl uppercase text-action-warning ">
+                          Warning
+                        </h1>
+                        <p className=" text-center text-xs font-bold uppercase text-action-warning">
+                          GENERATING A PROOF WILL DEDUCT A COUPON! <br />
+                          After generation you may save the data if anything
+                          goes wrong 😬
+                        </p>
+                        <button
+                          onClick={() => setAcceptance(!acceptance)}
+                          className="h-10 w-1/2 rounded bg-orange-400 font-heading uppercase transition duration-300 hover:bg-brand-rose-pale-rose"
+                        >
+                          I Understand
+                        </button>
+                        <p className=" text-center text-[10px] italic text-action-warning">
+                          Proof is the signature, hash and tokenID that gets
+                          sent to the smart contract in order to verify your
+                          ability to mint
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <h1 className="w-full text-center font-heading text-xl text-action-error">
+                  No Coupons left 😭
+                </h1>
+              )}
+
               <div className="flex h-2/4 w-full flex-col items-center justify-center gap-2">
                 {noCouponError && (
                   <p className="text-center font-heading text-xl uppercase italic text-action-error">
