@@ -13,7 +13,6 @@ import { motion } from "framer-motion";
 
 const PurchaseModel = (item: IERC721MetadataModel) => {
   const closeModal = useModalStore((state) => state.closeModal);
-  const open = useModalStore((state) => state.open);
 
   const [userSalt, setUserSalt] = useState("");
   const [proofResponse, setProofResponse] = useState<IResponseMessage>();
