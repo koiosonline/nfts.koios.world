@@ -6,6 +6,7 @@ const PurchaseCard = (item: IERC721MetadataModel) => {
   const openModal = useModalStore((state) => state.openModal);
   const closeModal = useModalStore((state) => state.closeModal);
   const nfts = useNFTState((state) => state.nfts);
+  const coupons = useNFTState((state) => state.coupons);
 
   const handleModal = (layer: IERC721MetadataModel) => {
     if (isOpen) {
@@ -53,6 +54,7 @@ const PurchaseCard = (item: IERC721MetadataModel) => {
           />
         </div>
       </div>
+
       {nfts?.includes(item.tokenId) ? (
         <div className="flex h-[15%] w-full items-center justify-center rounded bg-brand-blue-picton transition duration-300">
           <h1 className="text-center font-heading text-lg uppercase md:text-2xl">
@@ -60,14 +62,24 @@ const PurchaseCard = (item: IERC721MetadataModel) => {
           </h1>{" "}
         </div>
       ) : (
-        <button
-          onClick={() => handleModal(item)}
-          className="flex h-[15%] w-full items-center justify-center rounded bg-brand-rose-hot-pink transition duration-300 hover:bg-brand-rose-pale-rose"
-        >
-          <h1 className="text-center font-heading text-lg uppercase md:text-2xl">
-            Buy
-          </h1>{" "}
-        </button>
+        <>
+          {coupons ? (
+            <button
+              onClick={() => handleModal(item)}
+              className="flex h-[15%] w-full items-center justify-center rounded bg-brand-rose-hot-pink transition duration-300 hover:bg-brand-rose-pale-rose"
+            >
+              <h1 className="text-center font-heading text-lg uppercase md:text-2xl">
+                Buy
+              </h1>{" "}
+            </button>
+          ) : (
+            <div className="flex h-[15%] w-full items-center justify-center rounded bg-zinc-700 transition duration-300">
+              <h1 className="text-center font-heading text-lg uppercase md:text-2xl">
+                No Coupons
+              </h1>{" "}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
