@@ -41,7 +41,7 @@ const DynamicNFTComposer = (items: IERC721MetadataModel[][]) => {
   });
 
   const resetTitan = useEvolveStore((state) => state.resetTitan);
-  const { tokenIds, isError, isLoading } = useUserData(user);
+  const { data, isError, isLoading } = useUserData(user);
 
   const handleAddition = (layer: IERC721MetadataModel) => {
     if (titan.get(layer.attributes[0].trait_type) === layer.tokenId) {
@@ -63,8 +63,8 @@ const DynamicNFTComposer = (items: IERC721MetadataModel[][]) => {
   };
 
   useEffect(() => {
-    const data = Object.values(items);
-    const newData = data[0].filter((x) => tokenIds.includes(x.tokenId));
+    const givenItems = Object.values(items);
+    const newData = givenItems[0].filter((x) => data.includes(x.tokenId));
     if (newData) {
       setOwnedLayers(newData);
     }

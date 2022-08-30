@@ -1,14 +1,13 @@
-import IERC721MetadataModel from "@/models/IERC721MetadataModel";
 import useSWR from "swr";
 
 const fetchUserData = async (address: string) => {
-  const res = await fetch(`/api/alchemy/getUserLayerNFTs?address=${address}`);
-  return res.json();
+  const resCoup = await fetch(`/api/coupon/getCoupons?address=${address}`);
+  return resCoup.json();
 };
 
-export function useUserData(address: string) {
+export function useUserCoupons(address: string) {
   const { data, error } = useSWR(
-    address ? "UserLayers: " + address : null,
+    address ? "UserCoupons: " + address : null,
     () => fetchUserData(address),
     {
       revalidateIfStale: false,
@@ -19,7 +18,7 @@ export function useUserData(address: string) {
 
   return {
     isLoading: !error && !data,
-    data: data ? data.map((nft: any) => parseInt(nft.tokenId)) : [],
+    data: data?.data,
     isError: error,
   };
 }

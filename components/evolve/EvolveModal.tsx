@@ -1,4 +1,3 @@
-import IERC721MetadataModel from "@/models/IERC721MetadataModel";
 import { useEvolveStore, useModalStore } from "@/state/store";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";

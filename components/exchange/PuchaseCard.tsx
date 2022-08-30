@@ -8,7 +8,7 @@ const PurchaseCard = (item: IERC721MetadataModel) => {
   const closeModal = useModalStore((state) => state.closeModal);
   const user = useUserStore((state) => state.user);
 
-  const { tokenIds, isError, isLoading } = useUserData(user);
+  const { data, isError, isLoading } = useUserData(user);
 
   const handleModal = (layer: IERC721MetadataModel) => {
     if (isOpen) {
@@ -62,7 +62,7 @@ const PurchaseCard = (item: IERC721MetadataModel) => {
         </div>
       ) : (
         <>
-          {tokenIds.includes(item.tokenId) ? (
+          {data.includes(item.tokenId) ? (
             <div className="flex h-[15%] w-full items-center justify-center rounded bg-brand-blue-picton transition duration-300">
               <h1 className="text-center font-heading text-lg uppercase md:text-2xl">
                 Owned

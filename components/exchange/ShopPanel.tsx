@@ -9,20 +9,20 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
   const filters = useFilterStore((state) => state.filters);
   const owned = useFilterStore((state) => state.owned);
   const unOwned = useFilterStore((state) => state.unowned);
-  const data = Object.values(items);
+  const givenItems = Object.values(items);
   const [parent] = useAutoAnimate<HTMLDivElement>({
     easing: "ease-in-out",
   });
-  const { tokenIds, isError, isLoading } = useUserData(user);
+  const { data, isError, isLoading } = useUserData(user);
 
-  if (owned && filters.length === 0 && tokenIds) {
+  if (owned && filters.length === 0 && data) {
     return (
       <div
         ref={parent}
         className="container grid h-full grid-flow-row grid-cols-2 gap-5 overflow-y-scroll rounded bg-zinc-800 p-2 md:grid-cols-4 md:p-10"
       >
-        {data
-          .filter((x) => tokenIds.includes(x.tokenId))
+        {givenItems
+          .filter((x) => data.includes(x.tokenId))
           .map((item: IERC721MetadataModel, index: number) => (
             <PurchaseCard {...item} key={index} />
           ))}
@@ -30,14 +30,14 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
     );
   }
 
-  if (owned && filters.length > 0 && tokenIds) {
+  if (owned && filters.length > 0 && data) {
     return (
       <div
         ref={parent}
         className="container grid h-full grid-flow-row grid-cols-2 gap-5 overflow-y-scroll rounded bg-zinc-800 p-2 md:grid-cols-4 md:p-10"
       >
-        {data
-          .filter((x) => tokenIds.includes(x.tokenId))
+        {givenItems
+          .filter((x) => data.includes(x.tokenId))
           .filter((x) => filters.includes(x.attributes[0].trait_type))
           .map((item: IERC721MetadataModel, index: number) => (
             <PurchaseCard {...item} key={index} />
@@ -46,14 +46,14 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
     );
   }
 
-  if (unOwned && filters.length === 0 && tokenIds) {
+  if (unOwned && filters.length === 0 && data) {
     return (
       <div
         ref={parent}
         className="container grid h-full grid-flow-row grid-cols-2 gap-5 overflow-y-scroll rounded bg-zinc-800 p-2 md:grid-cols-4 md:p-10"
       >
-        {data
-          .filter((x) => !tokenIds.includes(x.tokenId))
+        {givenItems
+          .filter((x) => !data.includes(x.tokenId))
           .map((item: IERC721MetadataModel, index: number) => (
             <PurchaseCard {...item} key={index} />
           ))}
@@ -61,14 +61,14 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
     );
   }
 
-  if (unOwned && filters.length > 0 && tokenIds) {
+  if (unOwned && filters.length > 0 && data) {
     return (
       <div
         ref={parent}
         className="container grid h-full grid-flow-row grid-cols-2 gap-5 overflow-y-scroll rounded bg-zinc-800 p-2 md:grid-cols-4 md:p-10"
       >
-        {data
-          .filter((x) => !tokenIds.includes(x.tokenId))
+        {givenItems
+          .filter((x) => !data.includes(x.tokenId))
           .filter((x) => filters.includes(x.attributes[0].trait_type))
           .map((item: IERC721MetadataModel, index: number) => (
             <PurchaseCard {...item} key={index} />
