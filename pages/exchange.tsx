@@ -8,25 +8,20 @@ import {
   useNFTState,
   useUserStore,
 } from "@/state/store";
-import { useAccount } from "wagmi";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { AnimatePresence } from "framer-motion";
 import { IoFilter } from "react-icons/io5";
 import MobileFilterModal from "@/components/exchange/MobileFilterModal";
-import { useUserLayerNFTs } from "@/api/hooks/useUserLayerNFTs";
 
 const Exchange = ({ items }: any) => {
-  const account = useAccount();
   const filters = useFilterStore((state) => state.filters);
   const open = useModalStore((state) => state.open);
   const modalItem = useModalStore((state) => state.item);
-  const addAndRemove = useNFTState((state) => state.addAndRemove);
-  const [userAddress, setUserAddress] = useState("");
   const [parent] = useAutoAnimate<HTMLDivElement>();
   const openFilter = useModalStore((state) => state.openFilter);
   const toggleFilterModal = useModalStore((state) => state.toggleFilterModal);
-  const { tokenIds, data } = useUserLayerNFTs(userAddress);
+  const user = useUserStore((state) => state.user);
 
   useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
@@ -34,17 +29,7 @@ const Exchange = ({ items }: any) => {
     if (!open) document.body.style.overflow = "auto";
   }, [open]);
 
-  useEffect(() => {
-    setUserAddress(account?.address!);
-  }, [account]);
-
-  useEffect(() => {
-    if (tokenIds) {
-      addAndRemove(tokenIds);
-    }
-  }, [data]);
-
-  if (!userAddress) {
+  if (!user) {
     return (
       <div
         className={

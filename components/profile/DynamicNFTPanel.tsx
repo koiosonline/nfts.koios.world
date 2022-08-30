@@ -5,7 +5,6 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import Image from "next/future/image";
 import { getSignature } from "@/api/profile/dynamicNFT";
 import Spinner from "../util/Spinner";
 import { MumbaiERC721Config } from "@/data/MumbaiERC721Config";

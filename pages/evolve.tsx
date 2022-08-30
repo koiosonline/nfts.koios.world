@@ -1,25 +1,22 @@
 import { getUserDynamicNFT } from "@/api/alchemy/getUserDynamicNFT";
-import { getUserLayerNFTs } from "@/api/alchemy/getUserLayerNFTs";
 import { getDynamicNFTMetadata } from "@/api/profile/getDynamicNFTMetadata";
 import CanvasComposer from "@/components/evolve/CanvasComposer";
 import DynamicNFTComposer from "@/components/evolve/DynamicNFTComposer";
 import EvolveModal from "@/components/evolve/EvolveModal";
 
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
-import { useEvolveStore, useModalStore, useNFTState } from "@/state/store";
+import { useEvolveStore, useModalStore, useUserStore } from "@/state/store";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
 import { ImEnlarge2 } from "react-icons/im";
 import DescModal from "@/components/evolve/DescModal";
 import Spinner from "@/components/util/Spinner";
+import { useUserData } from "@/api/hooks/useUserData";
+import { useContractRead } from "wagmi";
+import { MumbaiERC721Config } from "@/data/MumbaiERC721Config";
 
 const Evolve = (items: IERC721MetadataModel[][]) => {
-  const user = useAccount();
-  const [metadata, setMetadata] = useState<IERC721MetadataModel | null>(null);
-  const [noNFT, setNoNFT] = useState<boolean | null>(null);
-  const nftLayers = useNFTState((state) => state.nfts);
-  const addAndRemove = useNFTState((state) => state.addAndRemove);
+  const user = useUserStore((state) => state.user);
   const openEvolve = useModalStore((state) => state.openEvolve);
   const openDesc = useModalStore((state) => state.openDesc);
   const toggleDescModal = useModalStore((state) => state.toggleDescModal);
@@ -29,19 +26,11 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
   const setExternalURL = useEvolveStore((state) => state.setExternalURL);
   const nftDescription = useEvolveStore((state) => state.nftDescription);
 
-  const [userAddress, setUserAddress] = useState("");
-
-  useEffect(() => {
-    setUserAddress(user?.address!);
-  }, [user]);
-
-  useEffect(() => {
-    if (metadata) {
-      setName(metadata?.name);
-      setDescription(metadata?.description);
-      setExternalURL(metadata.external_url);
-    }
-  }, [metadata]);
+  const contractRead = useContractRead({
+    ...MumbaiERC721Config,
+    functionName: "balanceOf",
+    args: [user],
+  });
 
   useEffect(() => {
     if (openEvolve) document.body.style.overflow = "hidden";
@@ -49,35 +38,15 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
     if (!openEvolve) document.body.style.overflow = "auto";
   }, [openEvolve]);
 
+  const { dynamicNFT, isError, isLoading } = useUserData(user);
+
   useEffect(() => {
-    const fetchDynamic = async () => {
-      if (user.isConnected) {
-        const nft = await getUserDynamicNFT(user.address!);
-        if (nft[0]) {
-          const dynamicNFTMetadata = await getDynamicNFTMetadata(
-            nft[0].tokenId
-          );
-          const json: IERC721MetadataModel = await dynamicNFTMetadata.json();
+    if (dynamicNFT) {
+      setDescription(dynamicNFT.description);
+    }
+  }, [dynamicNFT]);
 
-          if (!nftLayers || nftLayers.length === 0) {
-            const nfts = await getUserLayerNFTs(user.address!);
-            const tokenIds: number[] = nfts.map((item: any) =>
-              parseInt(item.tokenId)
-            );
-            addAndRemove(tokenIds);
-          }
-
-          setMetadata(json);
-          setNoNFT(false);
-        } else {
-          setNoNFT(true);
-        }
-      }
-    };
-    fetchDynamic();
-  }, [user.address, user.isConnected]);
-
-  if (!userAddress) {
+  if (!user) {
     return (
       <div
         className={
@@ -89,7 +58,7 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
     );
   }
 
-  if (noNFT) {
+  if (contractRead.data && parseInt(contractRead.data.toString()) === 0) {
     return (
       <div
         className={
@@ -101,7 +70,7 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
     );
   }
 
-  if (!metadata) {
+  if (isLoading) {
     return (
       <div
         className={
@@ -117,12 +86,12 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
   return (
     <div className="container flex flex-col justify-between gap-5 p-10 pt-40 md:items-center md:justify-center md:p-0 md:pt-40 ">
       <AnimatePresence>
-        {openEvolve && metadata ? <EvolveModal item={metadata} /> : null}
+        {openEvolve && dynamicNFT ? <EvolveModal item={dynamicNFT} /> : null}
       </AnimatePresence>
       <AnimatePresence>{openDesc ? <DescModal /> : null}</AnimatePresence>
       <div className="flex h-full w-full flex-col items-center justify-center gap-5 pt-20  md:flex-row md:p-10">
         <div className="flex h-full w-full gap-5 rounded bg-zinc-800 p-5 md:w-1/3">
-          {metadata && <CanvasComposer {...metadata} />}
+          {dynamicNFT && <CanvasComposer {...dynamicNFT} />}
         </div>
         <div className="flex  h-full w-full gap-5 rounded bg-zinc-800 text-gray-200 md:h-full md:w-1/3 ">
           <div className="flex h-full w-full flex-col ">
@@ -133,7 +102,7 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
               <input
                 onChange={(e) => setName(e.target.value)}
                 className="h-10 w-full rounded border-none bg-zinc-100 pl-5 pr-5 font-heading text-zinc-800"
-                defaultValue={metadata?.name ? metadata.name : ""}
+                defaultValue={dynamicNFT?.name ? dynamicNFT.name : ""}
                 type="text"
               />
             </div>
@@ -153,11 +122,10 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
               <div className="relative">
                 <textarea
                   onChange={(e) => setDescription(e.target.value)}
-                  value={nftDescription}
-                  defaultValue={metadata?.description}
+                  defaultValue={nftDescription}
                   className=" h-full w-full resize-none rounded border-none bg-zinc-100 pl-5 pr-5 font-heading text-zinc-800"
                   placeholder={
-                    metadata?.description ? metadata.description : ""
+                    dynamicNFT?.description ? dynamicNFT.description : ""
                   }
                 />
               </div>
@@ -174,7 +142,7 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
               <input
                 onChange={(e) => setExternalURL(e.target.value)}
                 defaultValue={
-                  metadata?.external_url ? metadata.external_url : ""
+                  dynamicNFT?.external_url ? dynamicNFT.external_url : ""
                 }
                 className="h-10 w-full rounded border-none bg-zinc-100 pl-5 pr-5 font-heading text-zinc-800"
                 type="text"

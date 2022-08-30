@@ -42,7 +42,6 @@ const EvolveModal = ({ item }: any) => {
       if (key === "Head") tokenArray[2] = value;
       if (key === "Item") tokenArray[4] = value;
     });
-    console.log(tokenArray);
 
     const evolveModel: IEvolveModel = {
       saltHash: userSalt,
@@ -167,10 +166,9 @@ const EvolveModal = ({ item }: any) => {
                 </h1>
                 <textarea
                   readOnly
+                  value={nftDescription}
                   className=" h-full resize-none overflow-y-scroll rounded bg-zinc-700 p-5 text-left font-heading text-xs uppercase italic text-white"
-                >
-                  {nftDescription}
-                </textarea>
+                ></textarea>
               </div>
               <div className="flex h-1/6 flex-col gap-2 md:gap-4">
                 <h1 className="text-center font-heading text-lg uppercase text-zinc-400 md:text-2xl">

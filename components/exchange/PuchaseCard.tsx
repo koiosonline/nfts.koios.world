@@ -1,11 +1,14 @@
+import { useUserData } from "@/api/hooks/useUserData";
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
-import { useModalStore, useNFTState } from "@/state/store";
+import { useModalStore, useUserStore } from "@/state/store";
 
 const PurchaseCard = (item: IERC721MetadataModel) => {
   const isOpen = useModalStore((state) => state.open);
   const openModal = useModalStore((state) => state.openModal);
   const closeModal = useModalStore((state) => state.closeModal);
-  const nfts = useNFTState((state) => state.nfts);
+  const user = useUserStore((state) => state.user);
+
+  const { tokenIds, isError, isLoading } = useUserData(user);
 
   const handleModal = (layer: IERC721MetadataModel) => {
     if (isOpen) {
@@ -53,22 +56,29 @@ const PurchaseCard = (item: IERC721MetadataModel) => {
           />
         </div>
       </div>
-
-      {nfts?.includes(item.tokenId) ? (
-        <div className="flex h-[15%] w-full items-center justify-center rounded bg-brand-blue-picton transition duration-300">
-          <h1 className="text-center font-heading text-lg uppercase md:text-2xl">
-            Owned
-          </h1>{" "}
+      {isLoading ? (
+        <div className=" flex  h-[15%] w-full animate-pulse items-center justify-center rounded bg-zinc-700 p-2  transition duration-300">
+          <div className=" h-full w-full rounded bg-zinc-800"></div>{" "}
         </div>
       ) : (
-        <button
-          onClick={() => handleModal(item)}
-          className="flex h-[15%] w-full items-center justify-center rounded bg-brand-rose-hot-pink transition duration-300 hover:bg-brand-rose-pale-rose"
-        >
-          <h1 className="text-center font-heading text-lg uppercase md:text-2xl">
-            Buy
-          </h1>{" "}
-        </button>
+        <>
+          {tokenIds.includes(item.tokenId) ? (
+            <div className="flex h-[15%] w-full items-center justify-center rounded bg-brand-blue-picton transition duration-300">
+              <h1 className="text-center font-heading text-lg uppercase md:text-2xl">
+                Owned
+              </h1>
+            </div>
+          ) : (
+            <button
+              onClick={() => handleModal(item)}
+              className="flex h-[15%] w-full items-center justify-center rounded bg-brand-rose-hot-pink transition duration-300 hover:bg-brand-rose-pale-rose"
+            >
+              <h1 className="text-center font-heading text-lg uppercase md:text-2xl">
+                Buy
+              </h1>
+            </button>
+          )}
+        </>
       )}
     </div>
   );

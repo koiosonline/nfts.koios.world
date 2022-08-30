@@ -1,15 +1,14 @@
 import { MumbaiERC1155Config } from "@/data/MumbaiERC1155Config";
 import { useEffect } from "react";
-import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
+import { useContractWrite, useWaitForTransaction } from "wagmi";
 import Spinner from "../util/Spinner";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
-import { useNFTState } from "@/state/store";
-import { getUserLayerNFTs } from "@/api/alchemy/getUserLayerNFTs";
+import { useUserStore } from "@/state/store";
+import { useSWRConfig } from "swr";
 
 const MintERC1155 = ({ proofHash, proofSignature, tokenId }: any) => {
-  const account = useAccount();
-  const addAndRemove = useNFTState((state) => state.addAndRemove);
-  const addNFT = useNFTState((state) => state.addNFT);
+  const user = useUserStore((state) => state.user);
+  const { mutate } = useSWRConfig();
 
   const {
     data: mintData,
@@ -49,7 +48,7 @@ const MintERC1155 = ({ proofHash, proofSignature, tokenId }: any) => {
 
   useEffect(() => {
     if (txSuccess) {
-      addNFT(tokenId);
+      mutate(user);
     }
   }, [txSuccess]);
 

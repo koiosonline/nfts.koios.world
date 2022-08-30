@@ -1,11 +1,13 @@
 import DropdownButton from "../util/DropdownButton";
 import DropdownItems from "../util/DropdownItems";
 import { useEffect, useState } from "react";
-import { useEvolveStore, useNFTState } from "@/state/store";
+import { useEvolveStore, useNFTState, useUserStore } from "@/state/store";
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import SelectedCheckmark from "./SelectedCheckMark";
+import { useUserData } from "@/api/hooks/useUserData";
+import { mutate } from "swr";
 
 const types = [
   {
@@ -26,23 +28,25 @@ const types = [
 ];
 
 const DynamicNFTComposer = (items: IERC721MetadataModel[][]) => {
+  const user = useUserStore((state) => state.user);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [selectedType, setSelectedType] = useState<number>(0);
   const ownedLayers = useEvolveStore((state) => state.ownedLayers);
-  const nftLayers = useNFTState((state) => state.nfts);
   const setOwnedLayers = useEvolveStore((state) => state.setOwnedLayers);
   const deleteLayer = useEvolveStore((state) => state.deleteLayer);
-  const data = Object.values(items);
+
   const titan = useEvolveStore((state) => state.titan);
   const [parent] = useAutoAnimate<HTMLDivElement>({
     easing: "ease-in-out",
   });
 
+  const resetTitan = useEvolveStore((state) => state.resetTitan);
+  const { tokenIds, isError, isLoading } = useUserData(user);
+
   const handleAddition = (layer: IERC721MetadataModel) => {
     if (titan.get(layer.attributes[0].trait_type) === layer.tokenId) {
       deleteLayer();
       titan.set(layer.attributes[0].trait_type, 0);
-      console.log(titan);
     } else {
       useEvolveStore.setState((state) => ({
         titan: new Map(state.titan).set(
@@ -59,10 +63,18 @@ const DynamicNFTComposer = (items: IERC721MetadataModel[][]) => {
   };
 
   useEffect(() => {
-    if (nftLayers && nftLayers.length > 0) {
-      setOwnedLayers(data[0].filter((x) => nftLayers.includes(x.tokenId)));
+    const data = Object.values(items);
+    const newData = data[0].filter((x) => tokenIds.includes(x.tokenId));
+    if (newData) {
+      setOwnedLayers(newData);
     }
-  }, [selectedType, nftLayers]);
+  }, [selectedType]);
+
+  useEffect(() => {
+    resetTitan();
+    mutate(user);
+    setSelectedType(0);
+  }, [user]);
 
   return (
     <>
@@ -70,6 +82,7 @@ const DynamicNFTComposer = (items: IERC721MetadataModel[][]) => {
         <h1 className="mb-2 font-heading text-xl text-zinc-400 md:text-3xl">
           Select Layers Below
         </h1>
+
         <DropdownButton
           setOpenMenu={setOpenMenu}
           openMenu={openMenu}

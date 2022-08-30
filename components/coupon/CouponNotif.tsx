@@ -1,36 +1,24 @@
-import ICouponModel from "@/models/ICouponModel";
-import { IResponseMessage } from "@/models/IResponseMessage";
+import { useUserData } from "@/api/hooks/useUserData";
+import { useNFTState, useUserStore } from "@/state/store";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { useAccount } from "wagmi";
+import { useEffect } from "react";
 
 const CouponNotif = () => {
-  const account = useAccount();
-  const [coupons, setCoupons] = useState<number | null>(null);
-  const [userAddress, setUserAddress] = useState("");
+  const user = useUserStore((state) => state.user);
+  const setCoupons = useNFTState((state) => state.setCoupons);
+  const coupons = useNFTState((state) => state.coupons);
+
+  const { coupons: data, isError, isLoading } = useUserData(user);
 
   useEffect(() => {
-    setUserAddress(account?.address!);
-    const fetchCoupons = async () => {
-      if (userAddress) {
-        const response = await fetch(
-          `/api/coupon/getCoupons/?address=${userAddress}`
-        );
-        if (response.status === 200) {
-          const data: IResponseMessage = await response.json();
-          if (data.data) {
-            const model: ICouponModel = data.data;
-            setCoupons(model.amount);
-          } else {
-            setCoupons(null);
-          }
-        }
-      }
-    };
-    fetchCoupons();
-  }, [account, userAddress]);
+    if (data && data.data) {
+      setCoupons(data.data.amount);
+    } else {
+      setCoupons(0);
+    }
+  }, [data]);
 
-  if (coupons) {
+  if (coupons && coupons > 0) {
     return (
       <div className="fixed bottom-5 left-5 ">
         <div

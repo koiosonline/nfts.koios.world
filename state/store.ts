@@ -18,6 +18,7 @@ interface EvolveState {
   setExternalURL: (externalURL: string) => void;
   deleteLayer: () => void;
   setOwnedLayers: (layers: IERC721MetadataModel[]) => void;
+  resetTitan: () => void;
 }
 interface FilterState {
   owned: boolean;
@@ -45,8 +46,8 @@ interface ModalState {
 
 interface NFTState {
   nfts: any[];
-  coupons: boolean | null;
-  setCoupons: (coupons: boolean) => void;
+  coupons: number | null;
+  setCoupons: (coupons: number) => void;
   addAndRemove: (nfts: any) => void;
   addNFT: (nft: any) => void;
 }
@@ -80,6 +81,16 @@ export const useEvolveStore = create<EvolveState>((set, get) => ({
     set((state) => ({ nftDescription: description })),
   setExternalURL: (externalURL: string) =>
     set((state) => ({ nftExternalURL: externalURL })),
+  resetTitan: () =>
+    set((state) => ({
+      titan: new Map([
+        ["Skin", 0],
+        ["Clothing", 0],
+        ["Hair", 0],
+        ["Head", 0],
+        ["Item", 0],
+      ]),
+    })),
 }));
 
 export const useFilterStore = create<FilterState>()((set) => ({
@@ -97,7 +108,7 @@ export const useFilterStore = create<FilterState>()((set) => ({
 export const useNFTState = create<NFTState>((set) => ({
   nfts: [],
   coupons: null,
-  setCoupons: (coupons: boolean) => set((state) => ({ coupons })),
+  setCoupons: (coupons: number) => set((state) => ({ coupons })),
   addAndRemove: (items: any) => set((state) => ({ nfts: [...items] })),
   addNFT: (nft: any) => set((state) => ({ nfts: [...state.nfts, nft] })),
 }));

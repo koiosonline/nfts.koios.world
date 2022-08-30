@@ -19,7 +19,6 @@ const FilterPanel = (items: IERC721MetadataModel[]) => {
   };
 
   useEffect(() => {
-    console.log(items);
     const data = Object.values(items);
     const mapp: Map<string, IERC721MetadataModel> = new Map();
     const uniqueIds: IERC721MetadataModel[] = [];
@@ -27,7 +26,6 @@ const FilterPanel = (items: IERC721MetadataModel[]) => {
       mapp.set(item.attributes[0].trait_type, item);
     });
 
-    console.log(mapp);
     mapp.forEach((item) => {
       uniqueIds.push(item);
     });

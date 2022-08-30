@@ -1,44 +1,30 @@
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
-import { useModalStore } from "@/state/store";
+import { useModalStore, useNFTState, useUserStore } from "@/state/store";
 import { useEffect, useState } from "react";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import crypto from "crypto";
-import { useAccount, useSignMessage } from "wagmi";
+import { useSignMessage } from "wagmi";
 import { generateProof } from "@/api/exchange/generateProof";
 import { IResponseMessage } from "@/models/IResponseMessage";
 import Spinner from "../util/Spinner";
 import MintERC1155 from "./MintERC1155";
 import SignatureCard from "./SignatureCard";
 import { motion } from "framer-motion";
-import { fetchCoupons } from "@/api/exchange/fetchCoupons";
 
 const PurchaseModel = (item: IERC721MetadataModel) => {
   const closeModal = useModalStore((state) => state.closeModal);
-  const account = useAccount();
-
   const [userSalt, setUserSalt] = useState("");
   const [proofResponse, setProofResponse] = useState<IResponseMessage>();
   const [proofSignature, setProofSignature] = useState<string>("");
   const [proofHash, setProofHash] = useState<string>("");
   const [noCouponError, setNoCouponError] = useState<string>("");
   const [acceptance, setAcceptance] = useState<boolean>(false);
-  const [coupondAmount, setCoupondAmount] = useState<number>();
+  const coupons = useNFTState((state) => state.coupons);
 
   const { data, isError, isLoading, isSuccess, signMessage, error } =
     useSignMessage({
       message: userSalt,
     });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (account.address) {
-        const coupons = await fetchCoupons(account.address);
-        setCoupondAmount(coupons.data.amount);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   useEffect(() => {
     if (!data) {
@@ -102,7 +88,7 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
           </div>
           <div className="flex h-full w-1/2 flex-col bg-zinc-800">
             <div className="flex h-full w-full flex-col gap-10 p-10">
-              {coupondAmount && coupondAmount > 0 ? (
+              {coupons && coupons > 0 ? (
                 <div className="flex h-1/4 w-full flex-col items-center justify-center gap-5">
                   {!noCouponError && (
                     <h1 className="text-center font-heading text-2xl uppercase text-white">
