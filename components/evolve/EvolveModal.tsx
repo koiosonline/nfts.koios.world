@@ -10,6 +10,8 @@ import IEvolveModel from "@/models/IEvolveModel";
 import { evolveTitan } from "@/api/evolve/evolveTitan";
 import { IResponseMessage } from "@/models/IResponseMessage";
 import { mutate } from "swr";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 const EvolveModal = ({ item }: any) => {
   const closeEvolveModal = useModalStore((state) => state.closeEvolveModal);
@@ -22,6 +24,7 @@ const EvolveModal = ({ item }: any) => {
   const [evolving, setEvolving] = useState(false);
   const [evolveSuccess, setEvolveSuccess] = useState(false);
   const [evolveError, setEvolveError] = useState(false);
+  const { width, height } = useWindowSize();
 
   const { data, isError, isLoading, isSuccess, signMessage, error } =
     useSignMessage({
@@ -76,6 +79,9 @@ const EvolveModal = ({ item }: any) => {
       exit={{ opacity: 0 }}
       className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-default-text/30 p-5 backdrop-blur md:p-20"
     >
+      {evolveSuccess && (
+        <Confetti width={width} height={height} recycle={false} />
+      )}
       <div className="flex h-full w-3/4 flex-col gap-2 rounded">
         <div className="flex h-[5%] w-full items-center justify-between rounded bg-zinc-700 p-10 md:h-1/6">
           <div className=" flex flex-col font-heading uppercase text-white">
