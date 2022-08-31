@@ -1,4 +1,4 @@
-import { useEvolveStore, useModalStore } from "@/state/store";
+import { useEvolveStore, useModalStore, useUserStore } from "@/state/store";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { IoCloseCircleSharp } from "react-icons/io5";
@@ -9,9 +9,13 @@ import Spinner from "../util/Spinner";
 import IEvolveModel from "@/models/IEvolveModel";
 import { evolveTitan } from "@/api/evolve/evolveTitan";
 import { IResponseMessage } from "@/models/IResponseMessage";
+import { mutate } from "swr";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 const EvolveModal = ({ item }: any) => {
   const closeEvolveModal = useModalStore((state) => state.closeEvolveModal);
+  const user = useUserStore((state) => state.user);
   const nftName = useEvolveStore((state) => state.nftName);
   const nftDescription = useEvolveStore((state) => state.nftDescription);
   const nftExternalURL = useEvolveStore((state) => state.nftExternalURL);
@@ -20,6 +24,7 @@ const EvolveModal = ({ item }: any) => {
   const [evolving, setEvolving] = useState(false);
   const [evolveSuccess, setEvolveSuccess] = useState(false);
   const [evolveError, setEvolveError] = useState(false);
+  const { width, height } = useWindowSize();
 
   const { data, isError, isLoading, isSuccess, signMessage, error } =
     useSignMessage({
@@ -33,6 +38,7 @@ const EvolveModal = ({ item }: any) => {
   }, [data]);
 
   const evolveNFT = async () => {
+    setEvolveError(false);
     let tokenArray: number[] = [];
     titan.forEach((value, key) => {
       if (key === "Skin") tokenArray[0] = value;
@@ -60,6 +66,7 @@ const EvolveModal = ({ item }: any) => {
     const evolveResponse: IResponseMessage = await evolveTitan(evolveModel);
     if (evolveResponse.success) {
       setEvolveSuccess(true);
+      mutate("UserDynamicNFT: " + user);
     } else {
       setEvolveError(true);
     }
@@ -72,6 +79,9 @@ const EvolveModal = ({ item }: any) => {
       exit={{ opacity: 0 }}
       className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-default-text/30 p-5 backdrop-blur md:p-20"
     >
+      {evolveSuccess && (
+        <Confetti width={width} height={height} recycle={false} />
+      )}
       <div className="flex h-full w-3/4 flex-col gap-2 rounded">
         <div className="flex h-[5%] w-full items-center justify-between rounded bg-zinc-700 p-10 md:h-1/6">
           <div className=" flex flex-col font-heading uppercase text-white">
