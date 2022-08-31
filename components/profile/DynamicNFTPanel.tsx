@@ -207,7 +207,7 @@ const DynamicNFTPanel = () => {
         ) : (
           <div className="flex h-[10%] w-full text-left">
             <h1 className="font-heading text-2xl uppercase md:text-4xl">
-              "To be eligible you have to be whitelisted by a tutor"
+              To be eligible you have to be whitelisted by a tutor
             </h1>
           </div>
         )}
