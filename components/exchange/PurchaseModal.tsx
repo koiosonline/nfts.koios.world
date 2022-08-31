@@ -10,6 +10,8 @@ import Spinner from "../util/Spinner";
 import MintERC1155 from "./MintERC1155";
 import SignatureCard from "./SignatureCard";
 import { motion } from "framer-motion";
+import { useUserCoupons } from "@/api/hooks/useUserCoupons";
+import { mutate } from "swr";
 
 const PurchaseModel = (item: IERC721MetadataModel) => {
   const closeModal = useModalStore((state) => state.closeModal);
@@ -19,7 +21,8 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
   const [proofHash, setProofHash] = useState<string>("");
   const [noCouponError, setNoCouponError] = useState<string>("");
   const [acceptance, setAcceptance] = useState<boolean>(false);
-  const coupons = useNFTState((state) => state.coupons);
+  const user = useUserStore((state) => state.user);
+  const { data: couponData } = useUserCoupons(user);
 
   const { data, isError, isLoading, isSuccess, signMessage, error } =
     useSignMessage({
@@ -49,6 +52,8 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
       if (proofData.error) {
         setNoCouponError(proofData.message);
       } else {
+        mutate("UserCoupons: " + user);
+
         setProofResponse(proofData);
       }
     }
@@ -88,7 +93,7 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
           </div>
           <div className="flex h-full w-1/2 flex-col bg-zinc-800">
             <div className="flex h-full w-full flex-col gap-10 p-10">
-              {coupons && coupons > 0 ? (
+              {couponData && couponData.amount > 0 && !proofResponse?.error ? (
                 <div className="flex h-1/4 w-full flex-col items-center justify-center gap-5">
                   {!noCouponError && (
                     <h1 className="text-center font-heading text-2xl uppercase text-white">

@@ -1,14 +1,14 @@
-import { useUserData } from "@/api/hooks/useUserData";
+import { useUserLayers } from "@/api/hooks/useUserLayers";
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
 import { useModalStore, useUserStore } from "@/state/store";
 
-const PurchaseCard = (item: IERC721MetadataModel) => {
+const PurchaseCard = (item: any) => {
   const isOpen = useModalStore((state) => state.open);
   const openModal = useModalStore((state) => state.openModal);
   const closeModal = useModalStore((state) => state.closeModal);
   const user = useUserStore((state) => state.user);
 
-  const { data, isError, isLoading } = useUserData(user);
+  const { data, isError, isLoading } = useUserLayers(user);
 
   const handleModal = (layer: IERC721MetadataModel) => {
     if (isOpen) {

@@ -1,4 +1,3 @@
-import IERC721MetadataModel from "@/models/IERC721MetadataModel";
 import useSWR from "swr";
 
 const fetchUserData = async (address: string) => {
@@ -6,7 +5,7 @@ const fetchUserData = async (address: string) => {
   return res.json();
 };
 
-export function useUserData(address: string) {
+export function useUserLayers(address: string) {
   const { data, error } = useSWR(
     address ? "UserLayers: " + address : null,
     () => fetchUserData(address),

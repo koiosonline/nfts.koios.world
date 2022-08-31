@@ -2,7 +2,7 @@ import IERC721MetadataModel from "@/models/IERC721MetadataModel";
 import { useFilterStore, useUserStore } from "@/state/store";
 import PurchaseCard from "./PuchaseCard";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { useUserData } from "@/api/hooks/useUserData";
+import { useUserLayers } from "@/api/hooks/useUserLayers";
 
 const ShopPanel = (items: IERC721MetadataModel[]) => {
   const user = useUserStore((state) => state.user);
@@ -13,7 +13,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
   const [parent] = useAutoAnimate<HTMLDivElement>({
     easing: "ease-in-out",
   });
-  const { data, isError, isLoading } = useUserData(user);
+  const { data, isError, isLoading } = useUserLayers(user);
 
   if (owned && filters.length === 0 && data) {
     return (
@@ -83,7 +83,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
         ref={parent}
         className="container grid h-full grid-flow-row grid-cols-2 gap-5 overflow-y-scroll rounded bg-zinc-800 p-2 md:grid-cols-4 md:p-10"
       >
-        {data.map((item: IERC721MetadataModel, index: number) => (
+        {givenItems.map((item: IERC721MetadataModel, index: number) => (
           <PurchaseCard {...item} key={index} />
         ))}
       </div>
@@ -95,7 +95,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
       ref={parent}
       className="container grid h-full grid-flow-row grid-cols-2 gap-5 overflow-y-scroll rounded bg-zinc-800 p-2 md:grid-cols-4 md:p-10"
     >
-      {data
+      {givenItems
         .filter((x: any) => filters.includes(x.attributes[0].trait_type))
         .map((item: IERC721MetadataModel, index: number) => (
           <PurchaseCard {...item} key={index} />

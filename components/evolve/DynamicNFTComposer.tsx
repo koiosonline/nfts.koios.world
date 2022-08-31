@@ -1,12 +1,11 @@
 import DropdownButton from "../util/DropdownButton";
 import DropdownItems from "../util/DropdownItems";
 import { useEffect, useState } from "react";
-import { useEvolveStore, useNFTState, useUserStore } from "@/state/store";
+import { useEvolveStore, useUserStore } from "@/state/store";
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { IoIosCheckmarkCircle } from "react-icons/io";
 import SelectedCheckmark from "./SelectedCheckMark";
-import { useUserData } from "@/api/hooks/useUserData";
+import { useUserLayers } from "@/api/hooks/useUserLayers";
 import { mutate } from "swr";
 
 const types = [
@@ -41,7 +40,7 @@ const DynamicNFTComposer = (items: IERC721MetadataModel[][]) => {
   });
 
   const resetTitan = useEvolveStore((state) => state.resetTitan);
-  const { data, isError, isLoading } = useUserData(user);
+  const { data, isError, isLoading } = useUserLayers(user);
 
   const handleAddition = (layer: IERC721MetadataModel) => {
     if (titan.get(layer.attributes[0].trait_type) === layer.tokenId) {

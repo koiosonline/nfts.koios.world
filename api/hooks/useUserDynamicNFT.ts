@@ -12,8 +12,7 @@ const fetchUserData = async (address: string) => {
     );
     return metadataRes.json();
   }
-
-  return null;
+  return {};
 };
 
 export function useUserDynamicNFT(address: string) {

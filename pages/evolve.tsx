@@ -9,9 +9,7 @@ import { useEffect } from "react";
 import { ImEnlarge2 } from "react-icons/im";
 import DescModal from "@/components/evolve/DescModal";
 import Spinner from "@/components/util/Spinner";
-import { useUserData } from "@/api/hooks/useUserData";
-import { useContractRead } from "wagmi";
-import { MumbaiERC721Config } from "@/data/MumbaiERC721Config";
+import { useUserLayers } from "@/api/hooks/useUserLayers";
 import { useUserDynamicNFT } from "@/api/hooks/useUserDynamicNFT";
 
 const Evolve = (items: IERC721MetadataModel[][]) => {
@@ -31,7 +29,7 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
     if (!openEvolve) document.body.style.overflow = "auto";
   }, [openEvolve]);
 
-  const { data, isError, isLoading } = useUserData(user);
+  const { data, isError, isLoading } = useUserLayers(user);
   const {
     data: dynamicNFT,
     isLoading: isDynamicNFTLoading,
@@ -58,19 +56,7 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
     );
   }
 
-  if (!dynamicNFT) {
-    return (
-      <div
-        className={
-          "flex h-full w-full items-center justify-center bg-default-text text-center font-heading text-5xl text-brand-rose-hot-pink"
-        }
-      >
-        You do not own a dynamic NFT yet.
-      </div>
-    );
-  }
-
-  if (isLoading) {
+  if (isLoading || isDynamicNFTLoading) {
     return (
       <div
         className={
@@ -79,6 +65,18 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
       >
         <Spinner />
         Loading data...
+      </div>
+    );
+  }
+
+  if (!dynamicNFT?.tokenId) {
+    return (
+      <div
+        className={
+          "flex h-full w-full items-center justify-center bg-default-text text-center font-heading text-5xl text-brand-rose-hot-pink"
+        }
+      >
+        You do not own a dynamic NFT yet.
       </div>
     );
   }

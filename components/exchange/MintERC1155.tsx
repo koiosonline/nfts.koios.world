@@ -48,7 +48,7 @@ const MintERC1155 = ({ proofHash, proofSignature, tokenId }: any) => {
 
   useEffect(() => {
     if (txSuccess) {
-      mutate(user);
+      mutate("UserLayers: " + user);
     }
   }, [txSuccess]);
 

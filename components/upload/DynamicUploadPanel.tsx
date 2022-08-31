@@ -112,6 +112,7 @@ const DynamicNFTPanel = () => {
                 setErrorMessage("");
                 setAddressData("");
                 setFile(null);
+                setSaltHash("");
               }}
             >
               New Address

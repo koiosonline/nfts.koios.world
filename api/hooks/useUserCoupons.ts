@@ -8,12 +8,7 @@ const fetchUserData = async (address: string) => {
 export function useUserCoupons(address: string) {
   const { data, error } = useSWR(
     address ? "UserCoupons: " + address : null,
-    () => fetchUserData(address),
-    {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
+    () => fetchUserData(address)
   );
 
   return {
