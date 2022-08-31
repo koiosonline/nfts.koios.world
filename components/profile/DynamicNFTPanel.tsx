@@ -11,24 +11,15 @@ import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { useUserStore } from "@/state/store";
 import { useUserDynamicNFT } from "@/api/hooks/useUserDynamicNFT";
 import { mutate } from "swr";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 const DynamicNFTPanel = () => {
   const user = useUserStore((state) => state.user);
   const [canMint, setCanMint] = useState<boolean>(false);
+  const { width, height } = useWindowSize();
 
   const addRecentTransaction = useAddRecentTransaction();
-
-  const contractRead = useContractRead({
-    ...MumbaiERC721Config,
-    functionName: "balanceOf",
-    args: `${user}`,
-    enabled: user ? true : false,
-  });
-
-  const minted =
-    contractRead.data && parseInt(contractRead.data.toString()) !== 0
-      ? true
-      : false;
 
   const {
     data: mintData,
@@ -66,7 +57,7 @@ const DynamicNFTPanel = () => {
       }
     };
     fetchMinted();
-  }, [user, txSuccess, contractRead.data]);
+  }, [user, txSuccess]);
 
   useEffect(() => {
     if (txSuccess) {
@@ -93,6 +84,7 @@ const DynamicNFTPanel = () => {
 
   return (
     <div className="flex h-full w-full flex-col justify-between gap-5 pt-20 md:h-[70vh] md:flex-row md:items-center md:p-10">
+      {txSuccess && <Confetti width={width} height={height} recycle={false} />}
       <div className="flex h-5/6 w-full flex-col gap-5 rounded bg-zinc-800 p-5 md:h-full md:min-h-full md:w-1/3">
         {data && data.name ? (
           <h1 className="h-1/6 font-heading text-2xl uppercase text-gray-200">
@@ -103,66 +95,62 @@ const DynamicNFTPanel = () => {
             You have not minted a NFT
           </h1>
         )}
-        {canMint && !minted && (
+        {canMint && !data && (
           <h1 className="h-1/6 font-heading text-lg uppercase text-gray-400">
             You can mint a NFT!
           </h1>
         )}
-        {data ? (
-          <div className="relative flex h-5/6 w-full items-center justify-center rounded">
-            {minted ? (
-              <img
-                width={850}
-                height={850}
-                className="w-full rounded object-contain text-xl"
-                src={data.image}
-                alt="Metadata Image"
-              />
-            ) : (
-              <img
-                width={850}
-                height={850}
-                className="w-full rounded object-contain"
-                src="/nfts/unmintedNFT.png"
-                alt="Unminted NFT"
-              />
-            )}
 
-            {!minted && canMint && !isMinted && (
-              <button
-                onClick={() => mintNFT()}
-                className="absolute bottom-0 flex h-20 w-full items-center justify-center rounded bg-brand-rose-hot-pink text-center font-heading text-xl uppercase text-gray-900 transition duration-300 hover:bg-brand-rose-lavender"
-              >
-                {isMintLoading && !isMintStarted && (
-                  <>
-                    <Spinner /> Awaiting approval...
-                  </>
-                )}
-                {isMintStarted && (
-                  <>
-                    <Spinner /> Minting...
-                  </>
-                )}
-                {!isMintLoading && !isMintStarted && "Mint NFT"}
-                {!isMintLoading && isMintStarted && !canMint && "Not Eligible"}
-              </button>
-            )}
-            {!canMint && (
-              <div className="absolute bottom-0 flex h-20 w-full cursor-not-allowed items-center justify-center rounded bg-brand-rose-hot-pink text-center font-heading text-2xl uppercase text-gray-900 transition duration-300 ">
-                Not Eligible
-              </div>
-            )}
-            {txSuccess && (
-              <div className="absolute bottom-0 flex h-20 w-full cursor-not-allowed items-center justify-center rounded bg-brand-rose-hot-pink text-center font-heading text-2xl uppercase text-gray-900 transition duration-300 ">
-                Success 🎉
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="relative flex h-5/6 w-full items-center justify-center rounded">
-            <div className="h-full w-full animate-pulse rounded bg-zinc-700"></div>
-          </div>
-        )}
+        <div className="relative flex h-5/6 w-full items-center justify-center rounded">
+          {data && data.image ? (
+            <img
+              width={850}
+              height={850}
+              className="w-full rounded object-contain text-xl"
+              src={data.image}
+              alt="Metadata Image"
+            />
+          ) : (
+            <img
+              width={850}
+              height={850}
+              className=" w-full rounded object-contain"
+              src="/nfts/unmintedNFT.png"
+              alt="Unminted NFT"
+            />
+          )}
+
+          {!canMint && (
+            <div className=" absolute bottom-0 h-10 w-full cursor-not-allowed items-center justify-center rounded bg-brand-rose-hot-pink text-center font-heading text-2xl uppercase text-gray-900 transition duration-300 ">
+              Not Eligible
+            </div>
+          )}
+
+          {!data?.tokenId && canMint && !txSuccess && (
+            <button
+              onClick={() => mintNFT()}
+              className="absolute bottom-0 flex h-20 w-full items-center justify-center rounded bg-brand-rose-hot-pink text-center font-heading text-xl uppercase text-gray-900 transition duration-300 hover:bg-brand-rose-lavender"
+            >
+              {isMintLoading && !isMintStarted && (
+                <>
+                  <Spinner /> Awaiting approval...
+                </>
+              )}
+              {isMintStarted && (
+                <>
+                  <Spinner /> Minting...
+                </>
+              )}
+              {!isMintLoading && !isMintStarted && "Mint NFT"}
+            </button>
+          )}
+
+          {txSuccess && (
+            <div className="absolute bottom-0 flex h-20 w-full cursor-not-allowed items-center justify-center rounded bg-brand-rose-hot-pink text-center font-heading text-2xl uppercase text-gray-900 transition duration-300 ">
+              Success 🎉
+            </div>
+          )}
+        </div>
       </div>
       <div className="flex h-5/6 w-full flex-col gap-5 rounded bg-zinc-800 p-8 text-gray-200 md:h-full md:w-2/3 ">
         {data ? (

@@ -1,4 +1,4 @@
-import { useEvolveStore, useModalStore } from "@/state/store";
+import { useEvolveStore, useModalStore, useUserStore } from "@/state/store";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { IoCloseCircleSharp } from "react-icons/io5";
@@ -9,9 +9,11 @@ import Spinner from "../util/Spinner";
 import IEvolveModel from "@/models/IEvolveModel";
 import { evolveTitan } from "@/api/evolve/evolveTitan";
 import { IResponseMessage } from "@/models/IResponseMessage";
+import { mutate } from "swr";
 
 const EvolveModal = ({ item }: any) => {
   const closeEvolveModal = useModalStore((state) => state.closeEvolveModal);
+  const user = useUserStore((state) => state.user);
   const nftName = useEvolveStore((state) => state.nftName);
   const nftDescription = useEvolveStore((state) => state.nftDescription);
   const nftExternalURL = useEvolveStore((state) => state.nftExternalURL);
@@ -33,6 +35,7 @@ const EvolveModal = ({ item }: any) => {
   }, [data]);
 
   const evolveNFT = async () => {
+    setEvolveError(false);
     let tokenArray: number[] = [];
     titan.forEach((value, key) => {
       if (key === "Skin") tokenArray[0] = value;
@@ -60,6 +63,7 @@ const EvolveModal = ({ item }: any) => {
     const evolveResponse: IResponseMessage = await evolveTitan(evolveModel);
     if (evolveResponse.success) {
       setEvolveSuccess(true);
+      mutate("UserDynamicNFT: " + user);
     } else {
       setEvolveError(true);
     }
