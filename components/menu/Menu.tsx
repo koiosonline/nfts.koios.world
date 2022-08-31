@@ -6,11 +6,12 @@ import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import Link from "next/link";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
+import { useUserStore } from "@/state/store";
 
 const Menu = () => {
   const links = [
     { title: "profile", path: "/" },
-    { title: "exchange", path: "/exchange" },
+    { title: "Exchange", path: "/exchange" },
     { title: "evolve", path: "/evolve" },
   ];
 
@@ -18,10 +19,15 @@ const Menu = () => {
 
   const [active, setActive] = useState(false);
   const [isWhitelisted, setIsWhiteListed] = useState(false);
+  const setUser = useUserStore((state) => state.setUser);
 
   const handleToggle = () => {
     setActive(!active);
   };
+
+  useEffect(() => {
+    setUser(account?.address!);
+  }, [account]);
 
   useEffect(() => {
     if (active) {
