@@ -82,7 +82,7 @@ const EvolveModal = ({ item }: any) => {
       {evolveSuccess && (
         <Confetti width={width} height={height} recycle={false} />
       )}
-      <div className="flex h-full w-3/4 flex-col gap-2 rounded">
+      <div className="flex h-full w-3/4 flex-col rounded">
         <div className="flex h-[5%] w-full items-center justify-between rounded bg-zinc-700 p-10 md:h-1/6">
           <div className=" flex flex-col font-heading uppercase text-white">
             <h1 className="text-xl md:text-4xl">Evolving</h1>
