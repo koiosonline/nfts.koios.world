@@ -84,7 +84,7 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
   return (
     <>
       {data && (
-        <div className="container flex flex-col justify-between gap-5 p-10 pt-40 md:items-center md:justify-center md:p-0 md:pt-40 ">
+        <div className="container flex flex-col justify-between gap-5  md:items-center md:justify-center ">
           <AnimatePresence>
             {openEvolve && data ? <EvolveModal item={dynamicNFT} /> : null}
           </AnimatePresence>

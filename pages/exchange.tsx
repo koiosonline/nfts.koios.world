@@ -84,6 +84,7 @@ const Exchange = ({ items }: any) => {
           <ShopPanel {...items} />
         </div>
       </div>
+      <div className="h-[10vh]"></div>
     </div>
   );
 };

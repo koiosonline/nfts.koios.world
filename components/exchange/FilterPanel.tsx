@@ -34,7 +34,7 @@ const FilterPanel = (items: IERC721MetadataModel[]) => {
   }, []);
 
   return (
-    <div className="container flex h-[70vh] flex-col gap-5 border-r-2 border-zinc-800 border-opacity-40 p-2 md:p-10">
+    <div className="container flex h-[70vh] flex-col gap-5 overflow-y-scroll border-r-2 border-zinc-800 border-opacity-40 p-2 md:p-10">
       <div className="flex w-full gap-5 font-heading">
         <div
           onClick={() => toggleOwned()}
