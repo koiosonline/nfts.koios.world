@@ -34,3 +34,17 @@ a {
 * {
   box-sizing: border-box;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: linear-gradient(0deg, rgb(172, 25, 25) 0%, rgb(183, 0, 255) 100%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  box-shadow: 0px 0px 0px 100vh rgb(31, 31, 31);
+  border-radius: 10px;
+}

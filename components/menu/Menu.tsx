@@ -53,7 +53,7 @@ const Menu = () => {
   }, [account]);
 
   return (
-    <div className="text-white-300 container absolute top-0 z-50 mx-auto h-20 w-full bg-default-text/90">
+    <div className="text-white-300 container z-50 mx-auto h-20 w-full bg-default-text/90">
       <div className="mx-auto flex h-full w-full justify-between p-5 md:p-0">
         <div className="flex h-full items-center justify-center pt-10">
           <Image

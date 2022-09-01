@@ -77,12 +77,12 @@ const EvolveModal = ({ item }: any) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-default-text/30 p-5 backdrop-blur md:p-20"
+      className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-default-text/30 p-5 backdrop-blur lg:p-20"
     >
       {evolveSuccess && (
         <Confetti width={width} height={height} recycle={false} />
       )}
-      <div className="flex h-full w-3/4 flex-col rounded">
+      <div className="flex h-full w-full flex-col rounded lg:w-3/4">
         <div className="flex h-[5%] w-full items-center justify-between rounded bg-zinc-700 p-10 md:h-1/6">
           <div className=" flex flex-col font-heading uppercase text-white">
             <h1 className="text-xl md:text-4xl">Evolving</h1>
@@ -155,22 +155,22 @@ const EvolveModal = ({ item }: any) => {
                 </>
               )}
               {evolveSuccess && (
-                <h1 className="text-center font-heading text-lg uppercase text-white md:text-2xl">
+                <h1 className="text-center font-heading text-lg uppercase text-white xl:text-2xl">
                   E V O L V E D ! ! ! 😎
                 </h1>
               )}
             </div>
-            <div className="flex h-4/5 w-full flex-col items-center justify-evenly gap-2 p-5 md:h-3/4">
-              <div className="flex h-1/6 flex-col gap-2 md:gap-4">
-                <h1 className="text-center font-heading text-lg uppercase text-zinc-400 md:text-2xl">
+            <div className="xl::h-3/4 flex h-4/5 w-full flex-col items-center justify-evenly gap-2 p-5">
+              <div className="xl::gap-4 flex h-1/6 flex-col gap-2">
+                <h1 className="text-center font-heading text-lg uppercase text-zinc-400 xl:text-2xl">
                   Name
                 </h1>
-                <h2 className="text-center font-heading text-base uppercase text-white md:text-lg">
+                <h2 className="text-center font-heading text-base uppercase text-white xl:text-lg">
                   {nftName}
                 </h2>
               </div>
-              <div className="flex h-3/6 w-full flex-col gap-2 md:gap-4">
-                <h1 className="text-center font-heading text-lg uppercase text-zinc-400 md:text-2xl">
+              <div className="flex h-3/6 w-full flex-col gap-2  xl:gap-4">
+                <h1 className="text-center font-heading text-lg uppercase text-zinc-400 xl:text-2xl">
                   Description
                 </h1>
                 <textarea
@@ -179,11 +179,11 @@ const EvolveModal = ({ item }: any) => {
                   className=" h-full resize-none overflow-y-scroll rounded bg-zinc-700 p-5 text-left font-heading text-xs uppercase italic text-white"
                 ></textarea>
               </div>
-              <div className="flex h-1/6 flex-col gap-2 md:gap-4">
-                <h1 className="text-center font-heading text-lg uppercase text-zinc-400 md:text-2xl">
+              <div className="flex h-1/6 flex-col gap-2  xl:gap-4">
+                <h1 className="text-center font-heading text-lg uppercase text-zinc-400 xl:text-2xl">
                   External URL
                 </h1>
-                <h2 className="text-center font-heading text-base uppercase text-white md:text-lg">
+                <h2 className="text-center font-heading text-base uppercase text-white xl:text-lg">
                   {nftExternalURL}
                 </h2>
               </div>

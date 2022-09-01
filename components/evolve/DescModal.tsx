@@ -14,8 +14,8 @@ const DescModal = () => {
       exit={{ opacity: 0 }}
       className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-default-text/30 p-5 backdrop-blur md:p-20"
     >
-      <div className="flex h-full w-full flex-col gap-2 rounded md:w-1/2">
-        <div className="flex h-[5%] w-full items-center justify-between rounded bg-zinc-700 p-7 md:p-10">
+      <div className="flex h-full w-full flex-col md:w-1/2">
+        <div className="flex h-[5%] w-full items-center justify-between rounded rounded-b-none bg-zinc-700 p-7 md:p-10">
           <div className=" flex flex-col font-heading uppercase text-white">
             <h1 className="text-xl md:text-4xl">Description</h1>
           </div>
@@ -30,7 +30,7 @@ const DescModal = () => {
             />
           </div>
         </div>
-        <div className="flex h-[85%] w-full justify-between rounded bg-zinc-800 p-7 md:p-10">
+        <div className="flex h-[85%] w-full justify-between rounded rounded-t-none bg-zinc-800 p-7 md:p-10">
           <textarea
             onChange={(e) => setDescription(e.target.value)}
             defaultValue={nftDescription}

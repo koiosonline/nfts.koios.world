@@ -17,7 +17,7 @@ const Upload = ({ isWhitelisted, user }: any) => {
     return (
       <div
         className={
-          "flex h-screen w-full items-center justify-center bg-default-text text-center font-heading text-8xl text-brand-rose-hot-pink"
+          "flex h-full w-full items-center justify-center bg-default-text text-center font-heading text-8xl text-brand-rose-hot-pink"
         }
       >
         Not Allowed
@@ -27,7 +27,7 @@ const Upload = ({ isWhitelisted, user }: any) => {
   return (
     <div
       className={
-        "flex h-screen w-full flex-col items-center justify-center bg-default-text pt-20 text-center font-heading text-2xl"
+        "flex h-full w-full flex-col items-center justify-center bg-default-text text-center font-heading text-2xl"
       }
     >
       <div className="flex w-1/3 items-center justify-around rounded ">

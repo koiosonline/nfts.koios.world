@@ -5,10 +5,13 @@ import Spinner from "../util/Spinner";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { useUserStore } from "@/state/store";
 import { useSWRConfig } from "swr";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 const MintERC1155 = ({ proofHash, proofSignature, tokenId }: any) => {
   const user = useUserStore((state) => state.user);
   const { mutate } = useSWRConfig();
+  const { width, height } = useWindowSize();
 
   const {
     data: mintData,
@@ -54,6 +57,7 @@ const MintERC1155 = ({ proofHash, proofSignature, tokenId }: any) => {
 
   return (
     <>
+      {txSuccess && <Confetti width={width} height={height} recycle={false} />}
       {proofHash && proofSignature && !txLoading && !txSuccess && (
         <button
           onClick={() => mintNFT()}
