@@ -9,7 +9,7 @@ const MetadataPanel = () => {
       {data ? (
         <>
           <div className="flex h-[10%] w-full text-left">
-            <h1 className="font-heading text-xl uppercase lg:text-2xl">
+            <h1 className="truncate font-heading text-xl uppercase lg:text-2xl">
               {data.name ? data.name : "Read below on how to obtain one!"}
             </h1>
           </div>
