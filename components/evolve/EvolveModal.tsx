@@ -160,16 +160,16 @@ const EvolveModal = ({ item }: any) => {
                 </h1>
               )}
             </div>
-            <div className="xl::h-3/4 flex h-4/5 w-full flex-col items-center justify-evenly gap-2 p-5">
-              <div className="xl::gap-4 flex h-1/6 flex-col gap-2">
-                <h1 className="text-center font-heading text-lg uppercase text-zinc-400 xl:text-2xl">
+            <div className=" flex h-4/5 w-full flex-col items-center justify-evenly gap-2 overflow-hidden p-5 xl:h-3/4">
+              <div className="flex h-1/4 w-full flex-col gap-2 md:h-1/6 xl:gap-4">
+                <h1 className="text-center font-heading text-lg uppercase text-zinc-400 xl:text-2xl ">
                   Name
                 </h1>
-                <h2 className="text-center font-heading text-base uppercase text-white xl:text-lg">
+                <h2 className="truncate text-center font-heading text-base uppercase text-white xl:text-lg">
                   {nftName}
                 </h2>
               </div>
-              <div className="flex h-3/6 w-full flex-col gap-2  xl:gap-4">
+              <div className=" flex h-3/4 w-full flex-col gap-2 md:h-3/6  xl:gap-4">
                 <h1 className="text-center font-heading text-lg uppercase text-zinc-400 xl:text-2xl">
                   Description
                 </h1>
@@ -179,7 +179,7 @@ const EvolveModal = ({ item }: any) => {
                   className=" h-full resize-none overflow-y-scroll rounded bg-zinc-700 p-5 text-left font-heading text-xs uppercase italic text-white"
                 ></textarea>
               </div>
-              <div className="flex h-1/6 flex-col gap-2  xl:gap-4">
+              <div className="hidden h-2/6 flex-col gap-2 md:flex  xl:gap-4">
                 <h1 className="text-center font-heading text-lg uppercase text-zinc-400 xl:text-2xl">
                   External URL
                 </h1>
