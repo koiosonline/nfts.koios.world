@@ -32,6 +32,7 @@ const DescModal = () => {
         </div>
         <div className="flex h-[85%] w-full justify-between rounded rounded-t-none bg-zinc-800 p-7 md:p-10">
           <textarea
+            maxLength={2000}
             onChange={(e) => setDescription(e.target.value)}
             defaultValue={nftDescription}
             className=" h-full w-full resize-none rounded border-none bg-zinc-100 pl-5 pr-5 font-heading text-zinc-800"
