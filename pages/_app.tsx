@@ -57,7 +57,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         </Head>
         <main
           className={
-            "relative flex h-full min-h-screen w-full flex-col items-center justify-between gap-10 overflow-x-hidden overflow-y-hidden bg-default-text"
+            "relative flex h-full min-h-screen w-full flex-col items-center gap-20 overflow-x-hidden overflow-y-hidden bg-default-text"
           }
         >
           <Menu />
