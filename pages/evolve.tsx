@@ -100,6 +100,7 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
                     Change Name
                   </h1>
                   <input
+                    maxLength={100}
                     onChange={(e) => setName(e.target.value)}
                     className="h-10 w-full rounded border-none bg-zinc-100 pl-5 pr-5 font-heading text-zinc-800"
                     defaultValue={dynamicNFT?.name ? dynamicNFT.name : ""}
@@ -121,6 +122,7 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
 
                   <div className="relative">
                     <textarea
+                      maxLength={2000}
                       onChange={(e) => setDescription(e.target.value)}
                       defaultValue={nftDescription}
                       className=" h-full w-full resize-none rounded border-none bg-zinc-100 pl-5 pr-5 font-heading text-zinc-800"
@@ -140,6 +142,7 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
                     </h2>
                   </div>
                   <input
+                    maxLength={100}
                     onChange={(e) => setExternalURL(e.target.value)}
                     defaultValue={
                       dynamicNFT?.external_url ? dynamicNFT.external_url : ""
