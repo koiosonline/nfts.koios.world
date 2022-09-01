@@ -9,7 +9,7 @@ const DynamicNFTPanel = () => {
   const { data, isLoading, isError } = useUserDynamicNFT(user);
 
   return (
-    <div className="flex h-full w-full flex-col justify-between gap-5 pt-20 md:h-[70vh] md:flex-row md:items-center md:p-10">
+    <div className="flex h-full w-full flex-col justify-between gap-5 md:h-[70vh] md:flex-row md:items-center md:p-10">
       {!isLoading && (
         <div className="flex h-5/6 w-full flex-col gap-5 rounded bg-zinc-800 p-5 md:h-full md:min-h-full md:w-1/3">
           {data && data.tokenId && <UserDynamic {...data} />}

@@ -26,7 +26,7 @@ const Home: NextPage = () => {
   return (
     <div
       className={
-        "relative flex h-full w-full flex-col items-center justify-center gap-5 bg-default-text p-10  text-center font-heading text-8xl text-brand-rose-hot-pink xl:p-44 xl:pt-0"
+        "relative flex h-full w-full flex-col items-center justify-center gap-5 bg-default-text p-5  text-center font-heading text-8xl text-brand-rose-hot-pink xl:p-44 xl:pt-0"
       }
     >
       <DynamicNFTPanel />

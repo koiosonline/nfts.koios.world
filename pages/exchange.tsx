@@ -42,7 +42,7 @@ const Exchange = ({ items }: any) => {
   }
 
   return (
-    <div className="container relative mx-auto flex flex-col items-center justify-center gap-5 pt-20">
+    <div className="container relative mx-auto flex flex-col items-center justify-center gap-5 p-2 ">
       <AnimatePresence>
         {open && modalItem ? <PurchaseModel {...modalItem} /> : null}
       </AnimatePresence>
