@@ -39,6 +39,7 @@ const DynamicNFTPanel = () => {
   });
 
   const { data, isLoading, isError } = useUserDynamicNFT(user);
+  const imageSrc = data?.image;
 
   useEffect(() => {
     const fetchMinted = async () => {
@@ -98,12 +99,12 @@ const DynamicNFTPanel = () => {
           )}
 
           <div className="relative flex h-5/6 w-full items-center justify-center rounded">
-            {data && data.image ? (
+            {data && imageSrc ? (
               <img
                 width={850}
                 height={850}
                 className="w-full rounded object-contain text-xl"
-                src={data.image}
+                src={imageSrc}
                 alt="Metadata Image"
               />
             ) : (
