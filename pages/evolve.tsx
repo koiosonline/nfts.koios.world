@@ -89,8 +89,8 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
             {openEvolve && data ? <EvolveModal item={dynamicNFT} /> : null}
           </AnimatePresence>
           <AnimatePresence>{openDesc ? <DescModal /> : null}</AnimatePresence>
-          <div className="flex h-full w-full flex-col items-center justify-center gap-5 md:flex-row ">
-            <div className="flex h-full w-full gap-5 rounded bg-zinc-800 p-5 md:w-1/3">
+          <div className="flex  w-full flex-col items-center justify-center gap-5 md:flex-row ">
+            <div className="flex h-full max-h-[500px] min-h-[500px] w-full items-center justify-center gap-5 rounded  bg-zinc-800 p-5 md:w-1/3">
               {data && <CanvasComposer {...dynamicNFT} />}
             </div>
             <div className="flex  h-full w-full gap-5 rounded bg-zinc-800 text-gray-200 md:h-full md:w-1/3 ">
