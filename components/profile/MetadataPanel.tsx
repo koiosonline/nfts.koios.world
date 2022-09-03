@@ -25,7 +25,7 @@ const MetadataPanel = () => {
               <div className="h-1/6 w-full text-left">
                 <h1 className="font-heading text-xl uppercase ">Attributes</h1>
               </div>
-              <div className="grid h-5/6 w-full grid-flow-row grid-cols-2 gap-2 md:grid-flow-row md:grid-rows-3 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="grid h-5/6 w-full grid-flow-row grid-cols-2 gap-2 overflow-y-scroll md:grid-flow-row md:grid-rows-3 md:overflow-hidden lg:grid-cols-3 xl:grid-cols-4">
                 {data.attributes.map((attribute, index) => (
                   <div
                     className="flex h-full max-h-[75px] w-full flex-col items-center justify-evenly rounded border-[1px] border-brand-rose-hot-pink bg-brand-rose-hot-pink/10 p-3 md:max-h-full "
