@@ -156,7 +156,7 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
               </div>
             )}
 
-            {couponData && couponData.amount === 0 && !proofSignature && (
+            {!proofSignature && !couponData.amount && (
               <h1 className="w-full p-5 text-center font-heading text-xl text-action-error">
                 No Coupons left 😭
               </h1>

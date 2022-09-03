@@ -83,7 +83,7 @@ const EvolveModal = ({ item }: any) => {
         <Confetti width={width} height={height} recycle={false} />
       )}
       <div className="flex h-full w-full flex-col rounded lg:w-3/4">
-        <div className="flex h-[5%] w-full items-center justify-between rounded bg-zinc-700 p-10 md:h-1/6">
+        <div className="flex h-10 w-full items-center justify-between rounded bg-zinc-700 p-10 md:h-1/6">
           <div className=" flex flex-col font-heading uppercase text-white">
             <h1 className="text-xl md:text-4xl">Evolving</h1>
           </div>
@@ -98,8 +98,8 @@ const EvolveModal = ({ item }: any) => {
             />
           </div>
         </div>
-        <div className="flex h-[95%] w-full flex-col rounded-b bg-zinc-800 md:h-5/6 md:flex-row">
-          <div className="flex h-full w-full items-center justify-center border-none border-zinc-400 border-opacity-40 p-5 md:w-1/2 md:border-r-2 md:border-dashed md:p-10">
+        <div className="flex h-full w-full flex-col rounded-b bg-zinc-800 md:h-5/6 md:flex-row">
+          <div className="hidden h-full w-full items-center justify-center border-none border-zinc-400 border-opacity-40 p-5 md:flex md:w-1/2 md:border-r-2 md:border-dashed md:p-10">
             <CanvasComposer {...item} />
           </div>
           <div className="flex h-full w-full flex-col bg-zinc-800 p-5 md:w-1/2">
@@ -161,29 +161,20 @@ const EvolveModal = ({ item }: any) => {
               )}
             </div>
             <div className=" flex h-4/5 w-full flex-col items-center justify-evenly gap-2 overflow-hidden p-5 xl:h-3/4">
-              <div className="flex h-1/4 w-full flex-col gap-2 md:h-1/6 xl:gap-4">
-                <h1 className="text-center font-heading text-lg uppercase text-zinc-400 xl:text-2xl ">
-                  Name
-                </h1>
-                <h2 className="truncate text-center font-heading text-base uppercase text-white xl:text-lg">
+              <div className="flex h-1/4 w-full items-center justify-center gap-2 md:h-1/6 xl:gap-4 2xl:flex-col">
+                <h2 className="truncate text-center font-heading text-base uppercase text-white 2xl:text-lg">
                   {nftName}
                 </h2>
               </div>
               <div className=" flex h-3/4 w-full flex-col gap-2 md:h-3/6  xl:gap-4">
-                <h1 className="text-center font-heading text-lg uppercase text-zinc-400 xl:text-2xl">
-                  Description
-                </h1>
                 <textarea
                   readOnly
                   value={nftDescription}
                   className=" h-full resize-none overflow-y-scroll rounded bg-zinc-700 p-5 text-left font-heading text-xs uppercase italic text-white"
                 ></textarea>
               </div>
-              <div className="hidden h-2/6 flex-col gap-2 md:flex  xl:gap-4">
-                <h1 className="text-center font-heading text-lg uppercase text-zinc-400 xl:text-2xl">
-                  External URL
-                </h1>
-                <h2 className="text-center font-heading text-base uppercase text-white xl:text-lg">
+              <div className="flex h-1/4 w-full items-center justify-center gap-2 md:h-1/6 xl:gap-4 2xl:flex-col">
+                <h2 className="truncate text-center font-heading text-base uppercase text-white 2xl:text-lg">
                   {nftExternalURL}
                 </h2>
               </div>
