@@ -44,8 +44,8 @@ const DynamicNFTComposer = (items: IERC721MetadataModel[][]) => {
 
   const handleAddition = (layer: IERC721MetadataModel) => {
     if (titan.get(layer.attributes[0].trait_type) === layer.tokenId) {
-      deleteLayer();
       titan.set(layer.attributes[0].trait_type, 0);
+      deleteLayer();
     } else {
       useEvolveStore.setState((state) => ({
         titan: new Map(state.titan).set(
@@ -54,6 +54,7 @@ const DynamicNFTComposer = (items: IERC721MetadataModel[][]) => {
         ),
       }));
     }
+    deleteLayer();
   };
 
   const handleItemChange = (index: number) => {
@@ -103,7 +104,7 @@ const DynamicNFTComposer = (items: IERC721MetadataModel[][]) => {
             .map((item: IERC721MetadataModel, index: number) => (
               <div
                 onClick={() => handleAddition(item)}
-                className="relative h-full w-full cursor-pointer rounded border-2 border-gray-400 transition duration-300 ease-in-out hover:scale-105"
+                className="relative h-full max-h-[115px] min-h-[115px] w-full min-w-[115px] cursor-pointer rounded border-2 border-gray-400 transition duration-300 ease-in-out hover:scale-105 md:max-h-full"
                 key={index}
               >
                 <img

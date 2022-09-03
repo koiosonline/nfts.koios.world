@@ -4,7 +4,7 @@ import { useEvolveStore } from "@/state/store";
 const CanvasComposer = (props: IERC721MetadataModel) => {
   const ownedLayers = useEvolveStore((state) => state.ownedLayers);
   const titan = useEvolveStore((state) => state.titan);
-
+  
   return (
     <div className="relative flex h-full min-h-[500px] w-full items-center justify-center overflow-hidden rounded object-contain md:min-h-[500px] ">
       {props.attributes[0].value === "Blockchain" ? (
@@ -37,7 +37,5 @@ const CanvasComposer = (props: IERC721MetadataModel) => {
           }
         }
       })}
-    </div>
-  );
 };
 export default CanvasComposer;
