@@ -28,7 +28,7 @@ const MetadataPanel = () => {
               <div className="flex h-5/6 w-full flex-wrap gap-5">
                 {data.attributes.map((attribute, index) => (
                   <div
-                    className="flex h-full max-h-[75px] min-h-[75px] w-full min-w-[75px] max-w-[125px] flex-col items-center justify-evenly rounded border-[1px] border-brand-rose-hot-pink bg-brand-rose-hot-pink/10 p-3"
+                    className="flex h-full max-h-[75px] min-h-[75px] w-full min-w-[75px] max-w-[125px] flex-col items-center justify-evenly rounded border-[1px] border-brand-rose-hot-pink bg-brand-rose-hot-pink/10 p-3 md:max-w-[175px]"
                     key={index}
                   >
                     <h1 className="font-heading text-sm uppercase text-brand-rose-hot-pink md:text-lg">
