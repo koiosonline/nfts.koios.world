@@ -5,7 +5,6 @@ import {
   RainbowKitProvider,
   getDefaultWallets,
   connectorsForWallets,
-  wallet,
   darkTheme,
 } from "@rainbow-me/rainbowkit";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
