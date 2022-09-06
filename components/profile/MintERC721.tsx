@@ -1,5 +1,5 @@
 import { useUserSignature } from "@/api/hooks/useUserSignature";
-import { MumbaiERC721Config } from "@/data/MumbaiERC721Config";
+import { ERC721Config } from "@/data/ERC721Config";
 import { useUserStore } from "@/state/store";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { useEffect } from "react";
@@ -23,7 +23,7 @@ const MintERC721 = () => {
     isError: isMintError,
     error: mintError,
   } = useContractWrite({
-    ...MumbaiERC721Config,
+    ...ERC721Config,
     functionName: "claim",
   });
 
