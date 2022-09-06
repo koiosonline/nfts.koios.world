@@ -9,6 +9,7 @@ const nextConfig = {
   env: {
     ERC721_CONTRACT_ADDRESS: process.env.ERC721_CONTRACT_ADDRESS,
     ERC1155_CONTRACT_ADDRESS: process.env.ERC1155_CONTRACT_ADDRESS,
+    NETWORK_ENV: process.env.NETWORK_ENV,
   },
 };
 
