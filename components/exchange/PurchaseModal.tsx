@@ -97,6 +97,12 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
                 </h1>
               </div>
             )}
+            {!proofSignature && !couponData.amount && (
+              <h1 className="w-full p-5 text-center font-heading text-xl text-action-error">
+                No Coupons left 😭
+              </h1>
+            )}
+
             {couponData && couponData.amount > 0 && !proofSignature && (
               <div className="flex h-1/4 w-full flex-col items-center justify-center gap-5 p-10">
                 {!noCouponError && (
@@ -154,12 +160,6 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
                   </p>
                 </div>
               </div>
-            )}
-
-            {!proofSignature && !couponData.amount && (
-              <h1 className="w-full p-5 text-center font-heading text-xl text-action-error">
-                No Coupons left 😭
-              </h1>
             )}
 
             <div className="flex h-3/4 w-full flex-col items-center justify-center gap-2 p-5">
