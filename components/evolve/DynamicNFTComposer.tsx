@@ -44,7 +44,9 @@ const DynamicNFTComposer = (items: IERC721MetadataModel[][]) => {
 
   const handleAddition = (layer: IERC721MetadataModel) => {
     if (titan.get(layer.attributes[0].trait_type) === layer.tokenId) {
-      titan.set(layer.attributes[0].trait_type, 0);
+      useEvolveStore.setState((state) => ({
+        titan: new Map(state.titan).set(layer.attributes[0].trait_type, 0),
+      }));
       deleteLayer();
     } else {
       useEvolveStore.setState((state) => ({
