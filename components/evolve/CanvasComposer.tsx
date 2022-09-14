@@ -10,13 +10,13 @@ const CanvasComposer = (props: IERC721MetadataModel) => {
       {props.attributes[0].value === "Blockchain" ? (
         <img
           className="absolute max-h-[450px] min-h-[250px] w-full object-contain  md:max-h-[500px]"
-          src="https://koios-titans.ams3.digitaloceanspaces.com/titans/images/baseModel_Cryp.png"
+          src={`https://koios-titans.ams3.digitaloceanspaces.com/${process.env.NETWORK_ENV}/layers/baseModel_Cryp.png`}
           alt="Metadata Image"
         />
       ) : (
         <img
           className="absolute max-h-[450px] min-h-[250px] w-full object-contain md:max-h-[500px]"
-          src="https://koios-titans.ams3.digitaloceanspaces.com/titans/images/baseModel_Trade.png"
+          src={`https://koios-titans.ams3.digitaloceanspaces.com/${process.env.NETWORK_ENV}/layers/baseModel_Trade.png`}
           alt="Metadata Image"
         />
       )}
