@@ -1,4 +1,4 @@
-import { MumbaiERC1155Config } from "@/data/MumbaiERC1155Config";
+import { ERC1155Config } from "@/data/ERC1155Config";
 import { useEffect } from "react";
 import { useContractWrite, useWaitForTransaction } from "wagmi";
 import Spinner from "../util/Spinner";
@@ -21,7 +21,7 @@ const MintERC1155 = ({ proofHash, proofSignature, tokenId }: any) => {
     isError: isMintError,
     error: mintError,
   } = useContractWrite({
-    ...MumbaiERC1155Config,
+    ...ERC1155Config,
     functionName: "claim",
   });
 

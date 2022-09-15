@@ -7,7 +7,11 @@ const FileInputArea = ({ setFile }: any) => {
   const handleValidation = (files: FileList | null) => {
     if (files) {
       const firstFile = files[0];
-      if (firstFile.type === "application/vnd.ms-excel" || "text/csv") {
+      console.log(firstFile);
+      if (
+        firstFile.type === "application/vnd.ms-excel" ||
+        firstFile.type === "text/csv"
+      ) {
         setWrongFileType(false);
         setFile(firstFile);
       } else {

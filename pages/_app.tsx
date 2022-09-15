@@ -12,6 +12,7 @@ import { publicProvider } from "wagmi/providers/public";
 import Menu from "@/components/menu/Menu";
 import CouponNotif from "@/components/coupon/CouponNotif";
 import Head from "next/head";
+import TestNetwork from "@/components/network/TestNetwork";
 
 const { chains, provider } = configureChains(
   [chain.polygon, chain.polygonMumbai],
@@ -60,6 +61,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           }
         >
           <Menu />
+          <TestNetwork />
           <Component {...pageProps} />
           <CouponNotif />
         </main>
