@@ -167,6 +167,7 @@ const Evolve = (items: IERC721MetadataModel[][]) => {
               <DynamicNFTComposer {...items} />
             </div>
           </div>
+          <div className="h-[15vh]"></div>
         </div>
       )}
     </>
