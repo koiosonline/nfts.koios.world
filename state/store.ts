@@ -22,10 +22,8 @@ interface EvolveState {
 }
 interface FilterState {
   owned: boolean;
-  unowned: boolean;
   filters: string[];
   toggleOwned: () => void;
-  toggleUnOwned: () => void;
   addFilter: (filter: string) => void;
   removeFilter: (filter: string) => void;
 }
@@ -95,10 +93,8 @@ export const useEvolveStore = create<EvolveState>((set, get) => ({
 
 export const useFilterStore = create<FilterState>()((set) => ({
   owned: false,
-  unowned: false,
   filters: [],
   toggleOwned: () => set((state) => ({ owned: !state.owned })),
-  toggleUnOwned: () => set((state) => ({ unowned: !state.unowned })),
   addFilter: (filter: string) =>
     set((state) => ({ filters: [...state.filters, filter] })),
   removeFilter: (filter: string) =>

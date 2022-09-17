@@ -8,7 +8,6 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
   const user = useUserStore((state) => state.user);
   const filters = useFilterStore((state) => state.filters);
   const owned = useFilterStore((state) => state.owned);
-  const unOwned = useFilterStore((state) => state.unowned);
   const givenItems = Object.values(items);
   const [parent] = useAutoAnimate<HTMLDivElement>({
     easing: "ease-in-out",
@@ -46,7 +45,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
     );
   }
 
-  if (unOwned && filters.length === 0 && data) {
+  if (!owned && filters.length === 0 && data) {
     return (
       <div
         ref={parent}
@@ -61,7 +60,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
     );
   }
 
-  if (unOwned && filters.length > 0 && data) {
+  if (!owned && filters.length > 0 && data) {
     return (
       <div
         ref={parent}
