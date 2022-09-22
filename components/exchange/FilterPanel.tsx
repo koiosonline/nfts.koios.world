@@ -31,21 +31,24 @@ const FilterPanel = (items: IERC721MetadataModel[]) => {
     setUniques(uniqueIds);
   }, []);
 
+  const buttonValue = () => {
+    if (owned === 0) return "All";
+    if (owned === 1) return "Owned";
+    if (owned === 2) return "Not Owned";
+  };
+
   return (
     <div className="container flex h-[70vh] flex-col gap-5 overflow-y-scroll border-r-2 border-zinc-800 border-opacity-40 p-2 md:p-10">
       <div className="flex w-full items-center justify-center gap-5 font-heading">
         <div
           onClick={() => toggleOwned()}
-          className={`group flex h-2/4 w-1/2 cursor-pointer items-center justify-center gap-5 rounded ${
-            owned ? "bg-brand-rose-hot-pink" : "bg-zinc-800"
-          }  p-1 text-center uppercase shadow transition duration-300 hover:-translate-y-1 `}
+          className={`group flex h-2/4 w-1/2 cursor-pointer items-center justify-center gap-5 rounded bg-brand-rose-hot-pink
+            p-1 text-center uppercase shadow transition duration-300 hover:-translate-y-1 `}
         >
           <div
-            className={`flex w-3/4 flex-col  items-center justify-center ${
-              owned ? "text-zinc-900" : "text-zinc-500"
-            } p-5`}
+            className={`flex w-full flex-col  items-center justify-center p-5 text-zinc-900`}
           >
-            {owned ? "Owned" : "Unowned"}
+            {buttonValue()}
           </div>
         </div>
       </div>

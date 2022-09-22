@@ -23,6 +23,11 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
   const [acceptance, setAcceptance] = useState<boolean>(false);
   const user = useUserStore((state) => state.user);
   const { data: couponData } = useUserCoupons(user);
+  const [exitEnabled, setExitEnabled] = useState<boolean>(true);
+
+  const toggleExitEnabled = () => {
+    setExitEnabled(!exitEnabled);
+  };
 
   const { data, isError, isLoading, isSuccess, signMessage, error } =
     useSignMessage({
@@ -43,6 +48,7 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
   }, [proofResponse]);
 
   const retrieveProof = async () => {
+    toggleExitEnabled();
     if (data && userSalt) {
       const proofData: IResponseMessage = await generateProof(
         data,
@@ -74,12 +80,14 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
               {item.attributes[0].trait_type}: {item.attributes[0].value}
             </h2>
           </div>
-          <div
-            onClick={() => closeModal()}
-            className="scale-75 cursor-pointer fill-white transition duration-300 ease-in-out hover:fill-brand-rose-hot-pink lg:scale-100 "
-          >
-            <IoCloseCircleSharp fill="text-gray-400" size={50} />
-          </div>
+          {exitEnabled && (
+            <div
+              onClick={() => closeModal()}
+              className="scale-75 cursor-pointer fill-white transition duration-300 ease-in-out hover:fill-brand-rose-hot-pink lg:scale-100 "
+            >
+              <IoCloseCircleSharp fill="text-gray-400" size={50} />
+            </div>
+          )}
         </div>
         <div className="flex h-5/6 w-full items-center justify-center  rounded-b bg-zinc-800 ">
           <div className="hidden h-full w-1/2 items-center justify-center border-r-2 border-dashed border-zinc-400 border-opacity-40 p-5 lg:flex">
@@ -92,8 +100,12 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
           <div className="flex h-full w-full flex-col items-center justify-center bg-zinc-800 lg:w-1/2">
             {proofSignature && (
               <div className="flex h-1/4 w-full flex-col items-center justify-center gap-5">
-                <h1 className="font-heading text-lg text-action-valid">
-                  Successfully Generated Proof! 🎉
+                <h1 className="text-center font-heading text-lg text-action-valid">
+                  Successfully Generated Proof!
+                  <br />
+                  <span className="text-action-error">
+                    Don't forget to mint the NFT using the button below!
+                  </span>
                 </h1>
               </div>
             )}
@@ -176,6 +188,7 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
             </div>
             <div className="flex h-1/4 w-full flex-col items-center justify-center gap-2">
               <MintERC1155
+                toggleExitEnabled={toggleExitEnabled}
                 proofHash={proofHash}
                 proofSignature={proofSignature}
                 tokenId={item.tokenId}

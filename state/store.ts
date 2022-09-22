@@ -6,6 +6,12 @@ interface UserState {
   setUser: (user: string) => void;
 }
 
+enum OwnedStateOptions {
+  ALL = 0,
+  OWNED = 1,
+  UNOWNED = 2,
+}
+
 interface EvolveState {
   titan: Map<string, number>;
   ownedLayers: IERC721MetadataModel[];
@@ -21,7 +27,7 @@ interface EvolveState {
   resetTitan: () => void;
 }
 interface FilterState {
-  owned: boolean;
+  owned: OwnedStateOptions;
   filters: string[];
   toggleOwned: () => void;
   addFilter: (filter: string) => void;
@@ -92,9 +98,9 @@ export const useEvolveStore = create<EvolveState>((set, get) => ({
 }));
 
 export const useFilterStore = create<FilterState>()((set) => ({
-  owned: false,
+  owned: 0,
   filters: [],
-  toggleOwned: () => set((state) => ({ owned: !state.owned })),
+  toggleOwned: () => set((state) => ({ owned: (state.owned + 1) % 3 })),
   addFilter: (filter: string) =>
     set((state) => ({ filters: [...state.filters, filter] })),
   removeFilter: (filter: string) =>

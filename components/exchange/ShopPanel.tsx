@@ -14,7 +14,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
   });
   const { data, isError, isLoading } = useUserLayers(user);
 
-  if (owned && filters.length === 0 && data) {
+  if (owned === 1 && filters.length === 0 && data) {
     return (
       <div
         ref={parent}
@@ -29,7 +29,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
     );
   }
 
-  if (owned && filters.length > 0 && data) {
+  if (owned === 1 && filters.length > 0 && data) {
     return (
       <div
         ref={parent}
@@ -45,7 +45,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
     );
   }
 
-  if (!owned && filters.length === 0 && data) {
+  if (owned === 2 && filters.length === 0 && data) {
     return (
       <div
         ref={parent}
@@ -60,7 +60,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
     );
   }
 
-  if (!owned && filters.length > 0 && data) {
+  if (owned === 2 && filters.length > 0 && data) {
     return (
       <div
         ref={parent}
@@ -76,7 +76,7 @@ const ShopPanel = (items: IERC721MetadataModel[]) => {
     );
   }
 
-  if (filters.length === 0) {
+  if (owned === 0 && filters.length === 0) {
     return (
       <div
         ref={parent}
