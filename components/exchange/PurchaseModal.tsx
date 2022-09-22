@@ -104,7 +104,7 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
                   Successfully Generated Proof!
                   <br />
                   <span className="text-action-error">
-                    Don't forget to mint the NFT using the button below!
+                    Do not forget to mint the NFT using the button below!
                   </span>
                 </h1>
               </div>
@@ -201,4 +201,3 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
   );
 };
 export default PurchaseModel;
-
