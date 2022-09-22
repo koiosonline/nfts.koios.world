@@ -1,10 +1,11 @@
-import { Network, initializeAlchemy } from "@alch/alchemy-sdk";
+import { Network, Alchemy } from "alchemy-sdk";
 
-export const alchemyAPI = () => {
-  const settings = {
-    apiKey: process.env.RPC_API_KEY,
-    network: Network.MATIC_MUMBAI,
-  };
-
-  return initializeAlchemy(settings);
+const settings = {
+  apiKey: process.env.RPC_API_KEY,
+  network:
+    process.env.NETWORK_ENV === "DEV"
+      ? Network.MATIC_MUMBAI
+      : Network.MATIC_MAINNET,
 };
+
+export const alchemyAPI = new Alchemy(settings);

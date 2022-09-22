@@ -201,3 +201,4 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
   );
 };
 export default PurchaseModel;
+
