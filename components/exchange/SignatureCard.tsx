@@ -26,8 +26,8 @@ const SignatureCard = ({ proofHash, proofSignature, tokenId }: any) => {
           <h1 className=" fill-brand-rose-hot-pink text-center font-heading text-xl uppercase text-brand-rose-hot-pink">
             Download Proof
           </h1>
-          <p className="text-sm text-action-warning underline">
-            Incase your browser crashes or the internet stops to work 😅
+          <p className="font-heading text-sm text-action-valid">
+            In case anything goes wrong, you can save your proof as a .JSON!
           </p>
           <AiOutlineCloudDownload
             onClick={downloadTxtFile}

@@ -8,7 +8,12 @@ import { useSWRConfig } from "swr";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 
-const MintERC1155 = ({ proofHash, proofSignature, tokenId }: any) => {
+const MintERC1155 = ({
+  proofHash,
+  proofSignature,
+  tokenId,
+  toggleExitEnabled,
+}: any) => {
   const user = useUserStore((state) => state.user);
   const { mutate } = useSWRConfig();
   const { width, height } = useWindowSize();
@@ -52,6 +57,7 @@ const MintERC1155 = ({ proofHash, proofSignature, tokenId }: any) => {
   useEffect(() => {
     if (txSuccess) {
       mutate("UserLayers: " + user);
+      toggleExitEnabled();
     }
   }, [txSuccess]);
 
@@ -61,7 +67,7 @@ const MintERC1155 = ({ proofHash, proofSignature, tokenId }: any) => {
       {proofHash && proofSignature && !txLoading && !txSuccess && (
         <button
           onClick={() => mintNFT()}
-          className="flex h-10 w-1/2 items-center  justify-center rounded bg-brand-rose-hot-pink font-heading uppercase "
+          className="flex h-10 w-1/2 items-center  justify-center rounded bg-brand-rose-hot-pink font-heading uppercase transition duration-300 hover:bg-brand-purple-300 "
         >
           {isMintLoading ? (
             <>
