@@ -23,11 +23,6 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
   const [acceptance, setAcceptance] = useState<boolean>(false);
   const user = useUserStore((state) => state.user);
   const { data: couponData } = useUserCoupons(user);
-  const [exitEnabled, setExitEnabled] = useState<boolean>(true);
-
-  const toggleExitEnabled = () => {
-    setExitEnabled(!exitEnabled);
-  };
 
   const { data, isError, isLoading, isSuccess, signMessage, error } =
     useSignMessage({
@@ -48,7 +43,6 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
   }, [proofResponse]);
 
   const retrieveProof = async () => {
-    toggleExitEnabled();
     if (data && userSalt) {
       const proofData: IResponseMessage = await generateProof(
         data,
@@ -80,14 +74,13 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
               {item.attributes[0].trait_type}: {item.attributes[0].value}
             </h2>
           </div>
-          {exitEnabled && (
-            <div
-              onClick={() => closeModal()}
-              className="scale-75 cursor-pointer fill-white transition duration-300 ease-in-out hover:fill-brand-rose-hot-pink lg:scale-100 "
-            >
-              <IoCloseCircleSharp fill="text-gray-400" size={50} />
-            </div>
-          )}
+
+          <div
+            onClick={() => closeModal()}
+            className="scale-75 cursor-pointer fill-white transition duration-300 ease-in-out hover:fill-brand-rose-hot-pink lg:scale-100 "
+          >
+            <IoCloseCircleSharp fill="text-gray-400" size={50} />
+          </div>
         </div>
         <div className="flex h-5/6 w-full items-center justify-center  rounded-b bg-zinc-800 ">
           <div className="hidden h-full w-1/2 items-center justify-center border-r-2 border-dashed border-zinc-400 border-opacity-40 p-5 lg:flex">
@@ -104,7 +97,7 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
                   Successfully Generated Proof!
                   <br />
                   <span className="text-action-error">
-                    Do not forget to mint the NFT using the button below!
+                    Do not forget to Claim your NFT!
                   </span>
                 </h1>
               </div>
@@ -180,15 +173,19 @@ const PurchaseModel = (item: IERC721MetadataModel) => {
                   {noCouponError}
                 </p>
               )}
-              <SignatureCard
-                proofHash={proofHash}
-                proofSignature={proofSignature}
-                tokenId={item.tokenId}
-              />
+              {proofHash && proofSignature && (
+                <p className="text-center font-base text-base text-zinc-300 ">
+                  Your proof has been saved and you may claim at a later time
+                  via the{" "}
+                  <span className="underline decoration-brand-rose-hot-pink decoration-2 underline-offset-2">
+                    &apos;Check Claims&apos;{" "}
+                  </span>{" "}
+                  Button on the exchange page.
+                </p>
+              )}
             </div>
             <div className="flex h-1/4 w-full flex-col items-center justify-center gap-2">
               <MintERC1155
-                toggleExitEnabled={toggleExitEnabled}
                 proofHash={proofHash}
                 proofSignature={proofSignature}
                 tokenId={item.tokenId}
