@@ -37,11 +37,13 @@ interface FilterState {
 interface ModalState {
   openFilter: boolean;
   openDesc: boolean;
+  openClaims: boolean;
   item: IERC721MetadataModel | null;
   open: boolean;
   openEvolve: boolean;
   toggleFilterModal: () => void;
   toggleDescModal: () => void;
+  toggleClaimsModal: () => void;
   closeEvolveModal: () => void;
   openEvolveModal: () => void;
   closeModal: () => void;
@@ -121,6 +123,8 @@ export const useModalStore = create<ModalState>((set) => ({
   item: null,
   open: false,
   openEvolve: false,
+  openClaims: false,
+  toggleClaimsModal: () => set((state) => ({ openClaims: !state.openClaims })),
   toggleFilterModal: () => set((state) => ({ openFilter: !state.openFilter })),
   toggleDescModal: () => set((state) => ({ openDesc: !state.openDesc })),
   closeEvolveModal: () => set((state) => ({ openEvolve: false })),
