@@ -2,17 +2,14 @@ import FilterPanel from "@/components/exchange/FilterPanel";
 import PurchaseModel from "@/components/exchange/PurchaseModal";
 import ShopPanel from "@/components/exchange/ShopPanel";
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
-import {
-  useFilterStore,
-  useModalStore,
-  useNFTState,
-  useUserStore,
-} from "@/state/store";
+import { useFilterStore, useModalStore, useUserStore } from "@/state/store";
 import { useEffect } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { AnimatePresence } from "framer-motion";
 import { IoFilter } from "react-icons/io5";
 import MobileFilterModal from "@/components/exchange/MobileFilterModal";
+import { useUserClaims } from "@/api/hooks/useUserClaims";
+import ClaimsModal from "@/components/exchange/ClaimsModal";
 
 const Exchange = ({ items }: any) => {
   const filters = useFilterStore((state) => state.filters);
@@ -21,7 +18,11 @@ const Exchange = ({ items }: any) => {
   const [parent] = useAutoAnimate<HTMLDivElement>();
   const openFilter = useModalStore((state) => state.openFilter);
   const toggleFilterModal = useModalStore((state) => state.toggleFilterModal);
+  const toggleClaimsModal = useModalStore((state) => state.toggleClaimsModal);
+  const openClaims = useModalStore((state) => state.openClaims);
   const user = useUserStore((state) => state.user);
+
+  const { data, isError, isLoading } = useUserClaims(user);
 
   useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
@@ -42,12 +43,15 @@ const Exchange = ({ items }: any) => {
   }
 
   return (
-    <div className="container relative mx-auto flex flex-col items-center justify-center gap-5 p-2 ">
+    <div className="container relative mx-auto flex flex-col items-center justify-center gap-5 p-2">
       <AnimatePresence>
         {open && modalItem ? <PurchaseModel {...modalItem} /> : null}
       </AnimatePresence>
       <AnimatePresence>
         {openFilter ? <MobileFilterModal {...items} /> : null}
+      </AnimatePresence>
+      <AnimatePresence>
+        {openClaims ? <ClaimsModal {...items} /> : null}
       </AnimatePresence>
       <div className="container mx-auto flex h-[80vh] flex-col md:flex-row">
         <div className="container flex  w-full flex-row rounded bg-zinc-900 md:h-full md:w-[25%] md:flex-col">
@@ -70,16 +74,28 @@ const Exchange = ({ items }: any) => {
         <div className="container flex h-full w-full flex-col md:w-[75%]">
           <div
             ref={parent}
-            className="container hidden h-[10vh] items-center gap-5 bg-zinc-900 p-10 md:flex "
+            className="container hidden h-[10vh] items-center justify-between gap-5 bg-zinc-900 p-10 md:flex"
           >
-            {filters.map((item: any, index: number) => (
-              <div
-                key={index}
-                className="h-6 w-20 rounded bg-zinc-800 p-1 text-center font-base text-xs font-semibold uppercase text-pink-500"
-              >
-                {item}
+            <div className="flex h-full w-2/3 gap-5 ">
+              {filters.map((item: any, index: number) => (
+                <div
+                  key={index}
+                  className="h-6 w-20 rounded bg-zinc-800 p-1 text-center font-base text-xs font-semibold uppercase text-pink-500"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+            {data && data.length > 0 ? (
+              <div className="flex h-full w-1/3 justify-end">
+                <button
+                  onClick={() => toggleClaimsModal()}
+                  className="relative h-10 w-40 rounded  bg-zinc-800 p-3 text-center font-base text-xs font-semibold uppercase text-pink-500 transition duration-300 hover:bg-zinc-700"
+                >
+                  Check Claims!
+                </button>
               </div>
-            ))}
+            ) : null}
           </div>
           <ShopPanel {...items} />
         </div>
