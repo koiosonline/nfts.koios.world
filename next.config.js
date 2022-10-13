@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ["koios-titans.ams3.digitaloceanspaces.com"],
+  },
   experimental: {
     images: {
       allowFutureImage: true,

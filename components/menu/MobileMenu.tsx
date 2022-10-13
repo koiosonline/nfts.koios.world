@@ -1,7 +1,9 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
+import { useAccount } from "wagmi";
 
-const MobileMenu = ({ handleToggle, props, links }: any) => {
+const MobileMenu = ({ handleToggle, props, links, isWhitelisted }: any) => {
+  const account = useAccount();
   if (props) {
     return (
       <div className="z-[70] flex h-screen w-screen cursor-pointer flex-col bg-default-text/90  bg-opacity-70 px-6 pt-10 backdrop-blur ">
@@ -30,6 +32,16 @@ const MobileMenu = ({ handleToggle, props, links }: any) => {
                 </li>
               </Link>
             ))}
+            {isWhitelisted && (
+              <Link href={`/upload/${account.address}`}>
+                <li
+                  onClick={handleToggle}
+                  className="text-heading border-white-300/40 relative block w-full cursor-pointer items-center border-b-2 py-3 font-heading text-zinc-400 transition duration-300 hover:text-gray-200"
+                >
+                  Upload
+                </li>
+              </Link>
+            )}
           </ul>
         </div>
       </div>
