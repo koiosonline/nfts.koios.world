@@ -40,19 +40,6 @@ module.exports = {
         500: "#d50cb6",
         700: "#ac0ebf",
       },
-      // Colors
-      // white: {
-      //   300: "#f8fbfe",
-      //   500: "#f0f5f9",
-      //   700: "#ececec",
-      // },
-      // gray: {
-      //   100: "#d7d7d7",
-      //   200: "#bdbdbd",
-      //   700: "#424242",
-      //   900: "#262626",
-      // },
-
       green: colors.green,
       slate: colors.slate,
       black: colors.black,
