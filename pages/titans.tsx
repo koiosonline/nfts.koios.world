@@ -1,5 +1,5 @@
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
-import Image from "next/image";
+import Image from "next/future/image";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useEffect, useState } from "react";
 
@@ -38,16 +38,14 @@ const Titans = ({ items }: any) => {
             <div
               draggable={true}
               key={i}
-              className="flex max-h-[500px] min-h-[150px] min-w-[150px] max-w-[300px] flex-col gap-2 rounded-lg bg-zinc-800 p-5 sm:min-w-[200px] md:min-w-[200px] md:gap-5 md:p-5"
+              className="flex max-h-[500px] min-h-[150px] min-w-[150px] max-w-[150px] flex-col gap-2 rounded-lg bg-zinc-800 p-5 sm:min-w-[200px] md:min-w-[200px] md:max-w-[300px] md:gap-5 md:p-5"
             >
-              <div className="relative max-h-[300px] min-h-[100px] md:min-h-[150px]">
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  layout="fill"
-                  objectFit="contain"
-                />
-              </div>
+              <Image
+                width={300}
+                className="h-full w-full max-w-[300px] rounded-lg"
+                src={item.image}
+                alt={item.name}
+              />
 
               <h1 className="truncate text-center font-heading text-zinc-200">
                 {item.name}
