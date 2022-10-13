@@ -13,6 +13,7 @@ const Menu = () => {
     { title: "profile", path: "/" },
     { title: "Exchange", path: "/exchange" },
     { title: "evolve", path: "/evolve" },
+    { title: "Titans", path: "/titans" },
   ];
 
   const account = useAccount();
@@ -102,7 +103,12 @@ const Menu = () => {
         </div>
         <Hamburger handleToggle={handleToggle} props={active}></Hamburger>
       </div>
-      <MobileMenu handleToggle={handleToggle} props={active} links={links} />
+      <MobileMenu
+        isWhitelisted={isWhitelisted}
+        handleToggle={handleToggle}
+        props={active}
+        links={links}
+      />
     </div>
   );
 };
