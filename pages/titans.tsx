@@ -1,8 +1,6 @@
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
 import Image from "next/image";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import Draggable from "react-draggable";
 import { useEffect, useState } from "react";
 
 function shuffleArray(array: any) {
