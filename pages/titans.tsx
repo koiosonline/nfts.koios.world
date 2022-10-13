@@ -31,21 +31,25 @@ const Titans = ({ items }: any) => {
     <>
       <div
         ref={parent}
-        className="container relative mx-auto flex flex-wrap items-center justify-center gap-5 rounded-lg bg-zinc-900 p-5"
+        className="container relative mx-auto  flex flex-wrap  gap-5 rounded-lg bg-zinc-900 p-5 md:justify-evenly"
       >
         {items2 &&
           items2.map((item: IERC721MetadataModel, i: number) => (
             <div
-              draggable={true}
               key={i}
-              className="flex max-h-[500px] min-h-[150px] min-w-[150px] max-w-[150px] flex-col gap-2 rounded-lg bg-zinc-800 p-5 sm:min-w-[200px] md:min-w-[200px] md:max-w-[300px] md:gap-5 md:p-5"
+              className="flex max-h-[150px] min-h-[200px] min-w-[150px] max-w-[150px] flex-col gap-2 overflow-hidden rounded-lg bg-zinc-800 p-5 md:min-h-[350px] md:min-w-[300px] md:gap-5 md:p-5"
             >
-              <Image
-                width={300}
-                className="h-full w-full max-w-[300px] rounded-lg"
-                src={item.image}
-                alt={item.name}
-              />
+              {item.image ? (
+                <Image
+                  width={300}
+                  blurDataURL={item.image}
+                  className="h-full w-full max-w-[300px] rounded-lg"
+                  src={item.image}
+                  alt={item.name}
+                />
+              ) : (
+                <div className="h-full animate-pulse rounded-lg bg-zinc-900 "></div>
+              )}
 
               <h1 className="truncate text-center font-heading text-zinc-200">
                 {item.name}
