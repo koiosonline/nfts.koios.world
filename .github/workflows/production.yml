@@ -34,6 +34,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         script: |
+          sudo chmod o+w /var/www/nfts.koios.world
           cd /var/www/nfts.koios.world
           git pull
           git status
