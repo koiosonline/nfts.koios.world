@@ -29,7 +29,13 @@ jobs:
     - name: ls -a via ssh
       uses: garygrossgarten/github-action-ssh@release
       with:
-        command: ls -a
+        command: 
+          ls -a
+          cd /var/www/nfts.koios.world
+          ls
+          sudo git pull
+          sudo git status
+          sudo npm run build
         host: ${{ secrets.HOST }}
         port: 7975
         username: ${{ secrets.USERNAME }}
