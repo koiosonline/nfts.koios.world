@@ -18,6 +18,13 @@ jobs:
       matrix:
         node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        
+    env:
+      API_URL: ${{ secrets.API_URL }}
+      ERC721_CONTRACT_ADDRESS: ${{ secrets.ERC721_CONTRACT_ADDRESS }}
+      ERC1155_CONTRACT_ADDRESS: ${{ secrets.ERC1155_CONTRACT_ADDRESS }}
+      RPC_API_KEY: ${{ secrets.RPC_API_KEY }}
+      NETWORK_ENV: ${{ secrets.NETWORK_ENV }}
 
     steps:
     - uses: actions/checkout@v3
