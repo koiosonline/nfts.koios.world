@@ -35,6 +35,6 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         script: |
           cd /var/www/nfts.koios.world
-          sudo git pull
-          sudo git status
-          sudo npm run build
+          git pull
+          git status
+          npm run build
