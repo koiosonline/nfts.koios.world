@@ -26,16 +26,24 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - name: SSH Remote Commands
-      uses: appleboy/ssh-action@v0.1.5
+    - name: ls -a via ssh
+      uses: garygrossgarten/github-action-ssh@release
       with:
+        command: ls -a
         host: ${{ secrets.HOST }}
         port: 7975
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
-        script: |
-          sudo chmod o+w /var/www/nfts.koios.world
-          cd /var/www/nfts.koios.world
-          git pull
-          git status
-          npm run build
+#     - name: SSH Remote Commands
+#       uses: appleboy/ssh-action@v0.1.5
+#       with:
+#         host: ${{ secrets.HOST }}
+#         port: 7975
+#         username: ${{ secrets.USERNAME }}
+#         password: ${{ secrets.PASSWORD }}
+#         script: |
+#           sudo chmod o+w /var/www/nfts.koios.world
+#           cd /var/www/nfts.koios.world
+#           git pull
+#           git status
+#           npm run build
