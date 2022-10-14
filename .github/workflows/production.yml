@@ -1,0 +1,64 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        
+    env:
+      API_URL: ${{ secrets.API_URL }}
+      ERC721_CONTRACT_ADDRESS: ${{ secrets.ERC721_CONTRACT_ADDRESS }}
+      ERC1155_CONTRACT_ADDRESS: ${{ secrets.ERC1155_CONTRACT_ADDRESS }}
+      RPC_API_KEY: ${{ secrets.RPC_API_KEY }}
+      NETWORK_ENV: ${{ secrets.NETWORK_ENV }}
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+#     - name: ls -a via ssh
+#       uses: garygrossgarten/github-action-ssh@release
+#       with:
+#         command: | 
+#           ls -a
+#           cd /var/www/nfts.koios.world
+#           ls
+#           sudo git pull
+#           sudo git status
+#           sudo npm run build
+#         host: ${{ secrets.HOST }}
+#         port: 7975
+#         username: ${{ secrets.USERNAME }}
+#         password: ${{ secrets.PASSWORD }}
+#     - name: SSH Remote Commands
+#       uses: appleboy/ssh-action@v0.1.5
+#       with:
+#         host: ${{ secrets.HOST }}
+#         port: 7975
+#         username: ${{ secrets.USERNAME }}
+#         password: ${{ secrets.PASSWORD }}
+#         script: |
+#           sudo chmod o+w /var/www/nfts.koios.world
+#           cd /var/www/nfts.koios.world
+#           git pull
+#           git status
+#           npm run build
