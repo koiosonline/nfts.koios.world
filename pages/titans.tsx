@@ -39,17 +39,13 @@ const Titans = ({ items }: any) => {
               key={i}
               className="flex max-h-[150px] min-h-[200px] min-w-[150px] max-w-[150px] flex-col gap-2 overflow-hidden rounded-lg bg-zinc-800 p-5 md:min-h-[350px] md:min-w-[300px] md:gap-5 md:p-5"
             >
-              {item.image ? (
-                <Image
-                  width={300}
-                  blurDataURL={item.image}
-                  className="h-full w-full max-w-[300px] rounded-lg"
-                  src={item.image}
-                  alt={item.name}
-                />
-              ) : (
-                <div className="h-full animate-pulse rounded-lg bg-zinc-900 "></div>
-              )}
+              <Image
+                width={300}
+                blurDataURL={item.image}
+                className="h-full w-full max-w-[300px] rounded-lg"
+                src={item.image}
+                alt={item.name}
+              />
 
               <h1 className="truncate text-center font-heading text-zinc-200">
                 {item.name}
