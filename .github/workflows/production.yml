@@ -26,6 +26,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: pm2 reload nfts.koios.world
+    - name: SSH Remote Commands
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: '{{ secrets.HOST }}'
+        port: '{{ secrets.PORT }}'
+        username: '{{ secrets.USERNAME }}'
+        password: '{{ secrets.PASSWORD }}'
+        script: |
+          cd /var/www/nfts.koios.world
+          sudo git pull
+          sudo git status
+          sudo npm run build
