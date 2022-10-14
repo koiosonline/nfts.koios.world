@@ -29,10 +29,10 @@ jobs:
     - name: SSH Remote Commands
       uses: appleboy/ssh-action@v0.1.5
       with:
-        host: 82.95.0.198
+        host: ${{ secrets.HOST }}
         port: 7975
-        username: '{{ secrets.USERNAME }}'
-        password: '{{ secrets.PASSWORD }}'
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
         script: |
           cd /var/www/nfts.koios.world
           sudo git pull
