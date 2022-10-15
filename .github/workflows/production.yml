@@ -40,33 +40,31 @@ jobs:
   deploy:
     needs: build
     runs-on: self-hosted
-    
-    strategy:
-      matrix:
-        node-version: [16.x]
-    
+
     steps:
-    - name: SSH Remote Commands
-      uses: garygrossgarten/github-action-ssh@release
+    - name: Commands
       env:
         API_URL: ${{ secrets.API_URL }}
         ERC721_CONTRACT_ADDRESS: ${{ secrets.ERC721_CONTRACT_ADDRESS }}
         ERC1155_CONTRACT_ADDRESS: ${{ secrets.ERC1155_CONTRACT_ADDRESS }}
         RPC_API_KEY: ${{ secrets.RPC_API_KEY }}
         NETWORK_ENV: ${{ secrets.NETWORK_ENV }}
-      with:
-        host: ${{ secrets.HOST }}
-        port: 7975
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}V
-        command: | 
-          ls
-          cd actions-runner/_work/nfts.koios.world/nfts.koios.world
-          git checkout . 
-          git pull
-          npm i
-          npm run build
-          pm2 restart nfts.koios.world
+      run:  | 
+        echo run User and LS
+        whoami
+        ls
+        echo cd into the right folder
+        cd actions-runner/_work/nfts.koios.world/nfts.koios.world
+        echo git checkout
+        git checkout . 
+        echo git pull latest version
+        git pull
+        echo install node packages 
+        npm i
+        echo build application
+        npm run build
+        echor estarting application...
+        pm2 restart nfts.koios.world
           
           
           
