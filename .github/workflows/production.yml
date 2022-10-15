@@ -8,23 +8,17 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+    
 
 jobs:
   build:
 
-    runs-on: self-hosted
+    runs-on: ubunti-latest
 
     strategy:
       matrix:
         node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        
-    env:
-      API_URL: ${{ secrets.API_URL }}
-      ERC721_CONTRACT_ADDRESS: ${{ secrets.ERC721_CONTRACT_ADDRESS }}
-      ERC1155_CONTRACT_ADDRESS: ${{ secrets.ERC1155_CONTRACT_ADDRESS }}
-      RPC_API_KEY: ${{ secrets.RPC_API_KEY }}
-      NETWORK_ENV: ${{ secrets.NETWORK_ENV }}
 
     steps:
     - uses: actions/checkout@v3
@@ -32,10 +26,45 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+        cache: 'npm'    
     - run: npm i
     - run: npm run build --if-present
-    - run: pm2 reload nfts.koios.world
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    
+    strategy:
+      matrix:
+        node-version: [16.x]
+    
+    steps:
+    - name: re-deploy
+      uses: appleboy/ssh-action@latest
+      env:
+        API_URL: ${{ secrets.API_URL }}
+        ERC721_CONTRACT_ADDRESS: ${{ secrets.ERC721_CONTRACT_ADDRESS }}
+        ERC1155_CONTRACT_ADDRESS: ${{ secrets.ERC1155_CONTRACT_ADDRESS }}
+        RPC_API_KEY: ${{ secrets.RPC_API_KEY }}
+        NETWORK_ENV: ${{ secrets.NETWORK_ENV }}
+      with:
+        host: ${{ secrets.HOST }}
+        port: 7975
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        envs: API_URL, ERC721_CONTRACT_ADDRESS, ERC1155_CONTRACT_ADDRESS, RPC_API_KEY, NETWORK_ENV
+        command: | 
+          ls
+          cd actions-runner/_work/nfts.koios.world/nfts.koios.world
+          git checkout . 
+          git pull
+          npm i
+          npm run build
+          pm2 restart nfts.koios.world
+          
+          
+          
+#     - run: pm2 reload nfts.koios.world
 #     - name: ls -a via ssh
 #       uses: garygrossgarten/github-action-ssh@release
 #       with:
@@ -50,6 +79,9 @@ jobs:
 #         port: 7975
 #         username: ${{ secrets.USERNAME }}
 #         password: ${{ secrets.PASSWORD }}
+  
+    
+  
 #     - name: SSH Remote Commands
 #       uses: appleboy/ssh-action@v0.1.5
 #       with:
