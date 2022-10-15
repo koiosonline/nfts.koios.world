@@ -66,7 +66,7 @@ jobs:
         npm i
         echo build application
         npm run build
-        echor estarting application...
+        echo estarting application...
         pm2 restart nfts.koios.world
           
           
