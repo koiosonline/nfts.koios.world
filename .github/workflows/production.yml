@@ -53,6 +53,9 @@ jobs:
         echo run User and LS
         whoami
         ls
+        echo cd into base folder
+        cd ~
+        ls
         echo cd into the right folder
         cd actions-runner/_work/nfts.koios.world/nfts.koios.world
         echo git checkout
