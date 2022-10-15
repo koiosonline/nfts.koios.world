@@ -46,8 +46,8 @@ jobs:
         node-version: [16.x]
     
     steps:
-    - name: re-deploy
-      uses: appleboy/ssh-action@master
+    - name: SSH Remote Commands
+      uses: appleboy/ssh-action@v0.1.5
       env:
         API_URL: ${{ secrets.API_URL }}
         ERC721_CONTRACT_ADDRESS: ${{ secrets.ERC721_CONTRACT_ADDRESS }}
