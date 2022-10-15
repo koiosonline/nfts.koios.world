@@ -47,7 +47,7 @@ jobs:
     
     steps:
     - name: re-deploy
-      uses: appleboy/ssh-action@latest
+      uses: appleboy/ssh-action@master
       env:
         API_URL: ${{ secrets.API_URL }}
         ERC721_CONTRACT_ADDRESS: ${{ secrets.ERC721_CONTRACT_ADDRESS }}
