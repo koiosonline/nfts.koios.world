@@ -18,7 +18,7 @@ const Home: NextPage = () => {
           "flex h-full w-full items-center justify-center bg-default-text text-center font-heading text-8xl text-brand-rose-hot-pink"
         }
       >
-        Please Login!
+        Please Login
       </div>
     );
   }
