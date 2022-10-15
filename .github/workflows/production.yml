@@ -50,55 +50,14 @@ jobs:
         RPC_API_KEY: ${{ secrets.RPC_API_KEY }}
         NETWORK_ENV: ${{ secrets.NETWORK_ENV }}
       run:  | 
-        echo run User and LS
-        whoami
-        ls
-        echo cd into base folder
         cd ~
         ls
-        echo cd into the right folder
         cd actions-runner/_work/nfts.koios.world/nfts.koios.world
-        echo git checkout
         git checkout . 
-        echo git pull latest version
         git pull
-        echo install node packages 
         npm i
-        echo build application
         npm run build
-        echo estarting application...
+        echo restarting application...
         pm2 restart nfts.koios.world
           
           
-          
-#     - run: pm2 reload nfts.koios.world
-#     - name: ls -a via ssh
-#       uses: garygrossgarten/github-action-ssh@release
-#       with:
-#         command: | 
-#           ls -a
-#           cd /var/www/nfts.koios.world
-#           ls
-#           sudo git pull
-#           sudo git status
-#           sudo npm run build
-#         host: ${{ secrets.HOST }}
-#         port: 7975
-#         username: ${{ secrets.USERNAME }}
-#         password: ${{ secrets.PASSWORD }}
-  
-    
-  
-#     - name: SSH Remote Commands
-#       uses: appleboy/ssh-action@v0.1.5
-#       with:
-#         host: ${{ secrets.HOST }}
-#         port: 7975
-#         username: ${{ secrets.USERNAME }}
-#         password: ${{ secrets.PASSWORD }}
-#         script: |
-#           sudo chmod o+w /var/www/nfts.koios.world
-#           cd /var/www/nfts.koios.world
-#           git pull
-#           git status
-#           npm run build
