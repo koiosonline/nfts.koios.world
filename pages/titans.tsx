@@ -1,5 +1,6 @@
+import ImageComponent from "@/components/titans/ImageComponent";
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
-import Image from "next/future/image";
+
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useEffect, useState } from "react";
 
@@ -31,27 +32,14 @@ const Titans = ({ items }: any) => {
     <>
       <div
         ref={parent}
-        className="container relative mx-auto  flex flex-wrap  gap-5 rounded-lg bg-zinc-900 p-5 md:justify-evenly"
+        className="container mx-auto rounded-lg bg-zinc-900 p-4 "
       >
-        {items2 &&
-          items2.map((item: IERC721MetadataModel, i: number) => (
-            <div
-              key={i}
-              className="flex max-h-[150px] min-h-[200px] min-w-[150px] max-w-[150px] flex-col gap-2 overflow-hidden rounded-lg bg-zinc-800 p-5 md:min-h-[350px] md:min-w-[300px] md:gap-5 md:p-5"
-            >
-              <Image
-                width={300}
-                blurDataURL={item.image}
-                className="h-full w-full max-w-[300px] rounded-lg"
-                src={item.image}
-                alt={item.name}
-              />
-
-              <h1 className="truncate text-center font-heading text-zinc-200">
-                {item.name}
-              </h1>
-            </div>
-          ))}
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-5">
+          {items2 &&
+            items2.map((item: IERC721MetadataModel, i: number) => (
+              <ImageComponent key={i} {...item} />
+            ))}
+        </div>
       </div>
       <div className="h-[20vh] w-full"></div>
     </>
