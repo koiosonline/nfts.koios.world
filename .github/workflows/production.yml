@@ -56,4 +56,3 @@ jobs:
           npm i
           npm run build
           echo restarting application...
-          sudo pm2 restart nfts.koios.world
