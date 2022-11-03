@@ -1,8 +1,7 @@
+import ImageComponent from "@/components/titans/ImageComponent";
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
-import Image from "next/image";
-import InfiniteScroll from "react-infinite-scroll-component";
+
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import Draggable from "react-draggable";
 import { useEffect, useState } from "react";
 
 function shuffleArray(array: any) {
@@ -33,29 +32,14 @@ const Titans = ({ items }: any) => {
     <>
       <div
         ref={parent}
-        className="container relative mx-auto flex flex-wrap items-center justify-center gap-5 rounded-lg bg-zinc-900 p-5"
+        className="container mx-auto rounded-lg bg-zinc-900 p-4 "
       >
-        {items2 &&
-          items2.map((item: IERC721MetadataModel, i: number) => (
-            <div
-              draggable={true}
-              key={i}
-              className="flex max-h-[500px] min-h-[150px] min-w-[150px] max-w-[300px] flex-col gap-2 rounded-lg bg-zinc-800 p-5 sm:min-w-[200px] md:min-w-[200px] md:gap-5 md:p-5"
-            >
-              <div className="relative max-h-[300px] min-h-[100px] md:min-h-[150px]">
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  layout="fill"
-                  objectFit="contain"
-                />
-              </div>
-
-              <h1 className="truncate text-center font-heading text-zinc-200">
-                {item.name}
-              </h1>
-            </div>
-          ))}
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-5">
+          {items2 &&
+            items2.map((item: IERC721MetadataModel, i: number) => (
+              <ImageComponent key={i} {...item} />
+            ))}
+        </div>
       </div>
       <div className="h-[20vh] w-full"></div>
     </>

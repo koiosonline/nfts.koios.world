@@ -43,8 +43,8 @@ const EvolveModal = ({ item }: any) => {
     titan.forEach((value, key) => {
       if (key === "Skin") tokenArray[0] = value;
       if (key === "Clothing") tokenArray[1] = value;
-      if (key === "Hair") tokenArray[3] = value;
-      if (key === "Head") tokenArray[2] = value;
+      if (key === "Hair") tokenArray[2] = value;
+      if (key === "Head") tokenArray[3] = value;
       if (key === "Item") tokenArray[4] = value;
     });
 
