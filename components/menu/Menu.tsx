@@ -11,6 +11,7 @@ import { useUserStore } from "@/state/store";
 const Menu = () => {
   const links = [
     { title: "profile", path: "/" },
+    { title: "badges", path: "/badges" },
     { title: "Exchange", path: "/exchange" },
     { title: "evolve", path: "/evolve" },
     { title: "Titans", path: "/titans" },

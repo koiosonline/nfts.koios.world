@@ -2,7 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["koios-titans.ams3.digitaloceanspaces.com"],
+    domains: [
+      "koios-titans.ams3.digitaloceanspaces.com",
+      "gateway.pinata.cloud",
+    ],
   },
   experimental: {
     images: {
