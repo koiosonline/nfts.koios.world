@@ -1,5 +1,6 @@
 import ImageComponent from "@/components/titans/ImageComponent";
 import IERC721MetadataModel from "@/models/IERC721MetadataModel";
+import swearWords from "@/data/swear_words.json";
 
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useEffect, useState } from "react";
@@ -51,9 +52,17 @@ export async function getStaticProps() {
 
   const items: IERC721MetadataModel[] = await res.json();
 
+  const swear_filtered = items.filter(
+    (item) => !swearWords.words.includes(item.name.toLowerCase())
+  );
+
+  const filtered_items = swear_filtered.filter(
+    (item) => item.name !== "Unknown Titan"
+  );
+
   return {
     props: {
-      items,
+      items: filtered_items,
     },
 
     revalidate: 60,
