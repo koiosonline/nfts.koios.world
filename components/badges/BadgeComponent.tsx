@@ -13,8 +13,6 @@ const BadgeComponent = (props: IERC721MetadataModel) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const { data, isError, isLoading: badgesLoading } = useUserBadges(user);
-  console.log(data.includes(props.tokenId));
-  console.log(data);
 
   if (data.includes(props.tokenId)) {
     return (
