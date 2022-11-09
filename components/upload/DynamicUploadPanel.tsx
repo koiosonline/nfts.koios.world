@@ -100,6 +100,7 @@ const DynamicNFTPanel = () => {
 
   return (
     <div className="flex w-full flex-col items-center justify-center gap-5 py-12 px-4 text-zinc-400 sm:px-6 lg:px-8">
+      <h1>Dynamic NFT</h1>
       <div className="z-10 flex min-h-[450px] w-full flex-col gap-5 rounded-xl bg-zinc-800 p-10 sm:max-w-lg lg:min-w-[550px]">
         {success && (
           <div className="flex flex-col items-center justify-center gap-4 text-xl text-action-valid">

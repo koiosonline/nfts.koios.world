@@ -7,7 +7,7 @@ const DropdownItems = ({ items, handleItemChange }: any) => {
           key={index}
           onClick={() => handleItemChange(index)}
         >
-          {index}: {item.name}
+          {item.type}: {item.name}
         </li>
       ))}
     </ul>
