@@ -3,11 +3,28 @@ import { useAccount } from "wagmi";
 import CouponPanel from "@/components/upload/CouponPanel";
 import { IResponseMessage } from "@/models/IResponseMessage";
 import DynamicUploadPanel from "@/components/upload/DynamicUploadPanel";
+import BadgesUploadPanel from "@/components/upload/BadgesUploadPanel";
+
+const options = [
+  {
+    id: 0,
+    name: "Dynamic NFT",
+  },
+  {
+    id: 1,
+    name: "Coupons",
+  },
+  {
+    id: 2,
+    name: "Badges",
+  },
+];
 
 const Upload = ({ isWhitelisted, user }: any) => {
   const account = useAccount();
   const [userAddress, setUserAddress] = useState("");
   const [mode, setMode] = useState(0);
+  const [uploadMode, setUploadMode] = useState(0);
 
   useEffect(() => {
     setUserAddress(account?.address!);
@@ -30,22 +47,26 @@ const Upload = ({ isWhitelisted, user }: any) => {
         "flex h-full w-full flex-col items-center justify-center bg-default-text text-center font-heading text-2xl"
       }
     >
-      <div className="flex w-1/3 items-center justify-around rounded ">
-        <div
-          onClick={() => setMode(0)}
-          className="flex h-14 w-48 items-center justify-center rounded bg-brand-rose-hot-pink uppercase leading-tight text-default-text shadow-md transition duration-300 hover:cursor-pointer hover:bg-brand-purple-heliotrope"
-        >
-          Dynamic NFT
+      <div className="container mx-auto flex flex-col rounded-lg bg-zinc-900 p-4 md:flex-row ">
+        <div className=" grid h-full min-h-[75vh] w-full grid-flow-row grid-cols-2 gap-5 rounded md:w-1/2">
+          {options.map((option, index) => (
+            <div
+              onClick={() => setUploadMode(option.id)}
+              key={index}
+              className=" flex cursor-pointer items-center justify-center rounded bg-zinc-800 transition duration-300 hover:scale-95 hover:bg-zinc-700"
+            >
+              <h1 className="font-heading text-xl text-white md:text-4xl">
+                {option.name}
+              </h1>
+            </div>
+          ))}
         </div>
-        <div
-          onClick={() => setMode(1)}
-          className="flex h-14 w-48 items-center justify-center rounded bg-brand-rose-hot-pink uppercase leading-tight text-default-text shadow-md transition duration-300 hover:cursor-pointer hover:bg-brand-purple-heliotrope"
-        >
-          Coupons
+        <div className="h-full min-h-[75vh] w-full md:w-1/2">
+          {uploadMode === 0 && <DynamicUploadPanel />}
+          {uploadMode === 1 && <CouponPanel />}
+          {uploadMode === 2 && <BadgesUploadPanel />}
         </div>
       </div>
-      {/* <UploadPanel achievementTypes={achievementTypes} /> */}
-      {mode === 0 ? <DynamicUploadPanel /> : <CouponPanel />}
     </div>
   );
 };
