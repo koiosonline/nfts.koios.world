@@ -79,6 +79,7 @@ const UploadPanel = ({ achievementTypes }: any) => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-5 py-12 px-4 text-brand-purple-portage sm:px-6 lg:px-8">
+      <h1>Dynamic NFT</h1>
       <SwitchButton
         setSingleUpload={setSingleUpload}
         singleUpload={singleUpload}
