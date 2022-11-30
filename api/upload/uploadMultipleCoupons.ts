@@ -26,15 +26,16 @@ export const couponsFromFile = async (file: File): Promise<ICouponModel[]> => {
   const text = await file.text();
   const fileData = parse(text, {
     header: true,
+    delimiter: ";",
   });
   let couponsWhitelist: ICouponModel[] = [];
   for (const element of fileData.data) {
     const preModel: any = element;
-    if (preModel["Public Key"]) {
-      const couponModel = await checkCouponEligibility(preModel);
-      if (couponModel) {
-        couponsWhitelist.push(couponModel);
-      }
+    if (preModel.address) {
+      couponsWhitelist.push({
+        address: preModel.address,
+        amount: preModel.amount,
+      });
     }
   }
   return couponsWhitelist;
